@@ -1,0 +1,6 @@
+<svg [id]="field.name" [attr.width]="field.width" [attr.height]="field.height"
+[ngStyle]="style()">
+  <g [attr.transform]="transform()" fill-opacity="0.0">
+    <path [attr.d]="field.path" (mouseover)="onMouseOver()" (mouseleave)="onMouseLeave()"/>
+  </g>
+</svg>
