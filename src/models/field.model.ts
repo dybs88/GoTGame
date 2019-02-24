@@ -1,6 +1,6 @@
 export class Field {
   constructor(public name: string,
-    public path: string,
+    public paths: string[],
     public width: string,
     public height: string,
     public image: string,
