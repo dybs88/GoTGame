@@ -1,34 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using GotGame.RestServer.Infrastructure.Consts;
+using GotGame.RestServer.Infrastructure.Extensions;
+using GotGame.RestServer.Infrastructure.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GotGame.RestServer
 {
-    public class Startup
+  public class Startup
+  {
+    private IConfiguration configuration;
+    private AppSettings appSettings;
+
+    public Startup(IConfiguration config)
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
-        {
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
-        }
+      configuration = config;
+      appSettings = config.GetAppSettings();
     }
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+      services
+        .AddGoTCors(appSettings)
+        .AddGoTDatabase(configuration)
+        .AddMvc();
+
+    }
+
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    {
+      app.UseCors(GotConsts.CorsPolicy)
+      .PopulateDatabase()
+      .UseDeveloperExceptionPage()
+      .UseStatusCodePages()
+      .UseStaticFiles()
+      .UseMvc();
+    }
+  }
 }
