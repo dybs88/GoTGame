@@ -1,0 +1,12 @@
+<table class="table table-bordered table-sm">
+  <tr>
+    <th>Id</th>
+    <th>Gracze</th>
+    <th>Status</th>
+  </tr>
+  <tr *ngFor="let game of data">
+    <td>{{game.id}}</td>
+    <td>{{game.playerCount}}</td>
+    <td>{{game.status}}</td>
+  </tr>
+</table>
