@@ -15,7 +15,6 @@ namespace GotGame.RestServer.Infrastructure.SeedDatas
     public static void Populate(IApplicationBuilder app)
     {
       GoTGameContextDb context = app.ApplicationServices.GetRequiredService<GoTGameContextDb>();
-      context.Database.Migrate();
 
       bool saveNeeded = false;
       if(!context.Games.Any())
