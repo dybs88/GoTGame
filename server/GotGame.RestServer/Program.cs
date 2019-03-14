@@ -2,7 +2,6 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Configuration;
 
 namespace GotGame.RestServer
 {
@@ -14,7 +13,7 @@ namespace GotGame.RestServer
 
       var logger = webHost.Services.GetRequiredService<ILogger<Program>>();
       logger.LogInformation("Run host");
-
+      
       webHost.Run();
     }
 
