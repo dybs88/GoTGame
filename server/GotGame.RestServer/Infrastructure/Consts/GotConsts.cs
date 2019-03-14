@@ -9,4 +9,11 @@ namespace GotGame.RestServer.Infrastructure.Consts
   {
     public const string CorsPolicy = "GotCorsPolicy";
   }
+
+  public class Environments
+  {
+    public const string Development = "Development";
+    public const string Release = "Release";
+    public const string Production = "Production";
+  }
 }

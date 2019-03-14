@@ -42,3 +42,4 @@ Thumbs.db
 server/GotGame.RestServer/bin/
 server/GotGame.RestServer/obj/
 server/GotGame.RestServer/.vs/
+server/.vs/

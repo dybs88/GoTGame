@@ -11,8 +11,14 @@ namespace GotGame.RestServer.Infrastructure.Extensions
   {
     public static AppSettings GetAppSettings(this IConfiguration config)
     {
-      var appSettingSection = config.GetSection("AppSettings");
+      var appSettingSection = config.GetSection("appSettings");
       return appSettingSection.Get<AppSettings>();
+    }
+
+    public static EnvironmentData[] GetEnvironmentCollection(this IConfiguration config)
+    {
+      var environmentSection = config.GetSection("environments");
+      return environmentSection.Get<EnvironmentData[]>();
     }
   }
 }
