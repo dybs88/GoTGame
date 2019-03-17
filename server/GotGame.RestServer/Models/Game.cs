@@ -10,12 +10,18 @@ namespace GotGame.RestServer.Models
   {
     public int Id { get; set; }
     [Required]
-    [MinLength(5, ErrorMessage = "Nazwa jest zbyt krótka (od 5 do 50 znaków)")]
+    [MinLength(6, ErrorMessage = "Nazwa jest zbyt krótka (od 5 do 50 znaków)")]
     [MaxLength(50, ErrorMessage = "Nazwa jest zbyt długa (od 5 do 50 znaków)")]
     public string Name { get; set; }
-    public int PlayerCount { get; set; }
+    public int PlayerCount => Players?.Count() ?? 0;
     [Required]
-    [Range(1,6, ErrorMessage = "Zła ilość graczy")]
+    [Range(3,6, ErrorMessage = "Zła ilość graczy")]
     public int MaxPlayers { get; set; }
+    public IList<Player> Players { get; set; }
+
+      public Game()
+      {
+          Players = new List<Player>();
+      }
   }
 }

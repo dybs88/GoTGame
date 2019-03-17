@@ -21,7 +21,7 @@ namespace GotGame.RestServer.Infrastructure.SeedDatas
       {
         context.Games.AddRange(new[]
         {
-          new Game { Name = "Temporary game", PlayerCount = 1, MaxPlayers = 3 }
+          new Game { Name = "Temporary game", MaxPlayers = 3 }
         });
 
         saveNeeded = true;

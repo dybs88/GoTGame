@@ -1,15 +1,17 @@
 using GotGame.RestServer.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace GotGame.RestServer.DAL.Repositories
 {
   public interface IGamesRepository
   {
     Game GetGame(int id);
-    IEnumerable<Game> GetGames();
+    IQueryable<Game> GetGames();
 
     Game SaveGame(Game game);
   }
@@ -17,7 +19,6 @@ namespace GotGame.RestServer.DAL.Repositories
   public class GamesRepository : IGamesRepository
   {
     private IGoTGameContextDb context;
-
     public GamesRepository(IGoTGameContextDb context)
     {
       this.context = context;
@@ -25,32 +26,50 @@ namespace GotGame.RestServer.DAL.Repositories
 
     public Game GetGame(int id)
     {
-      return context.Games.FirstOrDefault(g => g.Id == id);
+      Refresh();
+      return context.Games
+          .Include(g => g.Players)
+          .FirstOrDefault(g => g.Id == id);
     }
 
-    public IEnumerable<Game> GetGames()
+    public IQueryable<Game> GetGames()
     {
-      return context.Games;
+      Refresh();
+      return context.Games
+          .Include(g => g.Players);
     }
 
     public Game SaveGame(Game game)
     {
+      Refresh();
       if (game.Id == 0)
+      {
         context.Games.Add(game);
+      }
       else
       {
         Game dbEntry = GetGame(game.Id);
-        if(dbEntry != null)
+        if (dbEntry != null)
         {
           dbEntry.Name = game.Name;
-          dbEntry.PlayerCount = game.PlayerCount;
           dbEntry.MaxPlayers = game.MaxPlayers;
+          dbEntry.Players = game.Players;
+
         }
       }
 
+      context.Players.AddRange(game.Players.Where(p => p.Id == 0));
       context.SaveChanges();
 
       return game;
+    }
+
+    private void Refresh()
+    {
+      foreach (var entity in context.ChangeTracker.Entries())
+      {
+        entity.Reload();
+      }
     }
   }
 }

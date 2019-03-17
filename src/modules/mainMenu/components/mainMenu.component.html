@@ -1,15 +1,10 @@
-<div class="containter">
-  <div class="row align-items-center">
-    <div class="col-12 mx-auto">
-      <div class="card justify-content-center text-center">
-        <div class="card-body">
-          <div class="btn-group-vertical">
-            <button class="btn btn-light">Wejdź do gry</button>
-            <button class="btn btn-warning" routerLink="/mainBoard" routerLinkActive="router-link-active">Zobacz planszę</button>
-            <button class="btn btn-dark">O grze</button>
-          </div>
-        </div>
-      </div>
+<div class="card justify-content-center text-center">
+  <div class="card-body">
+    <div class="btn-group-vertical">
+      <button class="btn btn-light" routerLink="/gameList" routerLinkActive="router-link-active">{{getTranslation(localKeys.enterTheGameBtn)}}</button>
+      <button class="btn btn-warning" routerLink="/mainBoard" routerLinkActive="router-link-active">{{getTranslation(localKeys.lookBoardBtn)}}</button>
+      <button class="btn btn-dark">{{getTranslation(localKeys.aboutGameBtn)}}</button>
     </div>
   </div>
 </div>
+

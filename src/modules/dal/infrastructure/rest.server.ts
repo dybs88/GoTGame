@@ -1,21 +1,13 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Game } from "src/models/game.model";
-import { Observable } from "rxjs";
+import { environment } from "./../../../environments/environment";
 
-const PROTOCOL = "http";
-const PORT = "5000";
-const API = "api";
-
-@Injectable()
 export class RestServer {
-    baseUrl: string;
 
-    constructor(private http: HttpClient) {
-      this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/${API}`;
-    }
+  constructor(protected http: HttpClient) { }
 
-    public getGames(): Observable<Game[]> {
-      return this.http.get<Game[]>(this.baseUrl + "games");
-    }
+  protected readonly PROTOCOL = "http";
+  protected readonly PORT = environment.restServerPort;
+  protected readonly API = "api";
+
+  protected readonly baseUrl = `${this.PROTOCOL}:\\\\${location.hostname}:${this.PORT}/${this.API}`;
 }
