@@ -14,4 +14,11 @@ namespace GotGame.RestServer.Infrastructure.Consts
         Martell,
         Tyrell
     }
+
+  public enum PlayerStatus
+  {
+    Joining,
+    Joined,
+    Ready
+  }
 }

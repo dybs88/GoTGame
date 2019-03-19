@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GotGame.RestServer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GotGame.RestServer.DAL.Repositories
 {
   public interface IPlayersRepository
   {
-    Player GetPlayer(int playerId);
-    Player SavePlayer(Player player);
-    IEnumerable<Player> SavePlayers(IEnumerable<Player> players);
+    Task<Player> GetPlayer(int playerId);
+    Task<Player> SavePlayer(Player player);
+    Task<IEnumerable<Player>> SavePlayers(IEnumerable<Player> players);
   }
 
   public class PlayersRepository : IPlayersRepository
@@ -22,12 +23,13 @@ namespace GotGame.RestServer.DAL.Repositories
       this.context = context;
     }
 
-    public Player GetPlayer(int playerId)
+    public async Task<Player> GetPlayer(int playerId)
     {
-      return context.Players.FirstOrDefault(p => p.Id == playerId);
+      var players = await context.Players.ToListAsync();
+      return players.FirstOrDefault(p => p.Id == playerId);
     }
 
-    public Player SavePlayer(Player player)
+    public async Task<Player> SavePlayer(Player player)
     {
       if (player.Id == 0)
       {
@@ -35,32 +37,33 @@ namespace GotGame.RestServer.DAL.Repositories
       }
       else
       {
-        Player dbEntry = GetPlayer(player.Id);
+        Player dbEntry = await GetPlayer(player.Id);
         dbEntry.GameId = player.GameId;
         dbEntry.House = player.House;
         dbEntry.IpAddress = player.IpAddress;
         dbEntry.Name = player.Name;
+        dbEntry.Status = player.Status;
       }
 
-      context.SaveChanges();
+      await context.SaveChangesAsync(true);
       return player;
     }
 
-    public IEnumerable<Player> SavePlayers(IEnumerable<Player> players)
+    public async Task<IEnumerable<Player>> SavePlayers(IEnumerable<Player> players)
     {
       if (players != null && players.Any())
       {
         context.Players.AddRange(players.Where(p => p.Id == 0));
         foreach (var player in players.Where(p => p.Id != 0))
         {
-          Player dbEntry = GetPlayer(player.Id);
+          Player dbEntry = await GetPlayer(player.Id);
           dbEntry.GameId = player.GameId;
           dbEntry.House = player.House;
           dbEntry.IpAddress = player.IpAddress;
           dbEntry.Name = player.Name;
         }
 
-        context.SaveChanges();
+        await context.SaveChangesAsync(true);
       }
 
       return players;

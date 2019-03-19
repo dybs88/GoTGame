@@ -21,6 +21,7 @@ export const localizationKeys = {
   joinGameBtn: "JoinGameBtn",
   getGameBtn: "GetGameBtn",
   refreshBtn: "RefreshBtn",
+  changePlayerBtn: "ChangePlayerBtn",
 
   idColName: "IdColName",
   playersCountColName: "PlayersCountColName",
@@ -35,9 +36,14 @@ export const localizationKeys = {
   languageLbl: "LanguageLbl",
   serverLbl: "ServerLbl",
   databaseLbl: "DatabaseLbl",
+  playerNameLbl: "PlayerNameLbl",
 
   polishLang: "PolishLang",
   englishLang: "EnglishLang",
+
+  statusJoining: "StatusJoining",
+  statusJoined: "StatusJoined",
+  statusReady: "StatusReady",
 };
 
 @Injectable()
@@ -95,6 +101,10 @@ export class LocalizationData {
       "pl-PL": "Odśwież",
       "en-EN": "Refresh"
     },
+    "ChangePlayerBtn": {
+      "pl-PL": "Zmień gracza",
+      "en-EN": "Change player"
+    },
     "IdColName": {
       "pl-PL": "Id",
       "en-EN": "Id"
@@ -143,6 +153,10 @@ export class LocalizationData {
       "pl-PL": "Baza danych",
       "en-EN": "Database"
     },
+    "PlayerNameLbl": {
+      "pl-PL": "Nick",
+      "en-EN": "Nickname"
+    },
 
     "PolishLang": {
       "pl-PL": "polski",
@@ -151,6 +165,19 @@ export class LocalizationData {
     "EnglishLang": {
       "pl-PL": "angielski",
       "en-EN": "english"
+    },
+
+    "StatusJoining": {
+      "pl-PL": "Dołącza",
+      "en-EN": "Joining"
+    },
+    "StatusJoined": {
+      "pl-PL": "Dołączył",
+      "en-EN": "Joined"
+    },
+    "StatusReady": {
+      "pl-PL": "Gotowy",
+      "en-EN": "Ready"
     }
   };
 

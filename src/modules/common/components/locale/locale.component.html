@@ -1,7 +1,9 @@
-<div class="form-group form-inline">
-  <label>{{getTranslation(localKeys.languageLbl)}}:</label>
-  <select class="form-control form-control-sm" [value]="selectedLocale" (change)="changeAppLocale($event.target.value)">
-    <option value="pl-PL">{{getTranslation(localKeys.polishLang)}}</option>
-    <option value="en-EN">{{getTranslation(localKeys.englishLang)}}</option>
-  </select>
+<div class="btn-group">
+      <button [class.btn-light]="selectedLocale !== 'pl-PL'"
+    [class.btn-primary]="selectedLocale === 'pl-PL'"
+    class="btn btn-sm" (click)="changeAppLocale('pl-PL')">PL</button>
+  <button [class.btn-light]="selectedLocale !== 'en-EN'"
+  [class.btn-primary]="selectedLocale === 'en-EN'"
+  class="btn btn-sm" (click)="changeAppLocale('en-EN')">GB</button>
 </div>
+

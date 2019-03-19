@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GotGame.RestServer.DAL.Repositories;
 using GotGame.RestServer.FrontModels;
+using GotGame.RestServer.Infrastructure.Consts;
 using GotGame.RestServer.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,26 +24,34 @@ namespace GotGame.RestServer.Controllers
     }
 
     [HttpGet]
-    public IActionResult GetGames()
+    public async Task<IActionResult> GetGames()
     {
-      return new JsonResult(gamesRepository.GetGames());
+      return new JsonResult(await gamesRepository.GetGames());
     }
 
     [HttpGet("{gameId}")]
-    public IActionResult GetGame(int gameId)
+    public async Task<IActionResult> GetGame(int gameId)
     {
-      return new OkObjectResult(gamesRepository.GetGame(gameId));
+      return new OkObjectResult(await gamesRepository.GetGame(gameId));
     }
 
     [HttpPost]
-    public IActionResult JoinGame([FromBody]FrontPlayer frontPlayer)
+    public async Task<IActionResult> JoinGame([FromBody]FrontPlayer frontPlayer)
     {
-      Player newPlayer = new Player { Name = frontPlayer.PlayerName, GameId = frontPlayer.GameId };
-      playersRepository.SavePlayer(newPlayer);
+      Player newPlayer = new Player { GameId = frontPlayer.GameId, Status = PlayerStatus.Joining };
+      await playersRepository.SavePlayer(newPlayer);
 
-      var game = gamesRepository.GetGame(frontPlayer.GameId);
+      return new OkObjectResult(new { newPlayer, playerAdded = true });
+    }
 
-      return new OkObjectResult(new { game, playerAdded = true });
+    [HttpPut]
+    public async Task<IActionResult> ConfirmJoinGame([FromBody]FrontPlayer frontPlayer)
+    {
+      var player = frontPlayer.Player;
+      player.Status = PlayerStatus.Joined;
+      await playersRepository.SavePlayer(player);
+
+      return new OkObjectResult(new { player, playerJoined = true });
     }
   }
 }

@@ -1,7 +1,9 @@
-import { MainMenuComponent } from './../components/mainMenu.component';
-import { GameListComponent } from "./../../mainMenu/components/gameList/gameList.component";
 import { Injectable } from "@angular/core";
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+
+import { MainMenuComponent } from "./../components/mainMenu.component";
+import { GameListComponent } from "./../../mainMenu/components/gameList/gameList.component";
+
 
 @Injectable()
 export class GotGuard {

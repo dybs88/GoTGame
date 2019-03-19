@@ -5,15 +5,13 @@ import { RouterModule } from "@angular/router";
 
 import { AppComponent } from "./app.component";
 
-import { FooterComponent } from "./components/footer.component";
 import { MainMenuComponent } from "./../mainMenu/components/mainMenu.component";
 import { MainMenuModule } from "./../mainMenu/mainMenu.module";
 import { CommonModule } from "./../common/common.module";
 
 @NgModule({
   declarations: [
-    AppComponent,
-    FooterComponent
+    AppComponent
   ],
   imports: [
     MainMenuModule,

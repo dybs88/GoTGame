@@ -1,1 +1,13 @@
-<got-locale></got-locale>
+<div class="navbar">
+  <got-locale></got-locale>
+  <div>
+    <button class="btn btn-warning btn-sm" (click)="toggleChangePlayerCard()">{{getTranslation(localKeys.changePlayerBtn)}}</button>
+    <div *ngIf="showChangePlayerCard" class="card fixed-top" style="position: absolute; width: 9rem; height: 7rem; top: 100%; left: 93%;">
+      <div class="card-body">
+        <input class="form-control mb-1" type="text" [(value)]="playerId" (change)="setPlayerId($event.target.value)" />
+        <button class="btn btn-warning btn-sm" (click)="changePlayerId()">{{getTranslation(localKeys.changePlayerBtn)}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
