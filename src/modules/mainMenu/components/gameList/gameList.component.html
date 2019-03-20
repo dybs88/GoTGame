@@ -1,12 +1,28 @@
-<table class="table table-bordered table-sm">
-  <tr>
-    <th>Id</th>
-    <th>Gracze</th>
-    <th>Status</th>
-  </tr>
-  <tr *ngFor="let game of data">
-    <td>{{game.id}}</td>
-    <td>{{game.playerCount}}</td>
-    <td>{{game.status}}</td>
-  </tr>
-</table>
+<div class="row">
+  <div class="col-4"></div>
+  <div class="col-4">
+    <div *ngIf="!joinGameWindowVisible">
+      <table class="table table-bordered table-sm table-hover">
+        <tr>
+          <th>{{getTranslation(localKeys.idColName)}}</th>
+          <th>{{getTranslation(localKeys.playersCountColName)}}</th>
+          <th>{{getTranslation(localKeys.maxPlayersColName)}}</th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let game of games()">
+          <td>{{game.id}}</td>
+          <td>{{game.playerCount}}</td>
+          <td>{{game.maxPlayers}}</td>
+          <td>
+            <div class="btn-group">
+                <button class="btn btn-primary btn-sm" (click)="joinGame(game.id)">{{getTranslation(localKeys.joinGameBtn)}}</button>
+                <button class="btn btn-danger btn-sm" (click)="getGame(game.id)">{{getTranslation(localKeys.getGameBtn)}}</button>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <button class="btn btn-dark btn-sm" (click)="games()">{{getTranslation(localKeys.refreshBtn)}}</button>
+    </div>
+  </div>
+  <div class="col-4"></div>
+</div>
