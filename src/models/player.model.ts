@@ -1,7 +1,8 @@
 export class Player {
   public id?: number;
   public name?: string;
-  public house?: string;
-  public gameId?: string;
+  public gameId?: number;
   public ipAddress?: string;
+  public house?: string;
+  public status?: number;
 }

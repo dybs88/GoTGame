@@ -1,31 +1,31 @@
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+
 import { Game } from "src/models/game.model";
 import { GameServer} from "../gameList.server";
-import { Observable } from "rxjs";
+import { Player } from "src/models/player.model";
 
 @Injectable()
 export class GameRepository {
-  private data: Game[];
+  constructor(private server: GameServer) { }
 
-  constructor(private server: GameServer) {
-    this.server.getGames().subscribe(serverData => {
-      this.data = serverData;
-    });
+  public getGames(): Observable<Game[]> {
+    return this.server.getGames();
   }
 
-  public joinGame(gameId: number, playerName: string) {
-      this.server.joinGame(gameId, playerName).subscribe();
-  }
-
-  public getGames(): Game[] {
-    return this.data;
-  }
-
-  public getGame(gameId: number): Game {
-    return this.data.find(g => g.id === gameId);
-  }
-
-  public refreshGame(gameId: number): Observable<Game> {
+  public getGame(gameId: number): Observable<Game> {
     return this.server.getGame(gameId);
+  }
+
+  public refreshGames(): Observable<Game[]> {
+    return this.server.getGames();
+  }
+
+  public joinGame(gameId: number): Observable<any> {
+    return this.server.joinGame(gameId);
+  }
+
+  public confirmJoinGame(gameId: number, player: Player): Observable<any> {
+    return this.server.confirmJoinGame(gameId, player);
   }
 }

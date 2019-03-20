@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using GotGame.RestServer.Infrastructure.Consts;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace GotGame.RestServer.DAL
 {
@@ -10,11 +12,8 @@ namespace GotGame.RestServer.DAL
   {
     DbSet<Game> Games { get; set; }
     DbSet<Player> Players { get; set; }
-
     ChangeTracker ChangeTracker { get; }
-
-    int SaveChanges();
-    int SaveChanges(bool acceptAllChangesOnSuccess);
+    Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken));
   }
 
 
@@ -36,6 +35,12 @@ namespace GotGame.RestServer.DAL
           .HasConversion(
               v => v.ToString(),
               v => (House)Enum.Parse(typeof(House), v));
+      builder
+        .Entity<Player>()
+        .Property(p => p.Status)
+        .HasConversion(
+          v => v.ToString(),
+          v => (PlayerStatus)Enum.Parse(typeof(PlayerStatus), v));
     }
   }
 }

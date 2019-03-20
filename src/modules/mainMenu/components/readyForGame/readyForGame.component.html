@@ -1,0 +1,19 @@
+<h6>Odświeżanie: {{refreshCounter}}</h6>
+<h4 class="text-center">{{game.name}}</h4>
+  <table class="table table-hover table-striped table-lg" style="table-layout: fixed">
+  <tr>
+    <th>{{getTranslation(localKeys.indexColName)}}</th>
+    <th>{{getTranslation(localKeys.playerColName)}}</th>
+    <th>{{getTranslation(localKeys.houseColName)}}</th>
+    <th>{{getTranslation(localKeys.playerStatusColName)}}</th>
+    <th>{{getTranslation(localKeys.actionColName)}}</th>
+  </tr>
+ <tr [class.bg-success]="player.status === 2" [class.bg-warning]="player.status === 1" [class.bg-danger]="player.status === 0"
+ *ngFor="let player of players; let i = index">
+    <td>{{i + 1}}</td>
+    <td>{{player.name}}</td>
+    <td>{{player.house}}</td>
+    <td>{{player.status}}</td>
+    <td>
+    </td>
+  </table>

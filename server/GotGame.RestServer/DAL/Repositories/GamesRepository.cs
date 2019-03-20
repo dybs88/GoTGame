@@ -1,7 +1,5 @@
 using GotGame.RestServer.Models;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +8,10 @@ namespace GotGame.RestServer.DAL.Repositories
 {
   public interface IGamesRepository
   {
-    Game GetGame(int id);
-    IQueryable<Game> GetGames();
+    Task<Game> GetGame(int id);
+    Task<IEnumerable<Game>> GetGames();
 
-    Game SaveGame(Game game);
+    Task<Game> SaveGame(Game game);
   }
 
   public class GamesRepository : IGamesRepository
@@ -24,31 +22,30 @@ namespace GotGame.RestServer.DAL.Repositories
       this.context = context;
     }
 
-    public Game GetGame(int id)
+    public async Task<Game> GetGame(int id)
     {
-      Refresh();
-      return context.Games
-          .Include(g => g.Players)
+      var games = await context.Games
+          .Include(g => g.Players).ToListAsync();
+
+      return games
           .FirstOrDefault(g => g.Id == id);
     }
 
-    public IQueryable<Game> GetGames()
+    public async Task<IEnumerable<Game>> GetGames()
     {
-      Refresh();
-      return context.Games
-          .Include(g => g.Players);
+      return await context.Games
+          .Include(g => g.Players).ToListAsync();
     }
 
-    public Game SaveGame(Game game)
+    public async Task<Game> SaveGame(Game game)
     {
-      Refresh();
       if (game.Id == 0)
       {
         context.Games.Add(game);
       }
       else
       {
-        Game dbEntry = GetGame(game.Id);
+        Game dbEntry = await GetGame(game.Id);
         if (dbEntry != null)
         {
           dbEntry.Name = game.Name;
@@ -59,7 +56,7 @@ namespace GotGame.RestServer.DAL.Repositories
       }
 
       context.Players.AddRange(game.Players.Where(p => p.Id == 0));
-      context.SaveChanges();
+      await context.SaveChangesAsync(true);
 
       return game;
     }

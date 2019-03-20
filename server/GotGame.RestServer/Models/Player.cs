@@ -11,7 +11,6 @@ namespace GotGame.RestServer.Models
   public class Player
   {
     public int Id { get; set; }
-    [Required]
     [MinLength(6)]
     [MaxLength(20)]
     public string Name { get; set; }
@@ -19,5 +18,7 @@ namespace GotGame.RestServer.Models
     [JsonConverter(typeof(StringEnumConverter))]
     public House? House { get; set; }
     public string IpAddress { get; set; }
+    public PlayerStatus Status { get; set; }
+
   }
 }

@@ -1,41 +1,29 @@
-<h6>Odświeżanie: {{refreshCounter}}</h6>
-<h4 class="text-center">{{game.name}}</h4>
-<form class="form-group" #form="ngForm" novalidate (ngSubmit)="joinGame(form)">
-  <table class="table table-hover table-striped table-lg" style="table-layout: fixed">
-  <tr>
-    <th>{{getTranslation(localKeys.indexColName)}}</th>
-    <th>{{getTranslation(localKeys.playerColName)}}</th>
-    <th>{{getTranslation(localKeys.houseColName)}}</th>
-    <th>{{getTranslation(localKeys.playerStatusColName)}}</th>
-    <th>{{getTranslation(localKeys.actionColName)}}</th>
-  </tr>
- <tr *ngFor="let player of game.players; let i = index">
-    <td>{{i + 1}}</td>
-    <td>{{player.name}}</td>
-    <td>{{player.house}}</td>
-    <td>-</td>
-    <td></td>
- </tr>
-   <tr>
-     <td>{{game.playerCount + 1}}</td>
-     <td>
-      <input type="text" #name="ngModel" name="newPlayer.name" [(ngModel)]="newPlayer.name" required pattern="^[a-zA-Z]{6,20}"/>
-      <span class="text-danger" style="font-size: small" *ngIf="name.dirty && name.invalid">{{getTranslation(localKeys.joinGameNameValidator)}}</span>
-     </td>
-     <td>
-       <select #house="ngModel" [(ngModel)]="newPlayer.house">
-         <option value="Baratheon" [attr.selected]="true">{{getTranslation(localKeys.houseBaratheon)}}</option>
-         <option value="Stark">{{getTranslation(localKeys.houseStark)}}</option>
-         <option value="Greyjoy">{{getTranslation(localKeys.houseGreyjoy)}}</option>
-         <option value="Lannister">{{getTranslation(localKeys.houseLannister)}}</option>
-         <option value="Tyrell">{{getTranslation(localKeys.houseTyrell)}}</option>
-         <option value="Martell">{{getTranslation(localKeys.houseMartell)}}</option>
-       </select>
-     </td>
-     <td>-</td>
-     <td>
-      <button class="btn btn-success" type="submit">{{getTranslation(localKeys.joinGameBtn)}}</button>
-     </td>
-   </tr>
-  </table>
-</form>
+<div class="row">
+  <div class="col-4"></div>
+  <div class="col-4">
+    <form #form="ngForm" novalidate (ngSubmit)="confirmJoinGame(form)">
+      <div class="form-group">
+        <label>{{getTranslation(localKeys.playerNameLbl)}}</label>
+          <input class="form-control" type="text" #name="ngModel" name="newPlayer.name" [(ngModel)]="newPlayer.name" required pattern="^[a-zA-Z]{6,20}"/>
+          <span class="text-danger" style="font-size: small" *ngIf="name.dirty && name.invalid">{{getTranslation(localKeys.joinGameNameValidator)}}</span>
+      </div>
+      <div class="form-group">
+        <label>{{getTranslation(localKeys.houseColName)}}</label>
+          <select class="form-control" name="selectedHouse" #house="ngModel" [(ngModel)]="selectedHouse" required>
+            <option value="Baratheon" [attr.selected]="true">{{getTranslation(localKeys.houseBaratheon)}}</option>
+            <option value="Stark">{{getTranslation(localKeys.houseStark)}}</option>
+            <option value="Greyjoy">{{getTranslation(localKeys.houseGreyjoy)}}</option>
+            <option value="Lannister">{{getTranslation(localKeys.houseLannister)}}</option>
+            <option value="Tyrell">{{getTranslation(localKeys.houseTyrell)}}</option>
+            <option value="Martell">{{getTranslation(localKeys.houseMartell)}}</option>
+          </select>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-success" type="submit">{{getTranslation(localKeys.joinGameBtn)}}</button>
+        <button class="btn btn-light">Anuluj</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-4"></div>
+</div>
+
