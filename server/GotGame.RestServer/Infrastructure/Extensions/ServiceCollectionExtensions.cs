@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Linq;
+using GotGame.RestServer.Infrastructure.Services;
 
 namespace GotGame.RestServer.Infrastructure.Extensions
 {
@@ -62,6 +63,9 @@ namespace GotGame.RestServer.Infrastructure.Extensions
       services.AddSingleton<IGoTGameContextDb, GoTGameContextDb>();
       services.AddTransient<IGamesRepository, GamesRepository>();
       services.AddTransient<IPlayersRepository, PlayersRepository>();
+
+      services.AddTransient<IUserRepository, UserRepository>();
+      services.AddTransient<ISignInService, SignInService>();
 
       return services;
 

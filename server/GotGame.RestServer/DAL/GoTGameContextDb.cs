@@ -10,8 +10,10 @@ namespace GotGame.RestServer.DAL
 {
   public interface IGoTGameContextDb
   {
-    DbSet<Game> Games { get; set; }
-    DbSet<Player> Players { get; set; }
+    DbSet<Game> Games { get; }
+    DbSet<Player> Players { get; }
+    DbSet<User> Users { get; }
+
     ChangeTracker ChangeTracker { get; }
     Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken));
   }
@@ -26,6 +28,8 @@ namespace GotGame.RestServer.DAL
     public DbSet<Game> Games { get; set; }
 
     public DbSet<Player> Players { get; set; }
+
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
