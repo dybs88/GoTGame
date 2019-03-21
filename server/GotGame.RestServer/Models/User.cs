@@ -8,5 +8,10 @@ namespace GotGame.RestServer.Models
 {
   public class User : IdentityUser
   {
+    public User() { }
+    public User(string userName)
+    {
+      UserName = userName;
+    }
   }
 }

@@ -1,5 +1,6 @@
-import { BrowserModule } from "@angular/platform-browser";
 
+import { FormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 
 import { LocalizationData } from "./infrastructure/locale/localization.data";
@@ -9,12 +10,15 @@ import { LocaleComponent } from "./components/locale/locale.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { PlayerService } from "./infrastructure/authorization/player.service";
 import { FooterComponent } from "./components/footer/footer.component";
+import { AuthComponent } from "./components/auth/auth.component";
+import { UserService } from "./infrastructure/authorization/user.service";
+import { ChangePlayerComponent } from "./components/changePlayer/changePlayer.component";
 
 @NgModule({
-  imports: [BrowserModule],
+  imports: [BrowserModule, FormsModule],
   exports: [GotBaseComponent, NavbarComponent, FooterComponent],
-  declarations: [GotBaseComponent, LocaleComponent, NavbarComponent, FooterComponent],
-  providers: [LocalizationService, LocalizationData, PlayerService]
+  declarations: [GotBaseComponent, LocaleComponent, NavbarComponent, FooterComponent, AuthComponent, ChangePlayerComponent],
+  providers: [LocalizationService, LocalizationData, PlayerService, UserService]
 })
 export class CommonModule {
 

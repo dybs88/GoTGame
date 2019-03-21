@@ -18,6 +18,8 @@ namespace GotGame.RestServer.Infrastructure.Extensions
       logger.LogInformation("MigrateDatabase");
       GoTGameContextDb context = app.ApplicationServices.GetRequiredService<GoTGameContextDb>();
       context.Database.Migrate();
+      IdentityContextDb identityContext = app.ApplicationServices.GetRequiredService<IdentityContextDb>();
+      identityContext.Database.Migrate();
 
       return app;
     }
@@ -25,7 +27,8 @@ namespace GotGame.RestServer.Infrastructure.Extensions
     public static IApplicationBuilder PopulateDatabase(this IApplicationBuilder app, ILogger logger)
     {
       logger.LogInformation("PopulateDatabase");
-      GameSeedData.Populate(app);
+      GameSeedData.PopulateGame(app);
+      UserSeedData.PopulateUser(app);
       return app;
     }
   }

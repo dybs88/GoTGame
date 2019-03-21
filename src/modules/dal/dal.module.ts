@@ -1,3 +1,4 @@
+import { AuthServer } from "./infrastructure/auth.server";
 import { SettingServer } from "./infrastructure/settings.server";
 import { BrowserModule } from "@angular/platform-browser";
 import { GameRepository } from "./infrastructure/repositories/game.repository";
@@ -11,7 +12,7 @@ import { PlayerRepository } from "./infrastructure/repositories/player.repositor
   imports: [BrowserModule],
   exports: [],
   declarations: [],
-  providers: [GameServer, GameRepository, SettingServer, SettingRepository, PlayerServer, PlayerRepository],
+  providers: [GameServer, GameRepository, SettingServer, SettingRepository, PlayerServer, PlayerRepository, AuthServer],
   schemas: []
 })
 

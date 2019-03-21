@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace GotGame.RestServer.Controllers
 {
+  [Produces("application/json")]
   [Route("api/players")]
   [ApiController]
   public class PlayersController : ControllerBase

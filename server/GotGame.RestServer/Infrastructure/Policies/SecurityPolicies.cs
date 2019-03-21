@@ -12,9 +12,9 @@ namespace GotGame.RestServer.Infrastructure.Policies
       {
         o.AddPolicy(GotConsts.CorsPolicy, policy =>
         {
-            policy.WithOrigins(settings.WebClientAddress)
-                .WithMethods("GET", "POST", "PUT", "DELETE")
-                .AllowAnyHeader();
+          policy.WithOrigins(settings.WebClientAddress)
+              .WithMethods("GET", "POST", "PUT", "DELETE")
+              .AllowAnyHeader();
         });
       });
     }

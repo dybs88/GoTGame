@@ -12,7 +12,7 @@ namespace GotGame.RestServer.Infrastructure.SeedDatas
 {
   public class GameSeedData
   {
-    public static void Populate(IApplicationBuilder app)
+    public static void PopulateGame(IApplicationBuilder app)
     {
       GoTGameContextDb context = app.ApplicationServices.GetRequiredService<GoTGameContextDb>();
 

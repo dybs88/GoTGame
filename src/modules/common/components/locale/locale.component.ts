@@ -5,6 +5,7 @@ import localeEN from "@angular/common/locales/en";
 
 import { GotBaseComponent } from "./../gotBase.component";
 import { LocalizationService } from "../../infrastructure/locale/localization.service";
+import { UserService } from "../../infrastructure/authorization/user.service";
 
 @Component({
   selector: "got-locale",
@@ -14,8 +15,8 @@ import { LocalizationService } from "../../infrastructure/locale/localization.se
 export class LocaleComponent extends GotBaseComponent {
   selectedLocale: string = localStorage.getItem("locale_id");
 
-  constructor(localeService: LocalizationService) {
-    super(localeService);
+  constructor(localeService: LocalizationService, userService: UserService) {
+    super(localeService, userService);
     if (localStorage.getItem("locale_id") === null) {
       localStorage.setItem("locale_id", "pl-PL");
     }

@@ -5,6 +5,8 @@ using GotGame.RestServer.Infrastructure.Consts;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Threading.Tasks;
 using System.Threading;
+using Microsoft.AspNetCore.Identity;
+using GotGame.RestServer.DAL.Repositories;
 
 namespace GotGame.RestServer.DAL
 {
@@ -12,7 +14,6 @@ namespace GotGame.RestServer.DAL
   {
     DbSet<Game> Games { get; }
     DbSet<Player> Players { get; }
-    DbSet<User> Users { get; }
 
     ChangeTracker ChangeTracker { get; }
     Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken));
@@ -28,8 +29,6 @@ namespace GotGame.RestServer.DAL
     public DbSet<Game> Games { get; set; }
 
     public DbSet<Player> Players { get; set; }
-
-    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

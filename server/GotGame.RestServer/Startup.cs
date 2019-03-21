@@ -1,8 +1,11 @@
+using GotGame.RestServer.DAL;
 using GotGame.RestServer.Infrastructure.Consts;
 using GotGame.RestServer.Infrastructure.Extensions;
 using GotGame.RestServer.Infrastructure.Models;
+using GotGame.RestServer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -29,10 +32,13 @@ namespace GotGame.RestServer
       services
         .AddGoTCors(appSettings, logger)
         .AddGoTDatabase(configuration, hostingEnvironment, logger)
+        .AddIdentity(configuration, hostingEnvironment)
+        .AddAppSettings(configuration)
         .Configure<IISOptions>(options =>
         {
           options.AutomaticAuthentication = false;
         })
+        .AddJwtHandler(configuration)
         .AddMvc();
     }
 
@@ -44,6 +50,7 @@ namespace GotGame.RestServer
         .UseDeveloperExceptionPage()
         .UseStatusCodePages()
         .UseStaticFiles()
+        .UseAuthentication()
         .UseMvc(options =>
         {
           options.MapRoute("default", "{controller}/{action}", new { controller = "Home", action = "Index" });
