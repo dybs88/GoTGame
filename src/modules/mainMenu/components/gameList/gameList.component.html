@@ -3,24 +3,49 @@
   <div class="col-4">
       <table class="table table-bordered table-sm table-hover">
         <tr>
-          <th>{{getTranslation(localKeys.idColName)}}</th>
+          <th *ngIf="isAuthorized">{{getTranslation(localKeys.idColName)}}</th>
+          <th>{{getTranslation(localKeys.gameNameColName)}}</th>
           <th>{{getTranslation(localKeys.playersCountColName)}}</th>
           <th>{{getTranslation(localKeys.maxPlayersColName)}}</th>
           <th></th>
         </tr>
-        <tr *ngFor="let game of games">
-          <td>{{game.id}}</td>
+        <tr *ngFor="let game of games" (click)="selectGame(game.id)" (doubleclick)="joinGame(game.id)">
+          <td *ngIf="isAuthorized">{{game.id}}</td>
+          <td>{{game.name}}</td>
           <td>{{game.playerCount}}</td>
           <td>{{game.maxPlayers}}</td>
           <td>
             <div class="btn-group">
                 <button class="btn btn-primary btn-sm" (click)="joinGame(game.id)">{{getTranslation(localKeys.joinGameBtn)}}</button>
-                <button class="btn btn-danger btn-sm" (click)="getGame(game.id)">{{getTranslation(localKeys.getGameBtn)}}</button>
+                <button *ngIf="isAuthorized" class="btn btn-danger btn-sm" (click)="selectGame(game.id)">{{getTranslation(localKeys.getGameBtn)}}</button>
             </div>
           </td>
         </tr>
       </table>
       <button class="btn btn-dark btn-sm" (click)="refreshGames()">{{getTranslation(localKeys.refreshBtn)}}</button>
   </div>
-  <div class="col-4"></div>
+  <div class="col-4">
+    <div *ngIf="isAuthorized && selectedGame !== undefined">
+      <div>{{getTranslation(localKeys.idColName)}}: {{selectedGame.id}}</div>
+      <div>{{getTranslation(localKeys.gameNameColName)}}: {{selectedGame.name}}</div>
+      <div>{{getTranslation(localKeys.playersCountColName)}}: {{selectedGame.playerCount}}</div>
+      <div>{{getTranslation(localKeys.maxPlayersColName)}}: {{selectedGame.maxPlayers}}</div>
+      <table class="table table-striped table-sm">
+        <tr>
+          <th>{{getTranslation(localKeys.indexColName)}}</th>
+          <th>{{getTranslation(localKeys.playerColName)}}</th>
+          <th>{{getTranslation(localKeys.houseColName)}}</th>
+          <th>{{getTranslation(localKeys.playerStatusColName)}}</th>
+          <th>{{getTranslation(localKeys.actionColName)}}</th>
+        </tr>
+       <tr *ngFor="let player of selectedGame.players; let i = index">
+          <td>{{i + 1}}</td>
+          <td>{{player.name}}</td>
+          <td>{{player.house}}</td>
+          <td>{{player.status}}</td>
+          <td>
+          </td>
+        </table>
+    </div>
+  </div>
 </div>

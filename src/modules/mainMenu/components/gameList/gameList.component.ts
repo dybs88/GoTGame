@@ -6,8 +6,8 @@ import { Game } from "src/models/game.model";
 import { LocalizationService } from "src/modules/common/infrastructure/locale/localization.service";
 import { GotBaseComponent } from "./../../../common/components/gotBase.component";
 import { PlayerService } from "src/modules/common/infrastructure/authorization/player.service";
-import { delay } from "rxjs/operators";
 import { Player } from "src/models/player.model";
+import { UserService } from "src/modules/common/infrastructure/authorization/user.service";
 
 @Component({
   templateUrl: "gameList.component.html"
@@ -16,12 +16,14 @@ import { Player } from "src/models/player.model";
 export class GameListComponent extends GotBaseComponent {
   private newPlayer: Player;
   games: Game[];
+  selectedGame: Game;
 
   constructor(private gameRepository: GameRepository,
     private router: Router,
     private playerService: PlayerService,
+    userService: UserService,
     localizationService: LocalizationService) {
-    super(localizationService);
+    super(localizationService, userService);
     this.gameRepository.getGames().subscribe(serverData => {
       this.games = serverData;
     });
@@ -31,7 +33,7 @@ export class GameListComponent extends GotBaseComponent {
 
   }
 
-  getGame(gameId: number): Game {
+  getGame(gameId: number) {
     return this.games.find(g => g.id === gameId);
   }
 
@@ -51,7 +53,6 @@ export class GameListComponent extends GotBaseComponent {
       this.gameRepository.joinGame(gameId).subscribe(serverData => {
         this.newPlayer = serverData.newPlayer;
         this.playerService.joinGame(this.getGame(gameId), this.newPlayer);
-        delay(500);
         this.router.navigate(["/joingame", gameId]);
       });
     }
@@ -61,5 +62,9 @@ export class GameListComponent extends GotBaseComponent {
     this.gameRepository.refreshGames().subscribe(serverData => {
       this.games = serverData;
     });
+  }
+
+  selectGame(gameId: number) {
+    this.selectedGame = this.games.find(g => g.id === gameId);
   }
 }

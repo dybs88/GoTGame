@@ -9,6 +9,7 @@ import { GameRepository } from "./../../../dal/infrastructure/repositories/game.
 import { PlayerService } from "src/modules/common/infrastructure/authorization/player.service";
 import { Player } from "src/models/player.model";
 import { Game } from "src/models/game.model";
+import { UserService } from "./../../../common/infrastructure/authorization/user.service";
 
 @Component({
   selector: "got-joinGame",
@@ -23,8 +24,9 @@ export class JoinGameComponent extends GotBaseComponent {
     private router: Router,
     private gameRepository: GameRepository,
     private playerService: PlayerService,
+    userService: UserService,
     localService: LocalizationService) {
-    super(localService);
+    super(localService, userService);
     this.newPlayer = playerService.player;
   }
 

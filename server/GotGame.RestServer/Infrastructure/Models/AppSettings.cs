@@ -8,5 +8,6 @@ namespace GotGame.RestServer.Infrastructure.Models
   public class AppSettings
   {
     public string WebClientAddress { get; set; }
+    public string Secret { get; set; }
   }
 }

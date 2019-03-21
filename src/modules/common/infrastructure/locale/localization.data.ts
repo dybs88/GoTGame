@@ -24,6 +24,7 @@ export const localizationKeys = {
   changePlayerBtn: "ChangePlayerBtn",
 
   idColName: "IdColName",
+  gameNameColName: "GameNameColName",
   playersCountColName: "PlayersCountColName",
   maxPlayersColName: "MaxPlayersColName",
   indexColName: "IndexColName",
@@ -108,6 +109,10 @@ export class LocalizationData {
     "IdColName": {
       "pl-PL": "Id",
       "en-EN": "Id"
+    },
+    "GameNameColName": {
+      "pl-PL": "Nazwa gry",
+      "en_EN": "Game name"
     },
     "PlayersCountColName": {
       "pl-PL": "Graczy",

@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 
 import { LocalizationService } from "./../infrastructure/locale/localization.service";
 import { localizationKeys, localizationLanguages } from "./../infrastructure/locale/localization.data";
+import { UserService } from "../infrastructure/authorization/user.service";
 
 @Component({
   selector: "got-base",
@@ -12,7 +13,12 @@ export class GotBaseComponent {
   protected localKeys = localizationKeys;
   protected localLang = localizationLanguages;
 
-  constructor(private localizationService: LocalizationService) { }
+  constructor(private localizationService: LocalizationService,
+    protected userService: UserService) { }
+
+  protected get isAuthorized() {
+    return this.userService.isAuthorized;
+  }
 
   protected getTranslation(key: string): string {
     return this.localizationService.getTranslation(key);

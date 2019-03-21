@@ -5,13 +5,16 @@ using GotGame.RestServer.Infrastructure.Consts;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Threading.Tasks;
 using System.Threading;
+using Microsoft.AspNetCore.Identity;
+using GotGame.RestServer.DAL.Repositories;
 
 namespace GotGame.RestServer.DAL
 {
   public interface IGoTGameContextDb
   {
-    DbSet<Game> Games { get; set; }
-    DbSet<Player> Players { get; set; }
+    DbSet<Game> Games { get; }
+    DbSet<Player> Players { get; }
+
     ChangeTracker ChangeTracker { get; }
     Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken));
   }

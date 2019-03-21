@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "./../../../environments/environment";
 
 export class RestServer {
@@ -10,4 +10,10 @@ export class RestServer {
   protected readonly API = "api";
 
   protected readonly baseUrl = `${this.PROTOCOL}:\\\\${location.hostname}:${this.PORT}/${this.API}`;
+
+  protected getOptions() {
+    return { headers: new HttpHeaders ({
+      "Content-Type": "application/json"
+     }) };
+  }
 }
