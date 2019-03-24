@@ -1,17 +1,20 @@
 import { Injectable } from "@angular/core";
 
+import { Observable } from "rxjs";
+
 import { Game } from "src/models/game.model";
 import { Player } from "src/models/player.model";
-import { PlayerRepository } from "src/modules/dal/infrastructure/repositories/player.repository";
+import { PlayerServer } from "src/modules/dal/infrastructure/player.server";
+import { PlayerStatus } from "../consts/goTEnums";
 
 @Injectable()
 export class PlayerService {
   private playerToken: string;
   private currentPlayer: Player;
 
-  constructor(private playeRepository: PlayerRepository) {
-    if (localStorage.getItem("player_id") !== null) {
-      this.playeRepository.getPlayer(parseInt(localStorage.getItem("player_id"), 10)).subscribe(serverData => {
+  constructor(private server: PlayerServer) {
+    if (localStorage.getItem("player_id") !== null && localStorage.getItem("player_id") !== "") {
+      this.server.getPlayer(parseInt(localStorage.getItem("player_id"), 10)).subscribe(serverData => {
         this.currentPlayer = serverData;
       });
     }
@@ -25,6 +28,23 @@ export class PlayerService {
     return this.currentPlayer;
   }
 
+  public changeStatus(playerStatus: string) {
+    this.currentPlayer.status = PlayerStatus[playerStatus];
+    this.server.readyForGame(this.currentPlayer).subscribe(serverData => {
+      this.updatePlayer(serverData.player);
+    });
+  }
+
+  public clearPlayer() {
+    this.playerToken = "";
+    this.currentPlayer = null;
+    localStorage.setItem("player_id", undefined);
+  }
+
+  public deletePlayer(): Observable<any> {
+    return this.server.deletePlayer(this.currentPlayer.id);
+  }
+
   public joinGame(game: Game, newPlayer: Player) {
     this.playerToken = `${game.id}-${game.name}`;
     this.updatePlayer(newPlayer);
@@ -36,7 +56,7 @@ export class PlayerService {
   }
 
   public updatePlayerById(playerId: number) {
-    this.playeRepository.getPlayer(playerId).subscribe(serverData => {
+    this.server.getPlayer(playerId).subscribe(serverData => {
       this.updatePlayer(serverData);
     });
   }

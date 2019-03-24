@@ -39,7 +39,11 @@ namespace GotGame.RestServer
           options.AutomaticAuthentication = false;
         })
         .AddJwtHandler(configuration)
-        .AddMvc();
+        .AddMvc().AddJsonOptions(options =>
+        {
+            options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+        });
     }
 
     public void Configure(IApplicationBuilder app)

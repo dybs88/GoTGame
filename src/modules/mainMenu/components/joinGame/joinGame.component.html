@@ -10,17 +10,12 @@
       <div class="form-group">
         <label>{{getTranslation(localKeys.houseColName)}}</label>
           <select class="form-control" name="selectedHouse" #house="ngModel" [(ngModel)]="selectedHouse" required>
-            <option value="Baratheon" [attr.selected]="true">{{getTranslation(localKeys.houseBaratheon)}}</option>
-            <option value="Stark">{{getTranslation(localKeys.houseStark)}}</option>
-            <option value="Greyjoy">{{getTranslation(localKeys.houseGreyjoy)}}</option>
-            <option value="Lannister">{{getTranslation(localKeys.houseLannister)}}</option>
-            <option value="Tyrell">{{getTranslation(localKeys.houseTyrell)}}</option>
-            <option value="Martell">{{getTranslation(localKeys.houseMartell)}}</option>
+            <option *ngFor="let house of avaibleHouses" [value]="house">{{getTranslation(house)}}</option>
           </select>
       </div>
       <div class="btn-group">
         <button class="btn btn-success" type="submit">{{getTranslation(localKeys.joinGameBtn)}}</button>
-        <button class="btn btn-light">Anuluj</button>
+        <button class="btn btn-light" (click)="cancelJoinGame()">Anuluj</button>
       </div>
     </form>
   </div>

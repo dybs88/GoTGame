@@ -9,6 +9,10 @@ import { Player } from "src/models/player.model";
 export class GameRepository {
   constructor(private server: GameServer) { }
 
+  public createGame(game: Game, player: Player): Observable<any> {
+    return this.server.createGame(game, player);
+  }
+
   public getGames(): Observable<Game[]> {
     return this.server.getGames();
   }

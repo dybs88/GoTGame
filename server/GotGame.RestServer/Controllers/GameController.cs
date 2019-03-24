@@ -12,12 +12,12 @@ namespace GotGame.RestServer.Controllers
 {
   [Produces("application/json")]
   [Route("api/games")]
-  public class GamesController : Controller
+  public class GameController : Controller
   {
     private IGamesRepository gamesRepository;
     private IPlayersRepository playersRepository;
 
-    public GamesController(IGamesRepository gamesRepo, IPlayersRepository playersRepo)
+    public GameController(IGamesRepository gamesRepo, IPlayersRepository playersRepo)
     {
       gamesRepository = gamesRepo;
       playersRepository = playersRepo;
@@ -26,7 +26,7 @@ namespace GotGame.RestServer.Controllers
     [HttpGet]
     public async Task<IActionResult> GetGames()
     {
-      return new JsonResult(await gamesRepository.GetGames());
+      return new OkObjectResult(await gamesRepository.GetGames());
     }
 
     [HttpGet("{gameId}")]

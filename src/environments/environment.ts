@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  restServerPort: 50001
+  restServerPort: 50001,
+  autoAuthorize: true,
+  environmentName: "Development"
 };
 
 /*

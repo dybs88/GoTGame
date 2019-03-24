@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GotGame.RestServer.DAL.Repositories;
 using GotGame.RestServer.FrontModels;
+using GotGame.RestServer.Infrastructure.Consts;
 using GotGame.RestServer.Infrastructure.Models;
 using GotGame.RestServer.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +30,34 @@ namespace GotGame.RestServer.Controllers
       appSettings = settings.Value;
     }
 
+    [HttpPost("autologin")]
+    [AllowAnonymous]
+    public async Task<IActionResult> AutoSignInAsync([FromBody]dynamic clientData)
+    {
+      if (clientData.environmentName == Environments.Development || clientData.environmentName == Environments.Release)
+      {
+        var user = await userRepository.FindByNameAsync("admin");
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+          Subject = new ClaimsIdentity(new[]
+            {
+                    new Claim(ClaimTypes.Name, user.Id)
+                }),
+          Expires = DateTime.UtcNow.AddHours(1),
+          SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        var tokenString = tokenHandler.WriteToken(token);
+
+        return new OkObjectResult(new { isAuthorized = true, token = tokenString });
+      }
+
+      return new OkObjectResult(new { isAuthorized = false });
+    }
+
     [HttpPost("login")]
     [AllowAnonymous]
     public async Task<IActionResult> SignInAsync([FromBody]FrontUser frontUser)
@@ -39,15 +68,15 @@ namespace GotGame.RestServer.Controllers
 
       var signInResult = await signInService.PasswordSignInAsync(user, frontUser.Password, true, true);
 
-      if(signInResult.Succeeded)
+      if (signInResult.Succeeded)
       {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(appSettings.Secret);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-          Subject = new ClaimsIdentity(new Claim[]
+          Subject = new ClaimsIdentity(new[]
           {
-            new Claim(ClaimTypes.Name, user.Id.ToString())
+            new Claim(ClaimTypes.Name, user.Id)
           }),
           Expires = DateTime.UtcNow.AddHours(1),
           SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

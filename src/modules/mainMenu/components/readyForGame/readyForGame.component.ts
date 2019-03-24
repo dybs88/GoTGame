@@ -1,6 +1,6 @@
+
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router, ParamMap } from "@angular/router";
-import { NgForm } from "@angular/forms";
 
 import { Subscription, timer } from "rxjs";
 import { switchMap } from "rxjs/operators";
@@ -38,6 +38,13 @@ export class ReadyForGameComponent extends GotBaseComponent {
       this.currentPlayer = this.playerService.player;
      }
 
+  leaveGame() {
+    this.playerService.deletePlayer().subscribe(serverData => {
+      this.playerService.clearPlayer();
+      this.router.navigateByUrl("/gamelist");
+    });
+  }
+
   ngOnInit() {
     this.route.paramMap.pipe(
       switchMap((params: ParamMap) => params.get("id"))).subscribe(s => {
@@ -48,7 +55,11 @@ export class ReadyForGameComponent extends GotBaseComponent {
   ngOnDestroy() {
     this.gameSubscription.unsubscribe();
     this.timerSubscription.unsubscribe();
-    this.router.navigate(["/gameList"]);
+    this.router.navigateByUrl("/gameList");
+  }
+
+  public changeStatus(playerStatus: string) {
+    this.playerService.changeStatus(playerStatus);
   }
 
   private refreshGameSubscription(gameId: number) {
@@ -61,6 +72,6 @@ export class ReadyForGameComponent extends GotBaseComponent {
   }
 
   private subscribeToData(gameId: number) {
-    this.timerSubscription = timer(5000).subscribe(() => this.refreshGameSubscription(gameId));
+    this.timerSubscription = timer(2500).subscribe(() => this.refreshGameSubscription(gameId));
   }
 }

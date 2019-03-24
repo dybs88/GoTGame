@@ -6,12 +6,12 @@ export const localizationLanguages = {
 };
 
 export const localizationKeys = {
-  houseStark: "HouseStark",
-  houseBaratheon: "HouseBaratheon",
-  houseLannister: "HouseLannister",
-  houseGreyjoy: "HouseGreyjoy",
-  houseTyrell: "HouseTyrell",
-  houseMartell: "HouseMartell",
+  houseStark: "Stark",
+  houseBaratheon: "Baratheon",
+  houseLannister: "Lannister",
+  houseGreyjoy: "Greyjoy",
+  houseTyrell: "Tyrell",
+  houseMartell: "Martell",
 
   joinGameNameValidator: "JoinGameNameValidator",
 
@@ -22,6 +22,13 @@ export const localizationKeys = {
   getGameBtn: "GetGameBtn",
   refreshBtn: "RefreshBtn",
   changePlayerBtn: "ChangePlayerBtn",
+  leaveGameBtn: "LeaveGameBtn",
+  readyBtn: "ReadyBtn",
+  clearPlayerBtn: "ClearPlayerBtn",
+  waitBtn: "WaitBtn",
+  cancelBtn: "CancelBtn",
+  continueBtn: "ContinueBtn",
+  newGameBtn: "NewGameBtn",
 
   idColName: "IdColName",
   gameNameColName: "GameNameColName",
@@ -45,32 +52,34 @@ export const localizationKeys = {
   statusJoining: "StatusJoining",
   statusJoined: "StatusJoined",
   statusReady: "StatusReady",
+
+  rejoiningMsg: "RejoiningMsg"
 };
 
 @Injectable()
 export class LocalizationData {
   private data = {
-    "HouseStark": {
+    "Stark": {
       "pl-PL": "Starkowie",
       "en-EN": "Starks"
     },
-    "HouseBaratheon": {
+    "Baratheon": {
       "pl-PL": "Baratheonowie",
       "en-EN": "Baratheons"
     },
-    "HouseLannister": {
+    "Lannister": {
       "pl-PL": "Lannisterowie",
       "en-EN": "Lannisters"
     },
-    "HouseGreyjoy": {
+    "Greyjoy": {
       "pl-PL": "Greyjoyowie",
       "en-EN": "Greyjoys"
     },
-    "HouseTyrell": {
+    "Tyrell": {
       "pl-PL": "Tyrellowie",
       "en-EN": "Tyrells"
     },
-    "HouseMartell": {
+    "Martell": {
       "pl-PL": "Martellowie",
       "en-EN": "Martells"
     },
@@ -106,13 +115,41 @@ export class LocalizationData {
       "pl-PL": "Zmień gracza",
       "en-EN": "Change player"
     },
+    "LeaveGameBtn": {
+      "pl-PL": "Opuść grę",
+      "en-EN": "Leave game"
+    },
+    "ReadyBtn": {
+      "pl-PL": "Gotów",
+      "en-EN": "Ready"
+    },
+    "ClearPlayerBtn": {
+      "pl-PL": "Wyczyść",
+      "en-EN": "Clear"
+    },
+    "WaitBtn": {
+      "pl-PL": "Zaczekaj",
+      "en-EN": "Wait"
+    },
+    "CancelBtn": {
+      "pl-PL": "Anuluj",
+      "en-EN": "Cancel"
+    },
+    "ContinueBtn": {
+      "pl-PL": "Kontynuuj",
+      "en-EN": "Continue"
+    },
+    "NewGameBtn": {
+      "pl-PL": "Nowa gra",
+      "en-EN": "New game"
+    },
     "IdColName": {
       "pl-PL": "Id",
       "en-EN": "Id"
     },
     "GameNameColName": {
       "pl-PL": "Nazwa gry",
-      "en_EN": "Game name"
+      "en-EN": "Game name"
     },
     "PlayersCountColName": {
       "pl-PL": "Graczy",
@@ -162,7 +199,6 @@ export class LocalizationData {
       "pl-PL": "Nick",
       "en-EN": "Nickname"
     },
-
     "PolishLang": {
       "pl-PL": "polski",
       "en-EN": "polish"
@@ -171,18 +207,21 @@ export class LocalizationData {
       "pl-PL": "angielski",
       "en-EN": "english"
     },
-
-    "StatusJoining": {
+    "Joining": {
       "pl-PL": "Dołącza",
       "en-EN": "Joining"
     },
-    "StatusJoined": {
+    "Joined": {
       "pl-PL": "Dołączył",
       "en-EN": "Joined"
     },
-    "StatusReady": {
+    "Ready": {
       "pl-PL": "Gotowy",
       "en-EN": "Ready"
+    },
+    "RejoiningMsg": {
+      "pl-PL": "Jesteś już w innej grze. Czy chcesz zrezygnować z poprzedniej i gry i dołączyć do nowej?",
+      "en-EN": "You are already in another game. Are you want join to new game and give up current game?"
     }
   };
 

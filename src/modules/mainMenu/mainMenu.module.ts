@@ -12,9 +12,10 @@ import { MainMenuComponent } from "./components/mainMenu.component";
 import { CommonModule } from "./../common/common.module";
 import { GotGuard } from ".//infrastructure/got.guard";
 import { JoinGameComponent } from "./components/joinGame/joinGame.component";
+import { NewGameComponent } from "./components/newGame/newGame.component";
 
 @NgModule({
-  declarations: [MainMenuComponent, GameListComponent, ReadyForGameComponent, JoinGameComponent],
+  declarations: [MainMenuComponent, GameListComponent, ReadyForGameComponent, JoinGameComponent, NewGameComponent],
   imports: [
     MainBoardModule,
     DalModule,
@@ -26,6 +27,7 @@ import { JoinGameComponent } from "./components/joinGame/joinGame.component";
     {path: "gamelist", component: GameListComponent, canActivate: [GotGuard]},
     {path: "joingame/:id", component: JoinGameComponent, canActivate: [GotGuard] },
     {path: "readyforgame/:id", component: ReadyForGameComponent, canActivate: [GotGuard]},
+    {path: "newgame", component: NewGameComponent, canActivate: [GotGuard]},
     {path: "**", component: MainMenuComponent, canActivate: [GotGuard] }
   ])],
   exports: [MainMenuComponent],

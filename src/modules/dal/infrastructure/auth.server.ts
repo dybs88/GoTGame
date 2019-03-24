@@ -10,7 +10,11 @@ export class AuthServer extends RestServer {
     super(http);
   }
 
-  public Auth(userName: string, password: string ): Observable<any> {
+  public autoAuth(environmentName: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/autologin`, {environmentName: environmentName});
+  }
+
+  public auth(userName: string, password: string ): Observable<any> {
     return this.http.post(`${this.baseUrl}/auth/login`, {userName: userName, password: password});
   }
 }

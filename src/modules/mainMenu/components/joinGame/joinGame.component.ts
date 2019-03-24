@@ -10,6 +10,7 @@ import { PlayerService } from "src/modules/common/infrastructure/authorization/p
 import { Player } from "src/models/player.model";
 import { Game } from "src/models/game.model";
 import { UserService } from "./../../../common/infrastructure/authorization/user.service";
+import { House } from "src/modules/common/infrastructure/consts/goTEnums";
 
 @Component({
   selector: "got-joinGame",
@@ -19,6 +20,7 @@ export class JoinGameComponent extends GotBaseComponent {
   newPlayer: Player;
   selectedHouse: string;
   game: Game;
+  avaibleHouses: string[] = new Array("Baratheon", "Stark", "Lannister", "Tyrell", "Greyjoy", "Martell");
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -28,15 +30,22 @@ export class JoinGameComponent extends GotBaseComponent {
     localService: LocalizationService) {
     super(localService, userService);
     this.newPlayer = playerService.player;
-  }
 
-  ngOnInit() {
     this.route.paramMap.pipe(
       switchMap((params: ParamMap) => params.get("id"))).subscribe(s => {
         this.gameRepository.getGame(parseInt(s, 10)).subscribe(serverData => {
           this.game = serverData;
+          for (let i = 0; i < this.avaibleHouses.length; i++) {
+            if (serverData.players.find(p => p.house === this.avaibleHouses[i])) {
+              this.avaibleHouses.splice(i, 1);
+            }
+          }
         });
       });
+  }
+  cancelJoinGame() {
+    this.playerService.deletePlayer();
+    this.router.navigate(["/gamelist"]);
   }
 
   confirmJoinGame(form: NgForm) {

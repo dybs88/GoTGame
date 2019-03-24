@@ -1,19 +1,32 @@
-<h6>Odświeżanie: {{refreshCounter}}</h6>
-<h4 class="text-center">{{game.name}}</h4>
+<h6 *ngIf="isAuthorized">Odświeżanie: {{refreshCounter}}</h6>
+<div *ngIf="game !== undefined">
+  <h4 class="text-center">{{game.name}}</h4>
   <table class="table table-hover table-striped table-lg" style="table-layout: fixed">
   <tr>
     <th>{{getTranslation(localKeys.indexColName)}}</th>
+    <th *ngIf="isAuthorized">{{getTranslation(localKeys.idColName)}}</th>
     <th>{{getTranslation(localKeys.playerColName)}}</th>
     <th>{{getTranslation(localKeys.houseColName)}}</th>
     <th>{{getTranslation(localKeys.playerStatusColName)}}</th>
     <th>{{getTranslation(localKeys.actionColName)}}</th>
   </tr>
- <tr [class.bg-success]="player.status === 2" [class.bg-warning]="player.status === 1" [class.bg-danger]="player.status === 0"
+ <tr [class.text-white]="player.status === 'Ready'"
+ [class.bg-success]="player.status === 'Ready'"
+ [class.bg-warning]="player.status === 'Joined'"
+ [class.bg-danger]="player.status === 'Joining'"
  *ngFor="let player of players; let i = index">
     <td>{{i + 1}}</td>
+    <td *ngIf="isAuthorized">{{player.id}}</td>
     <td>{{player.name}}</td>
-    <td>{{player.house}}</td>
-    <td>{{player.status}}</td>
+    <td>{{getTranslation(player.house)}}</td>
+    <td>{{getTranslation(player.status)}}</td>
     <td>
+      <div *ngIf="currentPlayer.id === player.id" class="btn-group">
+        <button class="btn btn-danger" (click)="leaveGame()">{{getTranslation(localKeys.leaveGameBtn)}}</button>
+        <button *ngIf="player.status !== 'Ready'" class="btn btn-primary" (click)="changeStatus('Ready')">{{getTranslation(localKeys.readyBtn)}}</button>
+        <button *ngIf="player.status === 'Ready'" class="btn btn-primary" (click)="changeStatus('Joined')">{{getTranslation(localKeys.waitBtn)}}</button>
+      </div>
     </td>
   </table>
+</div>
+

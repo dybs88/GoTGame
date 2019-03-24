@@ -12,7 +12,19 @@ export class PlayerServer extends RestServer {
     super(http);
   }
 
+  public changeStatus(player: Player): Observable<any> {
+    return this.http.put(`${this.baseUrl}/players`, {player: player}, this.getOptions());
+  }
+
+  public deletePlayer(playerId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/players/${playerId}`);
+  }
+
   public getPlayer(playerId: number): Observable<Player> {
     return this.http.get<Player>(`${this.baseUrl}/players/${playerId}`);
+  }
+
+  public readyForGame(player: Player): Observable<any> {
+    return this.http.put(`${this.baseUrl}/players`, {player: player}, this.getOptions());
   }
 }

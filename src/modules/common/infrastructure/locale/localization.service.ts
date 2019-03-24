@@ -10,7 +10,7 @@ export class LocalizationService {
    }
 
   public getTranslation(key: string): string {
-    let locale_id = localStorage.getItem("locale_id");
+    const locale_id = localStorage.getItem("locale_id");
     return this.data[key][locale_id];
   }
 }

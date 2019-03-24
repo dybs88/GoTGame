@@ -9,6 +9,7 @@ namespace GotGame.RestServer.DAL.Repositories
 {
   public interface IPlayersRepository
   {
+    void DeletePlayer(int playerId);
     Task<Player> GetPlayer(int playerId);
     Task<Player> SavePlayer(Player player);
     Task<IEnumerable<Player>> SavePlayers(IEnumerable<Player> players);
@@ -21,6 +22,13 @@ namespace GotGame.RestServer.DAL.Repositories
     public PlayersRepository(IGoTGameContextDb context)
     {
       this.context = context;
+    }
+
+    public async void DeletePlayer(int playerId)
+    {
+      Player player = await GetPlayer(playerId);
+      context.Players.Remove(player);
+      await context.SaveChangesAsync(true);
     }
 
     public async Task<Player> GetPlayer(int playerId)
