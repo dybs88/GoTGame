@@ -13,9 +13,10 @@ import { CommonModule } from "./../common/common.module";
 import { GotGuard } from ".//infrastructure/got.guard";
 import { JoinGameComponent } from "./components/joinGame/joinGame.component";
 import { NewGameComponent } from "./components/newGame/newGame.component";
+import { GameRulesComponent } from "./components/gameRules/gameRules.component";
 
 @NgModule({
-  declarations: [MainMenuComponent, GameListComponent, ReadyForGameComponent, JoinGameComponent, NewGameComponent],
+  declarations: [MainMenuComponent, GameListComponent, ReadyForGameComponent, JoinGameComponent, NewGameComponent, GameRulesComponent],
   imports: [
     MainBoardModule,
     DalModule,

@@ -1,43 +1,43 @@
-<div class="row">
-  <div clas="col-3"></div>
-  <div clas="col-6">
-    <div class="row">
-          <form #form="ngForm" novalidate (ngSubmit)="createNewGame(form)">
-            <div class="col-3">
-                <div class="form-group">
-                  <label>Naywa gry:</label>
-                  <input class="form-control" name="gameName" type="text" #gameName="ngModel" [(ngModel)]="gameName" required minlength="6" maxlength="50"/>
-                  <span class="text-danger" style="font-size: small" *ngIf="gameName.dirty && gameName.invalid">{{getTranslation(localKeys.joinGameNameValidator)}}</span>
-                </div>
-                <div class="form-group">
-                  <label>Ilość graczy:</label>
-                  <input class="form-control" name="maxPlayers" type="number" [(ngModel)]="maxPlayers" min="3" max="6"/>
-                </div>
-            </div>
-            <div class="col-3">
-              <div class="form-group">
-                <label>Nazwa gracza:</label>
-                <input class="form-control" type="text" name="playerName" #playerName="ngModel" [(ngModel)]="playerName" required minlength="6" maxlength="20"/>
-                <span class="text-danger" style="font-size: small" *ngIf="playerName.dirty && playerName.invalid">{{getTranslation(localKeys.joinGameNameValidator)}}</span>
-              </div>
-              <div class="form-group">
-                <label>Ród:</label>
-                <select class="form-control" name="house" [(ngModel)]="house">
-                  <option value="Baratheon">{{getTranslation(localKeys.houseBaratheon)}}</option>
-                  <option value="Stark">{{getTranslation(localKeys.houseStark)}}</option>
-                  <option value="Lannister">{{getTranslation(localKeys.houseLannister)}}</option>
-                  <option value="Tyrell">{{getTranslation(localKeys.houseTyrell)}}</option>
-                  <option value="Greyjoy">{{getTranslation(localKeys.houseGreyjoy)}}</option>
-                  <option value="Martell">{{getTranslation(localKeys.houseMartell)}}</option>
-                </select>
-              </div>
-            </div>
-            <div class="btn-group">
-              <button class="btn btn-light btn-sm" routerLink="/gamelist" routerLinkActive="router-link-active">{{getTranslation(localKeys.cancelBtn)}}</button>
-              <button type="submit" class="btn btn-light btn-sm">{{getTranslation(localKeys.newGameBtn)}}</button>
-            </div>
-          </form>
+<div class="row mr-1 ml-1">
+  <div class="col-3">
+    <got-gameRules (rulesConfirmed)="getRules($event)"></got-gameRules>
+  </div>
+  <div class="col-6">
+    <form class="h-50" #form="ngForm" novalidate (ngSubmit)="createNewGame(form)">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label>Naywa gry:</label>
+            <input class="form-control" name="gameName" #gName="ngModel" [(ngModel)]="gameName" type="text" required minlength="6" maxlength="50"/>
+            <span class="text-danger" style="font-size: small" *ngIf="gName.dirty && gName.invalid">{{getTranslation(localKeys.joinGameNameValidator)}}</span>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label>Nazwa gracza:</label>
+            <input class="form-control" type="text" name="playerName" #pName="ngModel" [(ngModel)]="playerName" required minlength="6" maxlength="20"/>
+            <span class="text-danger" style="font-size: small" *ngIf="pName.dirty && pName.invalid">{{getTranslation(localKeys.joinGameNameValidator)}}</span>
+          </div>
+          <div *ngIf="gameRules !== undefined && gameRules !== null && !gameRules.randomHouses" class="form-group">
+            <label>Ród:</label>
+            <select class="form-control" name="selectedHouse">
+              <option *ngFor="let house of gameRules.avaibleHouses" [value]="house">{{getTranslation(house)}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="btn-group text-right float-right">
+          <button class="btn btn-light btn-sm" routerLink="/gamelist" routerLinkActive="router-link-active">{{getTranslation(localKeys.cancelBtn)}}</button>
+          <button type="submit" class="btn btn-success btn-sm">{{getTranslation(localKeys.newGameBtn)}}</button>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="gameRules !== undefined && gameRules !== null" class="h-50">
+      <p>Maksymalnie graczy: {{gameRules.maxPlayers}}</p>,
+      <p>Czy wszystkie rody dostępne?: {{gameRules.allHouses}}</p>,
+      <p>Czy rody losowe?: {{gameRules.randomHouses}}</p>
+      <p>Ilość rund: {{gameRules.roundCount}}</p>
+      <p>Warunek zwycięstwa: {{gameRules.winCondition}}</p>
     </div>
   </div>
-  <div clas="col-3"></div>
+  <div class="col-3"></div>
 </div>

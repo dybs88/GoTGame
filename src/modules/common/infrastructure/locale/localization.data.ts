@@ -14,6 +14,7 @@ export const localizationKeys = {
   houseMartell: "Martell",
 
   joinGameNameValidator: "JoinGameNameValidator",
+  createGameNameValidator: "CreateGameNameValidator",
 
   enterTheGameBtn: "EnterTheGameBtn",
   lookBoardBtn: "LookBoardBtn",
@@ -86,6 +87,10 @@ export class LocalizationData {
     "JoinGameNameValidator": {
       "pl-PL": "Wprowadź nazwę - od 6 do 20 znaków, tylko małe i duże litery",
       "en-EN": "Type your nickname - from 6 to 20 signs, only small and big letters allowed"
+    },
+    "CreateGameNameValidator": {
+      "pl-PL": "Wprowadź nazwę - od 6 do 50 znaków, tylko małe i duże litery",
+      "en-EN": "Type your nickname - from 6 to 50 signs, only small and big letters allowed"
     },
     "EnterTheGameBtn": {
       "pl-PL": "Wejdź do gry",

@@ -18,3 +18,8 @@ export enum GameStatus {
   Started,
   Finished
 }
+
+export enum WinCondition {
+  Castles = "Castles",
+  Points = "Points"
+}
