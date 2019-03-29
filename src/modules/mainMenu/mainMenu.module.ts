@@ -14,13 +14,18 @@ import { GotGuard } from ".//infrastructure/got.guard";
 import { JoinGameComponent } from "./components/joinGame/joinGame.component";
 import { NewGameComponent } from "./components/newGame/newGame.component";
 import { GameRulesComponent } from "./components/gameRules/gameRules.component";
+import { GameDetailsViewComponent } from "./components/gameList/gameDetailsView.component";
+import { GameRulesViewComponent } from "./components/gameRules/gameRulesView.component";
+import { HouseModule } from "../house/house.module";
 
 @NgModule({
-  declarations: [MainMenuComponent, GameListComponent, ReadyForGameComponent, JoinGameComponent, NewGameComponent, GameRulesComponent],
+  declarations: [MainMenuComponent, GameListComponent, ReadyForGameComponent, JoinGameComponent, NewGameComponent, GameRulesComponent,
+    GameRulesViewComponent, GameDetailsViewComponent],
   imports: [
     MainBoardModule,
     DalModule,
     CommonModule,
+    HouseModule,
     BrowserModule,
     FormsModule,
     RouterModule.forRoot([

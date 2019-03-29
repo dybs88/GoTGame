@@ -1,4 +1,5 @@
 using GotGame.RestServer.DAL;
+using GotGame.RestServer.Infrastructure.Consts;
 using GotGame.RestServer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,15 @@ namespace GotGame.RestServer.Infrastructure.SeedDatas
       {
         context.Games.AddRange(new[]
         {
-          new Game { Name = "Temporary game", MaxPlayers = 3 }
+          new Game { Name = "Temporary game",
+            GameRules = new GameRules {
+              AllHouses = false,
+              RandomHouses = false,
+              MaxPlayers = 6,
+              WinCondition = WinCondition.Castles,
+              WinCastlesCount = 7,
+              RoundsCount = 10 }
+          }
         });
 
         saveNeeded = true;

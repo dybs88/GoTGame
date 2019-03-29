@@ -15,6 +15,8 @@ export const localizationKeys = {
 
   joinGameNameValidator: "JoinGameNameValidator",
   createGameNameValidator: "CreateGameNameValidator",
+  rulesConfirmedValidator: "RulesConfirmedValidator",
+  selectedHouseValidator: "SelectedHouseValidator",
 
   enterTheGameBtn: "EnterTheGameBtn",
   lookBoardBtn: "LookBoardBtn",
@@ -30,6 +32,7 @@ export const localizationKeys = {
   cancelBtn: "CancelBtn",
   continueBtn: "ContinueBtn",
   newGameBtn: "NewGameBtn",
+  confirmBtn: "ConfirmBtn",
 
   idColName: "IdColName",
   gameNameColName: "GameNameColName",
@@ -40,12 +43,34 @@ export const localizationKeys = {
   houseColName: "HouseColName",
   playerStatusColName: "PlayerStatusColName",
   actionColName: "ActionColName",
+  isCreatorColName: "IsCreatorColName",
 
   environmentLbl: "EnvironmentLbl",
   languageLbl: "LanguageLbl",
   serverLbl: "ServerLbl",
   databaseLbl: "DatabaseLbl",
   playerNameLbl: "PlayerNameLbl",
+  gameNameLbl: "GameNameLbl",
+  houseNameLbl: "HouseNameLbl",
+  playerCountLbl: "PlayerCountLbl",
+  maxPlayersLbl: "MaxPlayersLbl",
+  gameRulesLbl: "GameRulesLbl",
+  standardRulesLbl: "StandardRulesLbl",
+  housesLbl: "HousesLbl",
+  allHousesLbl: "AllHousesLbl",
+  randomHousesLbl: "RandomHousesLbl",
+  winConditionsLbl: "WinConditionsLbl",
+  winConditionLbl: "WinConditionLbl",
+  roundCountLbl: "RoundCountLbl",
+  unlimitedRoundsLbl: "UnlimitedRoundsLbl",
+  castlesCountLbl: "CastlesCountLbl",
+  pointsCountLbl: "PointsCountLbl",
+  areAllHousesLbl: "AreAllHousesLbl",
+  areRandomHousesLbl: "AreRandomHousesLbl",
+  otherRulesLbl: "OtherRulesLbl",
+  lookPlayerCardLbl: "LookPlayerCardLbl",
+  largeCastleDefenceLbl: "LargeCastleDefenceLbl",
+  smallCastleDefenceLbl: "SmallCastleDefenceLbl",
 
   polishLang: "PolishLang",
   englishLang: "EnglishLang",
@@ -54,7 +79,14 @@ export const localizationKeys = {
   statusJoined: "StatusJoined",
   statusReady: "StatusReady",
 
-  rejoiningMsg: "RejoiningMsg"
+  rejoiningMsg: "RejoiningMsg",
+
+  yesValue: "true",
+  noValue: "false",
+
+  castlesWinCondition: "Castles",
+  pointsWinCondition: "Points"
+
 };
 
 @Injectable()
@@ -85,12 +117,20 @@ export class LocalizationData {
       "en-EN": "Martells"
     },
     "JoinGameNameValidator": {
-      "pl-PL": "Wprowadź nazwę - od 6 do 20 znaków, tylko małe i duże litery",
+      "pl-PL": "Wprowadź nazwę - od 6 do 20 znaków",
       "en-EN": "Type your nickname - from 6 to 20 signs, only small and big letters allowed"
     },
     "CreateGameNameValidator": {
-      "pl-PL": "Wprowadź nazwę - od 6 do 50 znaków, tylko małe i duże litery",
+      "pl-PL": "Wprowadź nazwę - od 6 do 50 znaków",
       "en-EN": "Type your nickname - from 6 to 50 signs, only small and big letters allowed"
+    },
+    "RulesConfirmedValidator": {
+      "pl-PL": "Zasady gry nie zostały zatwierdzone",
+      "en-EN": "Game rules wasn't confirmed"
+    },
+    "SelectedHouseValidator": {
+      "pl-PL": "Wybierz ród, którym będziesz grał",
+      "en-EN": "Select house which you will play"
     },
     "EnterTheGameBtn": {
       "pl-PL": "Wejdź do gry",
@@ -121,8 +161,8 @@ export class LocalizationData {
       "en-EN": "Change player"
     },
     "LeaveGameBtn": {
-      "pl-PL": "Opuść grę",
-      "en-EN": "Leave game"
+      "pl-PL": "Opuść",
+      "en-EN": "Leave"
     },
     "ReadyBtn": {
       "pl-PL": "Gotów",
@@ -147,6 +187,10 @@ export class LocalizationData {
     "NewGameBtn": {
       "pl-PL": "Nowa gra",
       "en-EN": "New game"
+    },
+    "ConfirmBtn": {
+      "pl-PL": "Zatwierdź",
+      "en-EN": "Confirm"
     },
     "IdColName": {
       "pl-PL": "Id",
@@ -184,6 +228,10 @@ export class LocalizationData {
       "pl-PL": "Akcja",
       "en-EN": "Action"
     },
+    "IsCreatorColName": {
+      "pl-PL": "Stworzył grę",
+      "en-EN": "Create game"
+    },
     "EnvironmentLbl": {
       "pl-PL": "Środowisko",
       "en-EN": "Environment"
@@ -201,8 +249,92 @@ export class LocalizationData {
       "en-EN": "Database"
     },
     "PlayerNameLbl": {
-      "pl-PL": "Nick",
+      "pl-PL": "Nazwa gracza",
       "en-EN": "Nickname"
+    },
+    "GameNameLbl": {
+      "pl-PL": "Nazwa gry",
+      "en-EN": "Game name"
+    },
+    "HouseNameLbl": {
+      "pl-PL": "Ród",
+      "en-EN": "House"
+    },
+    "PlayerCountLbl": {
+      "pl-PL": "Ilość graczy",
+      "en-EN": "Players count"
+    },
+    "MaxPlayersLbl": {
+      "pl-PL": "Maksymalnie graczy",
+      "en-EN": "Max players"
+    },
+    "GameRulesLbl": {
+      "pl-PL": "Zasady gry",
+      "en-EN": "Game rules"
+    },
+    "StandardRulesLbl": {
+      "pl-PL": "Standardowe zasady",
+      "en-EN": "Standard rules"
+    },
+    "HousesLbl": {
+      "pl-PL": "Rody",
+      "en-EN": "Houses"
+    },
+    "AllHousesLbl": {
+      "pl-PL": "Wszystkie rody dostępne",
+      "en-EN": "All houses avaible"
+    },
+    "RandomHousesLbl": {
+      "pl-PL": "Losowe rody",
+      "en-EN": "Random houses"
+    },
+    "WinConditionsLbl": {
+      "pl-PL": "Warunki zwycięstwa",
+      "en-EN": "Win conditions"
+    },
+    "WinConditionLbl": {
+      "pl-PL": "Warunek zwycięstwa",
+      "en-EN": "Win condition"
+    },
+    "RoundCountLbl": {
+      "pl-PL": "Ilość rund",
+      "en-EN": "Rounds count"
+    },
+    "UnlimitedRoundsLbl": {
+      "pl-PL": "Nieograniczone rundy",
+      "en-EN": "Unlimited rounds"
+    },
+    "CastlesCountLbl": {
+      "pl-PL": "Ilość zamków",
+      "en-EN": "Castles count"
+    },
+    "PointsCountLbl": {
+      "pl-PL": "Ilość punktów",
+      "en-EN": "Points count"
+    },
+    "AreAllHousesLbl": {
+      "pl-PL": "Czy wszystkie rody dostępne?",
+      "en-EN": "Are all houses avaible?"
+    },
+    "AreRandomHousesLbl": {
+      "pl-PL": "Czy rody losowe?",
+      "en-EN": "Are houses random?"
+    },
+    "OtherRulesLbl": {
+      "pl-PL": "Pozostałe",
+      "en-EN": "Others"
+    },
+    "LookPlayerCardLbl": {
+      "pl-PL": "Podgląd kart graczy",
+      "en-EN": "Look other players cards"
+    },
+    "LargeCastleDefenceLbl": {
+      "pl-PL": "Obrona dużego zamku",
+      "en-EN": "Large castle defence"
+    },
+    "SmallCastleDefenceLbl": {
+      "pl-PL": "Obrona małego zamku",
+      "en-EN": "Small castle defence"
     },
     "PolishLang": {
       "pl-PL": "polski",
@@ -227,7 +359,23 @@ export class LocalizationData {
     "RejoiningMsg": {
       "pl-PL": "Jesteś już w innej grze. Czy chcesz zrezygnować z poprzedniej i gry i dołączyć do nowej?",
       "en-EN": "You are already in another game. Are you want join to new game and give up current game?"
-    }
+    },
+    "true": {
+      "pl-PL": "Tak",
+      "en-EN": "Yes"
+    },
+    "false": {
+      "pl-PL": "Nie",
+      "en-EN": "No"
+    },
+    "Castles": {
+      "pl-PL": "Zamki",
+      "en-EN": "Castles"
+    },
+    "Points": {
+      "pl-PL": "Punkty",
+      "en-EN": "Points"
+    },
   };
 
   public get localizationData() {

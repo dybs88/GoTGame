@@ -19,25 +19,24 @@ namespace GotGame.RestServer.Controllers
       playerRepository = playersRepo;
     }
 
-    [HttpDelete("{playerId}")]
-    public async Task<IActionResult> DeletePlayer(int playerId)
+    [HttpDelete("delete/{playerId}")]
+    public async Task<IActionResult> DeletePlayerAsync(int playerId)
     {
-      playerRepository.DeletePlayer(playerId);
+      playerRepository.DeletePlayerAsync(playerId);
       return new OkObjectResult(new { playerDeleted = true });
     }
 
     [HttpGet("{playerId}")]
-    public async Task<IActionResult> GetPlayer(int playerId)
+    public async Task<IActionResult> GetPlayerAsync(int playerId)
     {
-      return new OkObjectResult(await playerRepository.GetPlayer(playerId));
+      return new OkObjectResult(await playerRepository.GetPlayerAsync(playerId));
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdatePlayer([FromBody]FrontPlayer frontPlayer)
+    [HttpPost]
+    public async Task<IActionResult> UpdatePlayerAsync([FromBody]Player player)
     {
-        await playerRepository.SavePlayer(frontPlayer.Player);
-
-        return new OkObjectResult(new { frontPlayer.Player, playerReady = true});
+        await playerRepository.SavePlayerAsync(player);
+        return new OkObjectResult(player);
     }
   }
 }

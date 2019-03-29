@@ -6,12 +6,14 @@ import { GameServer } from "./infrastructure/gameList.server";
 import { NgModule } from "@angular/core";
 import { SettingRepository } from "./infrastructure/repositories/setting.repository";
 import { PlayerServer } from "./infrastructure/player.server";
+import { GameRulesServer } from "./infrastructure/gameRules.server";
+import { ChatServer } from "./infrastructure/chat.server";
 
 @NgModule({
   imports: [BrowserModule],
   exports: [],
   declarations: [],
-  providers: [GameServer, GameRepository, SettingServer, SettingRepository, PlayerServer, AuthServer],
+  providers: [GameServer, GameRepository, SettingServer, SettingRepository, PlayerServer, AuthServer, GameRulesServer, ChatServer],
   schemas: []
 })
 

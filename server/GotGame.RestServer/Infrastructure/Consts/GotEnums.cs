@@ -21,4 +21,10 @@ namespace GotGame.RestServer.Infrastructure.Consts
     Joined,
     Ready
   }
+
+  public enum WinCondition
+  {
+    Castles,
+    Points
+  }
 }

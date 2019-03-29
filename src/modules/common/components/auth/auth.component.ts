@@ -21,8 +21,8 @@ export class AuthComponent extends GotBaseComponent {
     super(localService, userService);
   }
 
-  toggleShowAuthCard() {
-    this.showAuthCard = !this.showAuthCard;
+  clear() {
+    this.userService.clear();
   }
 
   submitForm(form: NgForm) {
@@ -30,5 +30,9 @@ export class AuthComponent extends GotBaseComponent {
       this.userService.authorize(this.userName, this.password);
       this.toggleShowAuthCard();
     }
+  }
+
+  toggleShowAuthCard() {
+    this.showAuthCard = !this.showAuthCard;
   }
 }

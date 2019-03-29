@@ -8,15 +8,15 @@ import { GotBaseComponent } from "./../../../common/components/gotBase.component
 import { PlayerService } from "src/modules/common/infrastructure/authorization/player.service";
 import { Player } from "src/models/player.model";
 import { UserService } from "src/modules/common/infrastructure/authorization/user.service";
-import { PlayerStatus } from "./../../../common/infrastructure/consts/goTEnums";
-import { delay } from "q";
+import { GameRules } from "src/models/gameRules.model";
+import { GameRulesService } from "src/modules/common/infrastructure/services/gameRules.service";
 
 @Component({
   templateUrl: "gameList.component.html"
 })
 
 export class GameListComponent extends GotBaseComponent {
-  private newPlayer: Player;
+  private player: Player;
   games: Game[];
   selectedGame: Game;
   showRejoingMsg: boolean = false;
@@ -25,6 +25,7 @@ export class GameListComponent extends GotBaseComponent {
   constructor(private gameRepository: GameRepository,
     private router: Router,
     private playerService: PlayerService,
+    private gameRulesService: GameRulesService,
     userService: UserService,
     localizationService: LocalizationService) {
     super(localizationService, userService);
@@ -33,8 +34,9 @@ export class GameListComponent extends GotBaseComponent {
     });
    }
 
-  createNewGame() {
-
+  createGame() {
+    this.gameRulesService.setGameRules(new GameRules());
+    this.router.navigate(["/newgame"]);
   }
 
   getGame(gameId: number) {
@@ -53,12 +55,13 @@ export class GameListComponent extends GotBaseComponent {
         this.rejoiningGameId = gameId;
         this.toggleShowRejoiningMsg();
       }
-
-    } else  {
+    } else {
       this.gameRepository.joinGame(gameId).subscribe(serverData => {
-        this.newPlayer = serverData.newPlayer;
-        this.playerService.joinGame(this.getGame(gameId), this.newPlayer);
-        this.router.navigate(["/joingame", gameId]);
+        if (serverData.playerAdded) {
+          this.player = serverData.newPlayer;
+          this.playerService.joinGame(this.getGame(gameId), this.player);
+          this.router.navigate(["/joingame", gameId]);
+        }
       });
     }
   }

@@ -7,10 +7,13 @@ import { Player } from "src/models/player.model";
 
 @Injectable()
 export class GameRepository {
+
+  currentGame: Game;
+
   constructor(private server: GameServer) { }
 
-  public createGame(game: Game, player: Player): Observable<any> {
-    return this.server.createGame(game, player);
+  public createGame(game: Game): Observable<any> {
+    return this.server.createGame(game);
   }
 
   public getGames(): Observable<Game[]> {

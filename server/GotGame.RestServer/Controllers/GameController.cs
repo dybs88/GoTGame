@@ -22,26 +22,42 @@ namespace GotGame.RestServer.Controllers
       gamesRepository = gamesRepo;
       playersRepository = playersRepo;
     }
+    [HttpPost("creategame")]
+    public async Task<IActionResult> CreateGame([FromBody]Game game)
+    {
+      await gamesRepository.SaveGameAsync(game);
+      return new OkObjectResult(new { game, player = game.Players.First(), gameRules = game.GameRules });
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetGames()
     {
-      return new OkObjectResult(await gamesRepository.GetGames());
+      return new OkObjectResult(await gamesRepository.GetGamesAsync());
     }
 
     [HttpGet("{gameId}")]
     public async Task<IActionResult> GetGame(int gameId)
     {
-      return new OkObjectResult(await gamesRepository.GetGame(gameId));
+      return new OkObjectResult(await gamesRepository.GetGameAsync(gameId));
     }
 
     [HttpPost]
     public async Task<IActionResult> JoinGame([FromBody]FrontPlayer frontPlayer)
     {
-      Player newPlayer = new Player { GameId = frontPlayer.GameId, Status = PlayerStatus.Joining };
-      await playersRepository.SavePlayer(newPlayer);
+      Game game = await gamesRepository.GetGameAsync(frontPlayer.GameId);
 
-      return new OkObjectResult(new { newPlayer, playerAdded = true });
+      if(game.PlayerCount < game.GameRules.MaxPlayers)
+      {
+        Player newPlayer = new Player { GameId = frontPlayer.GameId, Status = PlayerStatus.Joining };
+        await playersRepository.SavePlayerAsync(newPlayer);
+
+        return new OkObjectResult(new { newPlayer, playerAdded = true });
+      }
+      else
+      {
+        return new OkObjectResult(new { playerAdded = false });
+      }
+
     }
 
     [HttpPut]
@@ -49,7 +65,7 @@ namespace GotGame.RestServer.Controllers
     {
       var player = frontPlayer.Player;
       player.Status = PlayerStatus.Joined;
-      await playersRepository.SavePlayer(player);
+      await playersRepository.SavePlayerAsync(player);
 
       return new OkObjectResult(new { player, playerJoined = true });
     }

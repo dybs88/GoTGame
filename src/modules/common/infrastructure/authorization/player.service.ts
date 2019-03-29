@@ -30,8 +30,8 @@ export class PlayerService {
 
   public changeStatus(playerStatus: string) {
     this.currentPlayer.status = PlayerStatus[playerStatus];
-    this.server.readyForGame(this.currentPlayer).subscribe(serverData => {
-      this.updatePlayer(serverData.player);
+    this.updatePlayer(this.currentPlayer).subscribe(serverData => {
+      this.setPlayer(serverData);
     });
   }
 
@@ -47,17 +47,21 @@ export class PlayerService {
 
   public joinGame(game: Game, newPlayer: Player) {
     this.playerToken = `${game.id}-${game.name}`;
-    this.updatePlayer(newPlayer);
+    this.setPlayer(newPlayer);
   }
 
-  public updatePlayer(player: Player) {
+  public setPlayer(player: Player) {
     this.currentPlayer = player;
     localStorage.setItem("player_id", this.currentPlayer.id.toString());
   }
 
-  public updatePlayerById(playerId: number) {
+  public setPlayerById(playerId: number) {
     this.server.getPlayer(playerId).subscribe(serverData => {
-      this.updatePlayer(serverData);
+      this.setPlayer(serverData);
     });
+  }
+
+  public updatePlayer(player: Player): Observable<Player> {
+    return this.server.updatePlayer(player);
   }
 }

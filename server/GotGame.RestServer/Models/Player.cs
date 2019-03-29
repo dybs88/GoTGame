@@ -19,6 +19,7 @@ namespace GotGame.RestServer.Models
     public House? House { get; set; }
     public string IpAddress { get; set; }
     public PlayerStatus Status { get; set; }
+    public bool IsGameCreator { get; set; }
 
   }
 }

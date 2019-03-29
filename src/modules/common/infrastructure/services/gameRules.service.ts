@@ -1,38 +1,54 @@
 import { Injectable } from "@angular/core";
 
 import { GameRules } from "./../../../../models/gameRules.model";
+import { GameRulesServer } from "./../../../dal/infrastructure/gameRules.server";
 
 @Injectable()
 export class GameRulesService {
-  rawRules: any;
-  gameRules: GameRules;
+  private gameRules: GameRules;
 
-  getRules(rules: any) {
-    this.rawRules = rules;
-    this.setGameRules();
-  }
+  constructor(private server: GameRulesServer) { }
 
   get rules() {
     return this.gameRules;
   }
 
-  setGameRules() {
+  calculateAvaibleHouses(takenHouses?: string[]): string[] {
+    if (this.gameRules === undefined || this.gameRules === null) {
+      return new Array<string>();
+    }
     const avaibleHouses = new Array<string>("Baratheon", "Stark", "Lannister", "Greyjoy", "Tyrell", "Martell");
 
-    if (!this.rawRules.allHouses && this.rawRules.maxPlayers < 6) {
-      if (this.rawRules.maxPlayers === 5) {
+    if (!this.gameRules.allHouses && this.gameRules.maxPlayers < 6) {
+      if (this.gameRules.maxPlayers === 5) {
         avaibleHouses.splice(5, 1);
-      } else if ( this.rawRules.maxPlayers === 4) {
+      } else if ( this.gameRules.maxPlayers === 4) {
         avaibleHouses.splice(4, 2);
       } else {
         avaibleHouses.splice(3, 3);
       }
     }
 
-    this.gameRules = new GameRules(this.rawRules.maxPlayers,
-      this.rawRules.allHouses,
-      this.rawRules.randomHouses, avaibleHouses,
-      this.rawRules.roundCount,
-      this.rawRules.winCondition, this.rawRules.winCastlesCount, this.rawRules.winPointsCount);
+    if (takenHouses !== undefined && takenHouses.length > 0) {
+      for (let i = 0; i < takenHouses.length; i++) {
+        if (takenHouses[i] !== undefined) {
+          avaibleHouses.splice(avaibleHouses.indexOf(takenHouses[i]), 1);
+        }
+      }
+    }
+
+    return avaibleHouses;
+  }
+
+  setGameRules(gameRules: GameRules) {
+    this.gameRules = gameRules;
+  }
+
+  updateGameRules() {
+    this.server.updateGameRules(this.gameRules).subscribe(serverData => {
+      if (serverData.gameRulesUpdated) {
+        this.gameRules = serverData.gameRules;
+      }
+    });
   }
 }

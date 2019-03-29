@@ -1,0 +1,16 @@
+<div>
+  <div style="max-height: 250px; height: 250px; overflow: auto;">
+      <table class="table table-sm table-borderless">
+          <tr *ngFor="let data of datas">
+            <td class="text-right" style="width: 10%; font-size: small">{{data.playerName}}:</td>
+            <td class="text-left" style="width: 90%; font-size: small">{{data.text}}</td>
+          </tr>
+        </table>
+  </div>
+  <div class="input-group" style="height: inherit">
+      <input class="form-control form-control-sm" type="text" [(ngModel)]="text" (keyup.enter)="sendMessage()" />
+      <div class="input-group-append" >
+        <button class="btn btn-dark btn-sm" (click)="sendMessage()">Wyślij</button>
+      </div>
+  </div>
+</div>

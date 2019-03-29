@@ -1,13 +1,13 @@
 <div class="row">
   <div class="col-4"></div>
   <div class="col-4">
-    <form #form="ngForm" novalidate (ngSubmit)="confirmJoinGame(form)">
+    <form *ngIf="game !== undefined" #form="ngForm" novalidate (ngSubmit)="confirmJoinGame(form)">
       <div class="form-group">
         <label>{{getTranslation(localKeys.playerNameLbl)}}</label>
           <input class="form-control" type="text" #name="ngModel" name="newPlayer.name" [(ngModel)]="newPlayer.name" required pattern="^[a-zA-Z]{6,20}"/>
           <span class="text-danger" style="font-size: small" *ngIf="name.dirty && name.invalid">{{getTranslation(localKeys.joinGameNameValidator)}}</span>
       </div>
-      <div class="form-group">
+      <div *ngIf="!game.gameRules.randomHouses" class="form-group">
         <label>{{getTranslation(localKeys.houseColName)}}</label>
           <select class="form-control" name="selectedHouse" #house="ngModel" [(ngModel)]="selectedHouse" required>
             <option *ngFor="let house of avaibleHouses" [value]="house">{{getTranslation(house)}}</option>
@@ -19,6 +19,8 @@
       </div>
     </form>
   </div>
-  <div class="col-4"></div>
+  <div class="col-4">
+    <got-houseV [selectedHouse]="selectedHouse"></got-houseV>
+  </div>
 </div>
 

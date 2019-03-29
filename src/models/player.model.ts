@@ -8,5 +8,6 @@ export class Player {
   public gameId?: number,
   public ipAddress?: string,
   public house?: string,
-  public status?: string) { }
+  public status?: string,
+  public isGameCreator?: boolean) { }
 }

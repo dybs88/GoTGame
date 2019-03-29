@@ -8,10 +8,10 @@ namespace GotGame.RestServer.DAL.Repositories
 {
   public interface IGamesRepository
   {
-    Task<Game> GetGame(int id);
-    Task<IEnumerable<Game>> GetGames();
+    Task<Game> GetGameAsync(int id);
+    Task<IEnumerable<Game>> GetGamesAsync();
 
-    Task<Game> SaveGame(Game game);
+    Task<Game> SaveGameAsync(Game game);
   }
 
   public class GamesRepository : IGamesRepository
@@ -22,22 +22,22 @@ namespace GotGame.RestServer.DAL.Repositories
       this.context = context;
     }
 
-    public async Task<Game> GetGame(int id)
+    public async Task<Game> GetGameAsync(int id)
     {
-      var games = await context.Games
-          .Include(g => g.Players).ToListAsync();
+      var games = await GetGamesAsync();
 
       return games
           .FirstOrDefault(g => g.Id == id);
     }
 
-    public async Task<IEnumerable<Game>> GetGames()
+    public async Task<IEnumerable<Game>> GetGamesAsync()
     {
       return await context.Games
-          .Include(g => g.Players).ToListAsync();
+          .Include(g => g.Players)
+          .Include(g => g.GameRules).ToListAsync();
     }
 
-    public async Task<Game> SaveGame(Game game)
+    public async Task<Game> SaveGameAsync(Game game)
     {
       if (game.Id == 0)
       {
@@ -45,11 +45,11 @@ namespace GotGame.RestServer.DAL.Repositories
       }
       else
       {
-        Game dbEntry = await GetGame(game.Id);
+        Game dbEntry = await GetGameAsync(game.Id);
         if (dbEntry != null)
         {
           dbEntry.Name = game.Name;
-          dbEntry.MaxPlayers = game.MaxPlayers;
+          dbEntry.GameRules = game.GameRules;
           dbEntry.Players = game.Players;
 
         }
@@ -59,14 +59,6 @@ namespace GotGame.RestServer.DAL.Repositories
       await context.SaveChangesAsync(true);
 
       return game;
-    }
-
-    private void Refresh()
-    {
-      foreach (var entity in context.ChangeTracker.Entries())
-      {
-        entity.Reload();
-      }
     }
   }
 }

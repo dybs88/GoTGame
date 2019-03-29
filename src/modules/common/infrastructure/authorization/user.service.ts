@@ -30,5 +30,10 @@ export class UserService {
     });
   }
 
+  public clear() {
+    this.authorized = false;
+    this.token = "";
+  }
+
 
 }

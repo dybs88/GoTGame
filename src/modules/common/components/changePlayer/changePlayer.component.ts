@@ -23,7 +23,7 @@ export class ChangePlayerComponent extends GotBaseComponent{
    changePlayerId() {
     localStorage.setItem("player_id", this.playerId);
     this.toggleChangePlayerCard();
-    this.playerService.updatePlayerById(parseInt(this.playerId, 10));
+    this.playerService.setPlayerById(parseInt(this.playerId, 10));
   }
 
   clearPlayer() {

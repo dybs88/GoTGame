@@ -24,15 +24,48 @@ namespace GotGame.RestServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("MaxPlayers");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
                     b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("GotGame.RestServer.Models.GameRules", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("AllHouses");
+
+                    b.Property<bool>("CanLookPlayerCard");
+
+                    b.Property<int>("GameId");
+
+                    b.Property<bool>("LargeCastleDefence");
+
+                    b.Property<int>("MaxPlayers");
+
+                    b.Property<bool>("RandomHouses");
+
+                    b.Property<int>("RoundsCount");
+
+                    b.Property<bool>("SmallCastleDefence");
+
+                    b.Property<int>("WinCastlesCount");
+
+                    b.Property<string>("WinCondition")
+                        .IsRequired();
+
+                    b.Property<int>("WinPointsCount");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId")
+                        .IsUnique();
+
+                    b.ToTable("GameRules");
                 });
 
             modelBuilder.Entity("GotGame.RestServer.Models.Player", b =>
@@ -47,6 +80,8 @@ namespace GotGame.RestServer.Migrations
 
                     b.Property<string>("IpAddress");
 
+                    b.Property<bool>("IsGameCreator");
+
                     b.Property<string>("Name")
                         .HasMaxLength(20);
 
@@ -58,6 +93,14 @@ namespace GotGame.RestServer.Migrations
                     b.HasIndex("GameId");
 
                     b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("GotGame.RestServer.Models.GameRules", b =>
+                {
+                    b.HasOne("GotGame.RestServer.Models.Game")
+                        .WithOne("GameRules")
+                        .HasForeignKey("GotGame.RestServer.Models.GameRules", "GameId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("GotGame.RestServer.Models.Player", b =>

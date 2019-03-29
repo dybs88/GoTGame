@@ -19,8 +19,8 @@ export class GameServer {
       this.baseUrl = `${PROTOCOL}:\\\\${location.hostname}:${PORT}/${API}/`;
     }
 
-    public createGame(game: Game, player: Player): Observable<any> {
-      return this.http.post(`${this.baseUrl}games`, {game: game, player: player}, this.getOptions());
+    public createGame(game: Game): Observable<any> {
+      return this.http.post(`${this.baseUrl}games/creategame`, game, this.getOptions());
     }
 
     public getGame(gameId: number): Observable<Game> {

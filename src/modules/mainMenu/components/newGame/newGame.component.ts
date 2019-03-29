@@ -23,6 +23,7 @@ export class NewGameComponent extends GotBaseComponent {
   maxPlayers: number = 3;
   playerName: string;
   selectedHouse: string;
+  avaibleHouses: string[];
 
   gameRules: GameRules;
 
@@ -37,17 +38,24 @@ export class NewGameComponent extends GotBaseComponent {
 
   createNewGame(form: NgForm) {
     if (form.valid) {
-      const game = new Game(0, this.gameName, 0, this.maxPlayers);
-      const player = new Player(0, this.playerName, 0, "", this.selectedHouse, "Joined");
+      if (this.gameRules.randomHouses) {
+        const r = Math.floor(Math.random() * (this.avaibleHouses.length - 1) + 1);
+        this.selectedHouse = this.avaibleHouses[r];
+      }
+      const game = new Game(0, this.gameName, 0, this.gameRules);
+      const player = new Player(0, this.playerName, 0, "", this.selectedHouse, "Joined", true);
+      game.players.push(player);
 
-      this.gameRepository.createGame(game, player).subscribe(serverData => {
-        this.playerService.updatePlayer(serverData.player);
-        this.router.navigate(["/readyforgame", serverData.game.id]);
+      this.gameRepository.createGame(game).subscribe(serverData => {
+        this.playerService.setPlayer(serverData.player);
+        this.gameRulesService.setGameRules(serverData.gameRules);
+        this.router.navigate(["/readyforgame", serverData.game.id.toString()]);
       });
     }
   }
 
   getRules() {
     this.gameRules = this.gameRulesService.rules;
+    this.avaibleHouses = this.gameRulesService.calculateAvaibleHouses();
   }
 }
