@@ -41,6 +41,7 @@ export class GameRulesComponent extends GotBaseComponent {
       if (this.gameRules !== undefined && this.gameRules.id !== 0) {
         this.isModified = true;
         this.standardRules = false;
+        this.maxPlayers = this.gameRules.maxPlayers;
         this.allHouses = this.gameRules.allHouses;
         this.randomHouses = this.gameRules.randomHouses;
         this.roundsCount = this.gameRules.roundsCount;
