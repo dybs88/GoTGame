@@ -14,7 +14,7 @@ import { UserService } from "src/modules/common/infrastructure/authorization/use
 import { GameRulesService } from "src/modules/common/infrastructure/services/gameRules.service";
 
 @Component({
-  selector: "got-join",
+  selector: "got-readyforgame",
   templateUrl: "ReadyForGame.component.html"
 })
 
@@ -25,6 +25,7 @@ export class ReadyForGameComponent extends GotBaseComponent {
   joined: boolean = false;
   refreshCounter: number = 0;
   showChangeRules: boolean = false;
+  newGameCratorMsgShow: boolean = false;
 
   private gameSubscription: Subscription;
   private timerSubscription: Subscription;
@@ -49,8 +50,8 @@ export class ReadyForGameComponent extends GotBaseComponent {
     this.toggleShowChangeRules();
   }
 
-  leaveGame() {
-    this.playerService.deletePlayer().subscribe(serverData => {
+  public leaveGame(playerId: number) {
+    this.playerService.deletePlayer(playerId).subscribe(serverData => {
       this.playerService.clearPlayer();
       this.router.navigateByUrl("/gamelist");
     });
@@ -66,13 +67,20 @@ export class ReadyForGameComponent extends GotBaseComponent {
     this.playerService.changeStatus(playerStatus);
   }
 
+  private onRefreshGame(serverData: any) {
+    if (serverData.newGameCreator && this.playerService.player.id === serverData.newGameCreatorId) {
+      this.newGameCratorMsgShow = true;
+    }
+    this.gameRepository.currentGame = serverData.game;
+    this.game = serverData.game;
+    this.players = serverData.game.players;
+    this.gameRulesService.setGameRules(serverData.game.gameRules);
+    this.refreshCounter++;
+  }
+
   private refreshGameSubscription(gameId: number) {
-    this.gameSubscription = this.gameRepository.getGame(gameId).subscribe(serverData => {
-      this.gameRepository.currentGame = serverData;
-      this.game = serverData;
-      this.players = serverData.players;
-      this.gameRulesService.setGameRules(serverData.gameRules);
-      this.refreshCounter++;
+    this.gameSubscription = this.gameRepository.refreshGame(gameId).subscribe(serverData => {
+      this.onRefreshGame(serverData);
       this.subscribeToData(gameId);
     });
   }
@@ -81,7 +89,11 @@ export class ReadyForGameComponent extends GotBaseComponent {
     this.timerSubscription = timer(2500).subscribe(() => this.refreshGameSubscription(gameId));
   }
 
-  toggleShowChangeRules() {
+  private toggleNewGameCreatorMsg() {
+    this.newGameCratorMsgShow = !this.newGameCratorMsgShow;
+  }
+
+  private toggleShowChangeRules() {
     this.showChangeRules = !this.showChangeRules;
   }
 }

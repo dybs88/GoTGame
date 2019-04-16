@@ -2,46 +2,70 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GotGame.RestServer.DAL.Repositories.Base;
+using GotGame.RestServer.Infrastructure.Consts;
+using GotGame.RestServer.Infrastructure.Storage;
 using GotGame.RestServer.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace GotGame.RestServer.DAL.Repositories
 {
   public interface IPlayersRepository
   {
-    void DeletePlayerAsync(int playerId);
+    Task<int> DeletePlayerAsync(int playerId);
     Task<Player> GetPlayerAsync(int playerId);
+    Task<IList<Player>> GetGamePlayersAsync(int gameId);
     Task<Player> SavePlayerAsync(Player player);
     Task<IEnumerable<Player>> SavePlayersAsync(IEnumerable<Player> players);
   }
 
-  public class PlayersRepository : IPlayersRepository
+  public class PlayersRepository : BaseRepository, IPlayersRepository
   {
-    private IGoTGameContextDb context;
+    private IGamesRepository gamesRepository;
 
-    public PlayersRepository(IGoTGameContextDb context)
+    public PlayersRepository(IGoTGameContextDb context, IGoTStorage storage, IGamesRepository gamesRepo)
+      :base (context, storage)
     {
-      this.context = context;
+      gamesRepository = gamesRepo;
     }
 
-    public async void DeletePlayerAsync(int playerId)
+    public async Task<int> DeletePlayerAsync(int playerId)
     {
       Player player = await GetPlayerAsync(playerId);
-      context.Players.Remove(player);
-      await context.SaveChangesAsync(true);
+      if(player != null)
+      {
+        if (player.IsGameCreator)
+        {
+          await ChangeGameCreatorAsync(player.GameId);
+        }
+
+        context.Players.Remove(player);
+        var playersLeftInGame = await GetGamePlayersAsync(player.GameId);
+        if (!playersLeftInGame.Any())
+          await gamesRepository.DeleteGameAsync(player.GameId);
+
+        await context.SaveChangesAsync(true);
+      }
+
+      return 1;
     }
 
     public async Task<Player> GetPlayerAsync(int playerId)
     {
-      var players = await context.Players.ToListAsync();
-      return players.FirstOrDefault(p => p.Id == playerId);
+      return await context.Players.FirstOrDefaultAsync(p => p.Id == playerId);
+    }
+
+    public async Task<IList<Player>> GetGamePlayersAsync(int gameId)
+    {
+      return await context.Players.Where(p => p.GameId == gameId).ToListAsync();
     }
 
     public async Task<Player> SavePlayerAsync(Player player)
     {
       if (player.Id == 0)
       {
-        context.Players.Add(player);
+        await context.Players.AddAsync(player);
       }
       else
       {
@@ -75,6 +99,27 @@ namespace GotGame.RestServer.DAL.Repositories
       }
 
       return players;
+    }
+
+    private async Task<int> ChangeGameCreatorAsync(int gameId)
+    {
+      var currentGameCreator = await context.Players.FirstOrDefaultAsync(p => p.GameId == gameId && p.IsGameCreator);
+      if(currentGameCreator != null)
+      {
+        Player newCreator = await context.Players.FirstOrDefaultAsync(p => p.GameId == gameId && p.Id != currentGameCreator.Id);
+        if(newCreator != null)
+        {
+          newCreator.IsGameCreator = true;
+          storage.SetString(SessionKeys.NewGameCreator, bool.TrueString);
+          return 1;
+        }
+
+        storage.SetString(SessionKeys.NewGameCreator, bool.FalseString);
+        return 0;
+      }
+
+      storage.SetString(SessionKeys.NewGameCreator, bool.FalseString);
+      return 0;
     }
   }
 }

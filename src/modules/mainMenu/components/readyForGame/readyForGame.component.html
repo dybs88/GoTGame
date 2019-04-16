@@ -22,6 +22,7 @@
          [class.bg-success]="player.status === 'Ready'"
          [class.bg-warning]="player.status === 'Joined'"
          [class.bg-danger]="player.status === 'Joining'"
+         (click)="chat.createPrivateChat(player.id)"
          *ngFor="let player of players; let i = index">
             <td style="width: 5%">{{i + 1}}</td>
             <td *ngIf="isAuthorized">{{player.id}}</td>
@@ -31,17 +32,27 @@
             <td>{{getTranslation(player.status)}}</td>
             <td>
               <div *ngIf="currentPlayer.id === player.id" class="btn-group">
-                <button class="btn btn-danger btn-sm" (click)="leaveGame()">{{getTranslation(localKeys.leaveGameBtn)}}</button>
+                <button class="btn btn-danger btn-sm" (click)="leaveGame(player.id)" (click)="chat.deletePlayerChats(player.id)">{{getTranslation(localKeys.leaveGameBtn)}}</button>
                 <button *ngIf="player.status !== 'Ready'" class="btn btn-primary btn-sm" (click)="changeStatus('Ready')">{{getTranslation(localKeys.readyBtn)}}</button>
                 <button *ngIf="player.status === 'Ready'" class="btn btn-primary btn-sm" (click)="changeStatus('Joined')">{{getTranslation(localKeys.waitBtn)}}</button>
               </div>
             </td>
           </table>
-          <got-chat></got-chat>
+          <got-chat #chat></got-chat>
         </div>
   </div>
   <div class="col-3">
     <got-houseV [selectedHouse]="currentPlayer.house"></got-houseV>
+  </div>
+</div>
+<div *ngIf="newGameCreatorMsgShow" class="card fixed-top" style="position:absolute; top:15%; left:40%; display: inline-block; width: 20rem; height: auto">
+  <div class="card-body">
+    {{getTranslation(localKeys.newGameCreatorMsg)}}
+  </div>
+  <div class="card-footer">
+    <div class="btn-group">
+      <button class="btn btn-primary btn-sm" (click)="toggleNewGameCreatorMsg()">{{getTranslation(localKeys.okBtn)}}</button>
+    </div>
   </div>
 </div>
 

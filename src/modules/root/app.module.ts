@@ -5,6 +5,8 @@ import { RouterModule } from "@angular/router";
 
 import { AppComponent } from "./app.component";
 
+import { CookieService } from "ngx-cookie-service";
+
 import { MainMenuComponent } from "./../mainMenu/components/mainMenu.component";
 import { MainMenuModule } from "./../mainMenu/mainMenu.module";
 import { CommonModule } from "./../common/common.module";
@@ -22,7 +24,7 @@ import { CommonModule } from "./../common/common.module";
       { path: "**", component: MainMenuComponent }
     ])
   ],
-  providers: [{ provide: LOCALE_ID, useValue: localStorage.getItem("locale_id")}],
+  providers: [{ provide: LOCALE_ID, useValue: localStorage.getItem("locale_id")}, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

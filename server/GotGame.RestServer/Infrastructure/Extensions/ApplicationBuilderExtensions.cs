@@ -1,4 +1,5 @@
 using GotGame.RestServer.DAL;
+using GotGame.RestServer.Infrastructure.Logging;
 using GotGame.RestServer.Infrastructure.SeedDatas;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -13,9 +14,8 @@ namespace GotGame.RestServer.Infrastructure.Extensions
 {
   public static class ApplicationBuilderExtensions
   {
-    public static IApplicationBuilder MigrateDatabase(this IApplicationBuilder app, ILogger logger)
+    public static IApplicationBuilder MigrateDatabase(this IApplicationBuilder app)
     {
-      logger.LogInformation("MigrateDatabase");
       GoTGameContextDb context = app.ApplicationServices.GetRequiredService<GoTGameContextDb>();
       context.Database.Migrate();
       IdentityContextDb identityContext = app.ApplicationServices.GetRequiredService<IdentityContextDb>();
@@ -24,11 +24,17 @@ namespace GotGame.RestServer.Infrastructure.Extensions
       return app;
     }
 
-    public static IApplicationBuilder PopulateDatabase(this IApplicationBuilder app, ILogger logger)
+    public static IApplicationBuilder PopulateDatabase(this IApplicationBuilder app)
     {
-      logger.LogInformation("PopulateDatabase");
       GameSeedData.PopulateGame(app);
       UserSeedData.PopulateUser(app);
+      return app;
+    }
+
+    public static IApplicationBuilder UseLoggingMiddlewares(this IApplicationBuilder app)
+    {
+      app.UseMiddleware<ExceptionHandlerMiddleware>();
+
       return app;
     }
   }

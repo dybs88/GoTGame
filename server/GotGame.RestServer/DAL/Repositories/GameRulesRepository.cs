@@ -10,7 +10,7 @@ namespace GotGame.RestServer.DAL.Repositories
   public interface IGameRulesRepository
   {
     Task<GameRules> GetGameRulesAsync(int gameRulesId);
-    void SaveGameRules(GameRules gameRules);
+    Task<int> SaveGameRules(GameRules gameRules);
   }
   public class GameRulesRepository : IGameRulesRepository
   {
@@ -23,11 +23,10 @@ namespace GotGame.RestServer.DAL.Repositories
 
     public async Task<GameRules> GetGameRulesAsync(int gameRulesId)
     {
-      var gameRules = await context.GameRules.ToListAsync();
-      return gameRules.FirstOrDefault(gr => gr.Id == gameRulesId);
+      return await context.GameRules.FirstOrDefaultAsync(gr => gr.Id == gameRulesId);
     }
 
-    public async void SaveGameRules(GameRules gameRules)
+    public async Task<int> SaveGameRules(GameRules gameRules)
     {
       if (gameRules.Id == 0)
         await context.GameRules.AddAsync(gameRules);
@@ -48,6 +47,8 @@ namespace GotGame.RestServer.DAL.Repositories
       }
 
        await context.SaveChangesAsync(true);
+
+      return 1;
     }
   }
 }

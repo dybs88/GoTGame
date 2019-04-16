@@ -4,8 +4,8 @@ export const LannisterDescription = {
   backgroundColor: "#87090a",
   text: {
     "Sentence" : {
-      "pl-PL": "Słuchajcie Mojego Ryku!",
-      "en-EN": "Hear My Roar!"
+      "pl-PL": "Słuchajcie Mojego Ryku",
+      "en-EN": "Hear My Roar"
     },
     "HouseName": {
       "pl-PL": "Ród Lannisterów",

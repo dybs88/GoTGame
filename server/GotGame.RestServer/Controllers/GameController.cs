@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 using GotGame.RestServer.DAL.Repositories;
 using GotGame.RestServer.FrontModels;
 using GotGame.RestServer.Infrastructure.Consts;
+using GotGame.RestServer.Infrastructure.Storage;
 using GotGame.RestServer.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GotGame.RestServer.Controllers
 {
@@ -16,48 +19,15 @@ namespace GotGame.RestServer.Controllers
   {
     private IGamesRepository gamesRepository;
     private IPlayersRepository playersRepository;
+    private IChatRepository chatRepository;
+    private IGoTStorage storage;
 
-    public GameController(IGamesRepository gamesRepo, IPlayersRepository playersRepo)
+    public GameController(IGamesRepository gamesRepo, IPlayersRepository playersRepo, IChatRepository chatRepo, IGoTStorage storage)
     {
       gamesRepository = gamesRepo;
       playersRepository = playersRepo;
-    }
-    [HttpPost("creategame")]
-    public async Task<IActionResult> CreateGame([FromBody]Game game)
-    {
-      await gamesRepository.SaveGameAsync(game);
-      return new OkObjectResult(new { game, player = game.Players.First(), gameRules = game.GameRules });
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetGames()
-    {
-      return new OkObjectResult(await gamesRepository.GetGamesAsync());
-    }
-
-    [HttpGet("{gameId}")]
-    public async Task<IActionResult> GetGame(int gameId)
-    {
-      return new OkObjectResult(await gamesRepository.GetGameAsync(gameId));
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> JoinGame([FromBody]FrontPlayer frontPlayer)
-    {
-      Game game = await gamesRepository.GetGameAsync(frontPlayer.GameId);
-
-      if(game.PlayerCount < game.GameRules.MaxPlayers)
-      {
-        Player newPlayer = new Player { GameId = frontPlayer.GameId, Status = PlayerStatus.Joining };
-        await playersRepository.SavePlayerAsync(newPlayer);
-
-        return new OkObjectResult(new { newPlayer, playerAdded = true });
-      }
-      else
-      {
-        return new OkObjectResult(new { playerAdded = false });
-      }
-
+      chatRepository = chatRepo;
+      this.storage = storage;
     }
 
     [HttpPut]
@@ -68,6 +38,57 @@ namespace GotGame.RestServer.Controllers
       await playersRepository.SavePlayerAsync(player);
 
       return new OkObjectResult(new { player, playerJoined = true });
+    }
+
+    [HttpPost("creategame")]
+    public async Task<IActionResult> CreateGame([FromBody]Game game)
+    {
+      await gamesRepository.SaveGameAsync(game);
+      chatRepository.CreateGameChat(game.Id, "Public");
+      return new OkObjectResult(new { game, player = game.Players.First(), gameRules = game.GameRules });
+    }
+
+    [HttpGet("{gameId}")]
+    public async Task<IActionResult> GetGame(int gameId)
+    {
+      return new OkObjectResult(await gamesRepository.GetGameAsync(gameId));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetGames()
+    {
+      return new OkObjectResult(await gamesRepository.GetGamesAsync());
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> JoinGame([FromBody]FrontPlayer frontPlayer)
+    {
+      Game game = await gamesRepository.GetGameAsync(frontPlayer.GameId);
+
+      if (game.PlayerCount < game.GameRules.MaxPlayers)
+      {
+        Player newPlayer = new Player { GameId = frontPlayer.GameId, Status = PlayerStatus.Joining };
+        await playersRepository.SavePlayerAsync(newPlayer);
+
+        return new OkObjectResult(new { newPlayer, playerAdded = true });
+      }
+      else
+      {
+        return new OkObjectResult(new { playerAdded = false });
+      }
+    }
+
+    [HttpGet("refresh/{gameId}")]
+    public async Task<IActionResult> RefreshGame(int gameId)
+    {
+      Game game = await gamesRepository.GetGameAsync(gameId);
+      if (storage.GetString(SessionKeys.NewGameCreator) == bool.TrueString)
+      {
+        storage.SetString(SessionKeys.NewGameCreator, bool.FalseString);
+        return new OkObjectResult(new { game, newGameCreator = true, newGameCreatorId = game.Players.First(p => p.IsGameCreator).Id });
+      }
+
+      return new OkObjectResult(new { game });
     }
   }
 }

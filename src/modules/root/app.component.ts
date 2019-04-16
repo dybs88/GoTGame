@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 
 import { UserService } from "../common/infrastructure/authorization/user.service";
+import { CookieService } from "ngx-cookie-service";
 
 @Component({
   selector: "app-root",
@@ -8,8 +9,8 @@ import { UserService } from "../common/infrastructure/authorization/user.service
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-  title = "GotGame";
-  constructor(private userService: UserService) {
+  title = "GoTGame";
+  constructor(private userService: UserService, private cookieService: CookieService) {
     this.userService.autoAuthorize();
   }
 }

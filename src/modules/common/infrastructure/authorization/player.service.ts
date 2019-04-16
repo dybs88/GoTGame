@@ -41,8 +41,12 @@ export class PlayerService {
     localStorage.setItem("player_id", undefined);
   }
 
-  public deletePlayer(): Observable<any> {
-    return this.server.deletePlayer(this.currentPlayer.id);
+  public deletePlayer(playerId?: number): Observable<any> {
+    if (playerId === undefined) {
+      return this.server.deletePlayer(this.currentPlayer.id);
+    } else {
+      return this.server.deletePlayer(playerId);
+    }
   }
 
   public joinGame(game: Game, newPlayer: Player) {

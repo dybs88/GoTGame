@@ -34,6 +34,7 @@ export const localizationKeys = {
   newGameBtn: "NewGameBtn",
   confirmBtn: "ConfirmBtn",
   changeRulesBtn: "ChangeRulesBtn",
+  okBtn: "OkBtn",
 
   idColName: "IdColName",
   gameNameColName: "GameNameColName",
@@ -81,6 +82,7 @@ export const localizationKeys = {
   statusReady: "StatusReady",
 
   rejoiningMsg: "RejoiningMsg",
+  newGameCreatorMsg: "NewGameCreatorMsg",
 
   yesValue: "true",
   noValue: "false",
@@ -196,6 +198,10 @@ export class LocalizationData {
     "ChangeRulesBtn": {
       "pl-PL": "Zmień zasady",
       "en-EN": "Change rules"
+    },
+    "OkBtn": {
+      "pl-PL": "OK",
+      "en-EN": "OK"
     },
     "IdColName": {
       "pl-PL": "Id",
@@ -364,6 +370,10 @@ export class LocalizationData {
     "RejoiningMsg": {
       "pl-PL": "Jesteś już w innej grze. Czy chcesz zrezygnować z poprzedniej i gry i dołączyć do nowej?",
       "en-EN": "You are already in another game. Are you want join to new game and give up current game?"
+    },
+    "NewGameCreatorMsg": {
+      "pl-PL": "Jesteś nowym administratorem gry",
+      "en-EN": "You are new game admin"
     },
     "true": {
       "pl-PL": "Tak",

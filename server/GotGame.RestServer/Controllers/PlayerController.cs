@@ -4,13 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using GotGame.RestServer.FrontModels;
 using GotGame.RestServer.Infrastructure.Consts;
+using System;
+using Microsoft.AspNetCore.Http;
 
 namespace GotGame.RestServer.Controllers
 {
   [Produces("application/json")]
   [Route("api/players")]
   [ApiController]
-  public class PlayerController : ControllerBase
+  public class PlayerController : Controller
   {
     private IPlayersRepository playerRepository;
 
@@ -22,7 +24,7 @@ namespace GotGame.RestServer.Controllers
     [HttpDelete("delete/{playerId}")]
     public async Task<IActionResult> DeletePlayerAsync(int playerId)
     {
-      playerRepository.DeletePlayerAsync(playerId);
+      await playerRepository.DeletePlayerAsync(playerId);
       return new OkObjectResult(new { playerDeleted = true });
     }
 

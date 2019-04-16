@@ -12,6 +12,10 @@ export class GameRepository {
 
   constructor(private server: GameServer) { }
 
+  public confirmJoinGame(gameId: number, player: Player): Observable<any> {
+    return this.server.confirmJoinGame(gameId, player);
+  }
+
   public createGame(game: Game): Observable<any> {
     return this.server.createGame(game);
   }
@@ -24,15 +28,15 @@ export class GameRepository {
     return this.server.getGame(gameId);
   }
 
-  public refreshGames(): Observable<Game[]> {
-    return this.server.getGames();
-  }
-
   public joinGame(gameId: number): Observable<any> {
     return this.server.joinGame(gameId);
   }
 
-  public confirmJoinGame(gameId: number, player: Player): Observable<any> {
-    return this.server.confirmJoinGame(gameId, player);
+  public refreshGames(): Observable<Game[]> {
+    return this.server.getGames();
+  }
+
+  public refreshGame(gameId: number): Observable<any> {
+    return this.server.refreshGame(gameId);
   }
 }

@@ -25,7 +25,7 @@ namespace GotGame.RestServer.Controllers
     [HttpPost]
     public async Task<IActionResult> SaveGameRulesAsync([FromBody]GameRules gameRules)
     {
-      repository.SaveGameRules(gameRules);
+      await repository.SaveGameRules(gameRules);
       return new OkObjectResult(new { gameRules, gameRulesUpdated = true });
     }
   }

@@ -12,8 +12,10 @@ export class RestServer {
   protected readonly baseUrl = `${this.PROTOCOL}:\\\\${location.hostname}:${this.PORT}/${this.API}`;
 
   protected getOptions() {
-    return { headers: new HttpHeaders ({
-      "Content-Type": "application/json"
-     }) };
+    return { headers: new HttpHeaders({
+        "Content-Type": "application/json",
+       }),
+       withCredentials: true,
+    };
   }
 }

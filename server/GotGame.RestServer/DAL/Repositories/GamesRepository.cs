@@ -8,9 +8,9 @@ namespace GotGame.RestServer.DAL.Repositories
 {
   public interface IGamesRepository
   {
+    Task<int> DeleteGameAsync(int gameId);
     Task<Game> GetGameAsync(int id);
     Task<IEnumerable<Game>> GetGamesAsync();
-
     Task<Game> SaveGameAsync(Game game);
   }
 
@@ -22,12 +22,18 @@ namespace GotGame.RestServer.DAL.Repositories
       this.context = context;
     }
 
+    public async Task<int> DeleteGameAsync(int gameId)
+    {
+      Game game = await GetGameAsync(gameId);
+      context.Games.Remove(game);
+
+      await context.SaveChangesAsync(true);
+      return 1;
+    }
+
     public async Task<Game> GetGameAsync(int id)
     {
-      var games = await GetGamesAsync();
-
-      return games
-          .FirstOrDefault(g => g.Id == id);
+      return await context.Games.FirstOrDefaultAsync(g => g.Id == id);
     }
 
     public async Task<IEnumerable<Game>> GetGamesAsync()
@@ -41,7 +47,7 @@ namespace GotGame.RestServer.DAL.Repositories
     {
       if (game.Id == 0)
       {
-        context.Games.Add(game);
+        await context.Games.AddAsync(game);
       }
       else
       {
