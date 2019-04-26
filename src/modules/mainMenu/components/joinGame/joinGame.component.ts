@@ -5,8 +5,8 @@ import { NgForm } from "@angular/forms";
 
 import { GotBaseComponent } from "../../../common/components/gotBase.component";
 import { LocalizationService } from "src/modules/common/infrastructure/locale/localization.service";
-import { GameRepository } from "./../../../dal/infrastructure/repositories/game.repository";
-import { PlayerService } from "src/modules/common/infrastructure/authorization/player.service";
+import { GameService } from "../../../common/infrastructure/services/game.service";
+import { PlayerService } from "src/modules/common/infrastructure/services/player.service";
 import { Player } from "src/models/player.model";
 import { Game } from "src/models/game.model";
 import { UserService } from "./../../../common/infrastructure/authorization/user.service";
@@ -24,7 +24,7 @@ export class JoinGameComponent extends GotBaseComponent {
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private gameRepository: GameRepository,
+    private gameRepository: GameService,
     private playerService: PlayerService,
     private gameRulesService: GameRulesService,
     userService: UserService,

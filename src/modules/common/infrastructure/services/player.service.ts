@@ -1,3 +1,4 @@
+
 import { Injectable } from "@angular/core";
 
 import { Observable } from "rxjs";
@@ -47,6 +48,10 @@ export class PlayerService {
     } else {
       return this.server.deletePlayer(playerId);
     }
+  }
+
+  public getPlayer(playerId: number): Observable<Player> {
+    return this.server.getPlayer(playerId);
   }
 
   public joinGame(game: Game, newPlayer: Player) {

@@ -1,10 +1,10 @@
 using GotGame.RestServer.DAL.Repositories;
 using GotGame.RestServer.FrontModels;
-using GotGame.RestServer.Infrastructure.Models;
-using GotGame.RestServer.Models;
+using GotGame.RestServer.Models.Chat;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,8 +26,9 @@ namespace GotGame.RestServer.Controllers
     public IActionResult CreatePrivateChat([FromBody]dynamic frontData)
     {
       int gameId = frontData["gameId"];
+      int playerId = frontData["playerId"];
       int[] playerIds = frontData["playerIds"].ToObject<int[]>();
-      GameChat privateGameChat = chatRepository.CreatePrivateChat(gameId, playerIds);
+      GameChat privateGameChat = chatRepository.CreatePrivateChat(gameId, playerId, playerIds);
       return new OkObjectResult(privateGameChat);
     }
 
@@ -38,10 +39,26 @@ namespace GotGame.RestServer.Controllers
       return new OkObjectResult(true);
     }
 
-    [HttpGet("getchatdata/{chatId}")]
-    public IActionResult GetChatData(int chatId)
+    [HttpGet("getchatdata/{playerId}/{chatId}")]
+    public IActionResult GetChatData(int playerId, int chatId)
     {
-      return new OkObjectResult(chatRepository.GetChatById(chatId).ChatDatas);
+      dynamic response = new ExpandoObject();
+      response.chatDatas = chatRepository.GetChatById(chatId)?.ChatDatas;
+      var playerChats = chatRepository.GetPrivateChatsByPlayerId(playerId);
+      if(playerChats.Any(gc => gc.Players.Any(cp => cp.PlayerId == playerId && cp.IsNew)))
+      {
+        response.gameChats = new List<GameChat>();
+        foreach(GameChat playerChat in playerChats)
+        {
+          response.gameChats.Add((GameChat)playerChat.Clone());
+          foreach(ChatPlayer chatPlayer in playerChat.Players.Where(cp => cp.PlayerId == playerId))
+          {
+            chatPlayer.MarkOld();
+          }
+        }
+      }
+
+      return new OkObjectResult(response);
     }
 
     [HttpGet("{gameId}")]

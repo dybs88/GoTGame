@@ -7,33 +7,42 @@ namespace GotGame.RestServer.Infrastructure.Storage
 {
   public interface IGoTStorage
   {
-    string GetString(string key);
-    void SetString(string key, string value);
+    void CreateGameStorage(int gameId);
+    string GetString(int gameId, string key);
+    void SetString(int gameId, string key, string value);
   }
 
   public class GoTStorage : IGoTStorage
   {
+    private Dictionary<int, GameStorage> storage;
+
     public GoTStorage()
     {
-      storage = new Dictionary<string, string>();
+      storage = new Dictionary<int, GameStorage>();
     }
 
-    private Dictionary<string, string> storage;
-
-    public string GetString(string key)
+    public void CreateGameStorage(int gameId)
     {
-      if (storage.ContainsKey(key))
-        return storage[key];
-      else
-        return string.Empty;
+      if (gameId != 0)
+        storage.Add(gameId, new GameStorage());
     }
 
-    public void SetString(string key, string value)
+    public string GetString(int gameId, string key)
     {
-      if (storage.ContainsKey(key))
-        storage[key] = value;
+      return GetGameStorage(gameId)?.GetString(key);
+    }
+
+    public void SetString(int gameId, string key, string value)
+    {
+      GetGameStorage(gameId)?.SetString(key, value);
+    }
+
+    private GameStorage GetGameStorage(int gameId)
+    {
+      if (storage.ContainsKey(gameId))
+        return storage[gameId];
       else
-        storage.Add(key, value);
+        return null;
     }
   }
 }

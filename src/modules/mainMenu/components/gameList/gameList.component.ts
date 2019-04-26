@@ -1,11 +1,11 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { GameRepository } from "./../../../dal/infrastructure/repositories/game.repository";
+import { GameService } from "../../../common/infrastructure/services/game.service";
 import { Game } from "src/models/game.model";
 import { LocalizationService } from "src/modules/common/infrastructure/locale/localization.service";
 import { GotBaseComponent } from "./../../../common/components/gotBase.component";
-import { PlayerService } from "src/modules/common/infrastructure/authorization/player.service";
+import { PlayerService } from "src/modules/common/infrastructure/services/player.service";
 import { Player } from "src/models/player.model";
 import { UserService } from "src/modules/common/infrastructure/authorization/user.service";
 import { GameRules } from "src/models/gameRules.model";
@@ -22,7 +22,7 @@ export class GameListComponent extends GotBaseComponent {
   showRejoingMsg: boolean = false;
   rejoiningGameId: number;
 
-  constructor(private gameRepository: GameRepository,
+  constructor(private gameRepository: GameService,
     private router: Router,
     private playerService: PlayerService,
     private gameRulesService: GameRulesService,

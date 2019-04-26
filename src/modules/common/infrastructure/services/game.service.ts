@@ -2,11 +2,11 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 import { Game } from "src/models/game.model";
-import { GameServer} from "../gameList.server";
+import { GameServer} from "../../../dal/infrastructure/gameList.server";
 import { Player } from "src/models/player.model";
 
 @Injectable()
-export class GameRepository {
+export class GameService {
 
   currentGame: Game;
 

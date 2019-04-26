@@ -1,4 +1,3 @@
-
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -6,10 +5,10 @@ import { Subscription, timer } from "rxjs";
 
 import { LocalizationService } from "../../../common/infrastructure/locale/localization.service";
 import { GotBaseComponent } from "../../../common/components/gotBase.component";
-import { GameRepository } from "../../../dal/infrastructure/repositories/game.repository";
+import { GameService } from "../../../common/infrastructure/services/game.service";
 import { Game } from "src/models/game.model";
 import { Player } from "src/models/player.model";
-import { PlayerService } from "src/modules/common/infrastructure/authorization/player.service";
+import { PlayerService } from "src/modules/common/infrastructure/services/player.service";
 import { UserService } from "src/modules/common/infrastructure/authorization/user.service";
 import { GameRulesService } from "src/modules/common/infrastructure/services/gameRules.service";
 
@@ -25,14 +24,14 @@ export class ReadyForGameComponent extends GotBaseComponent {
   joined: boolean = false;
   refreshCounter: number = 0;
   showChangeRules: boolean = false;
-  newGameCratorMsgShow: boolean = false;
+  newGameCreatorMsgShow: boolean = false;
 
   private gameSubscription: Subscription;
   private timerSubscription: Subscription;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private gameRepository: GameRepository,
+    private gameRepository: GameService,
     private playerService: PlayerService,
     private gameRulesService: GameRulesService,
     userService: UserService,
@@ -50,8 +49,12 @@ export class ReadyForGameComponent extends GotBaseComponent {
     this.toggleShowChangeRules();
   }
 
-  public leaveGame(playerId: number) {
-    this.playerService.deletePlayer(playerId).subscribe(serverData => {
+  public kickPlayer(playerId: number) {
+    this.playerService.deletePlayer(playerId).subscribe();
+  }
+
+  public leaveGame() {
+    this.playerService.deletePlayer().subscribe(serverData => {
       this.playerService.clearPlayer();
       this.router.navigateByUrl("/gamelist");
     });
@@ -60,7 +63,7 @@ export class ReadyForGameComponent extends GotBaseComponent {
   ngOnDestroy() {
     this.gameSubscription.unsubscribe();
     this.timerSubscription.unsubscribe();
-    this.router.navigateByUrl("/gameList");
+    this.router.navigateByUrl("/gamelist");
   }
 
   public changeStatus(playerStatus: string) {
@@ -69,7 +72,11 @@ export class ReadyForGameComponent extends GotBaseComponent {
 
   private onRefreshGame(serverData: any) {
     if (serverData.newGameCreator && this.playerService.player.id === serverData.newGameCreatorId) {
-      this.newGameCratorMsgShow = true;
+      this.newGameCreatorMsgShow = true;
+    }
+    if (serverData.game.players.find(p => p.id === this.currentPlayer.id) === undefined) {
+      this.playerService.clearPlayer();
+      this.router.navigateByUrl("/gamelist");
     }
     this.gameRepository.currentGame = serverData.game;
     this.game = serverData.game;
@@ -90,7 +97,7 @@ export class ReadyForGameComponent extends GotBaseComponent {
   }
 
   private toggleNewGameCreatorMsg() {
-    this.newGameCratorMsgShow = !this.newGameCratorMsgShow;
+    this.newGameCreatorMsgShow = !this.newGameCreatorMsgShow;
   }
 
   private toggleShowChangeRules() {

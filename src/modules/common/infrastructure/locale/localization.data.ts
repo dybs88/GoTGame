@@ -35,6 +35,8 @@ export const localizationKeys = {
   confirmBtn: "ConfirmBtn",
   changeRulesBtn: "ChangeRulesBtn",
   okBtn: "OkBtn",
+  kickBtn: "KickBtn",
+  transferBtn: "TransferBtn",
 
   idColName: "IdColName",
   gameNameColName: "GameNameColName",
@@ -202,6 +204,14 @@ export class LocalizationData {
     "OkBtn": {
       "pl-PL": "OK",
       "en-EN": "OK"
+    },
+    "KickBtn": {
+      "pl-PL": "Wyrzuć",
+      "en-EN": "Kick"
+    },
+    "TransferBtn": {
+      "pl-PL": "Przekaż",
+      "en-EN": "transfer"
     },
     "IdColName": {
       "pl-PL": "Id",

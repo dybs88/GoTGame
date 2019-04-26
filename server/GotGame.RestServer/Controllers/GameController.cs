@@ -45,6 +45,7 @@ namespace GotGame.RestServer.Controllers
     {
       await gamesRepository.SaveGameAsync(game);
       chatRepository.CreateGameChat(game.Id, "Public");
+      storage.CreateGameStorage(game.Id);
       return new OkObjectResult(new { game, player = game.Players.First(), gameRules = game.GameRules });
     }
 
@@ -82,13 +83,15 @@ namespace GotGame.RestServer.Controllers
     public async Task<IActionResult> RefreshGame(int gameId)
     {
       Game game = await gamesRepository.GetGameAsync(gameId);
-      if (storage.GetString(SessionKeys.NewGameCreator) == bool.TrueString)
+      dynamic responseData = new { game };
+      if (storage.GetString(gameId, SessionKeys.NewGameCreator) == bool.TrueString)
       {
-        storage.SetString(SessionKeys.NewGameCreator, bool.FalseString);
-        return new OkObjectResult(new { game, newGameCreator = true, newGameCreatorId = game.Players.First(p => p.IsGameCreator).Id });
+        storage.SetString(gameId, SessionKeys.NewGameCreator, bool.FalseString);
+        responseData.newGameCreator = true;
+        responseData.newGameCreatorId = game.Players.First(p => p.IsGameCreator).Id;
       }
 
-      return new OkObjectResult(new { game });
+      return new OkObjectResult(responseData);
     }
   }
 }

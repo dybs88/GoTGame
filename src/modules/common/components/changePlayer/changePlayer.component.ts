@@ -2,15 +2,16 @@
 import { Component } from "@angular/core";
 
 import { GotBaseComponent } from "./../gotBase.component";
-import { PlayerService } from "./../../infrastructure/authorization/player.service";
+import { PlayerService } from "../../infrastructure/services/player.service";
 import { LocalizationService } from "../../infrastructure/locale/localization.service";
 import { UserService } from "../../infrastructure/authorization/user.service";
+import { CurrentService } from "../../infrastructure/services/current.service";
 
 @Component({
     selector: "got-changePlayer",
     templateUrl: "changePlayer.component.html"
 })
-export class ChangePlayerComponent extends GotBaseComponent{
+export class ChangePlayerComponent extends GotBaseComponent {
   showChangePlayerCard: boolean;
   playerId: string;
 

@@ -1,6 +1,6 @@
 // tslint:disable: max-line-length
 export const LannisterDescription = {
-  imageSrc: "/src/img/HouseLannisterShield.png",
+  imageSrc: "assets/img/HouseLannisterShield.png",
   backgroundColor: "#87090a",
   text: {
     "Sentence" : {
@@ -23,7 +23,7 @@ export const LannisterDescription = {
 };
 
 export const BaratheonDescription = {
-  imageSrc: "/src/img/HouseBaratheonShield.png",
+  imageSrc: "assets/img/HouseBaratheonShield.png",
   backgroundColor: "#fecf03",
   text: {
     "Sentence": {
@@ -46,7 +46,7 @@ export const BaratheonDescription = {
 };
 
 export const StarkDescription = {
-  imageSrc: "/src/img/HouseStarkShield.png",
+  imageSrc: "assets/img/HouseStarkShield.png",
   backgroundColor: "#d4cdb1",
   text: {
     "Sentence": {
@@ -69,7 +69,7 @@ export const StarkDescription = {
 };
 
 export const TyrellDescription = {
-  imageSrc: "/src/img/HouseTyrellShield.png",
+  imageSrc: "assets/img/HouseTyrellShield.png",
   backgroundColor: "#8da080",
   text: {
     "Sentence": {
@@ -92,7 +92,7 @@ export const TyrellDescription = {
 };
 
 export const GreyjoyDescription = {
-  imageSrc: "/src/img/HouseGreyjoyShield.png",
+  imageSrc: "assets/img/HouseGreyjoyShield.png",
   backgroundColor: "#1a1a1a",
   text: {
     "Sentence": {
@@ -115,7 +115,7 @@ export const GreyjoyDescription = {
 };
 
 export const MartellDescription = {
-  imageSrc: "/src/img/HouseMartellShield.png",
+  imageSrc: "assets/img/HouseMartellShield.png",
   backgroundColor: "#f0863a",
   text: {
     "Sentence": {

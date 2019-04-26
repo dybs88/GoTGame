@@ -18,8 +18,13 @@ namespace GotGame.RestServer.Controllers
     [HttpGet("{gameRulesId}")]
     public async Task<IActionResult> GetGameRulesAsync(int gameRulesId)
     {
-
       return new OkObjectResult(await repository.GetGameRulesAsync(gameRulesId));
+    }
+
+    [HttpGet("{gameId}")]
+    public async Task<IActionResult> GetGameRulesByGameIdAsync(int gameId)
+    {
+      return new OkObjectResult(await repository.GetGameRulesByGameIdAsync(gameId));
     }
 
     [HttpPost]

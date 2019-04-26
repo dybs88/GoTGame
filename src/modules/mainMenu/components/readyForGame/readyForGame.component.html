@@ -22,19 +22,22 @@
          [class.bg-success]="player.status === 'Ready'"
          [class.bg-warning]="player.status === 'Joined'"
          [class.bg-danger]="player.status === 'Joining'"
-         (click)="chat.createPrivateChat(player.id)"
          *ngFor="let player of players; let i = index">
-            <td style="width: 5%">{{i + 1}}</td>
-            <td *ngIf="isAuthorized">{{player.id}}</td>
-            <td *ngIf="isAuthorized">{{getTranslation(player.isGameCreator)}}</td>
-            <td>{{player.name}}</td>
-            <td>{{getTranslation(player.house)}}</td>
-            <td>{{getTranslation(player.status)}}</td>
+            <td (click)="chat.createPrivateChat(player.id)" style="width: 5%">{{i + 1}}</td>
+            <td (click)="chat.createPrivateChat(player.id)" *ngIf="isAuthorized">{{player.id}}</td>
+            <td (click)="chat.createPrivateChat(player.id)" *ngIf="isAuthorized">{{getTranslation(player.isGameCreator)}}</td>
+            <td (click)="chat.createPrivateChat(player.id)">{{player.name}}</td>
+            <td (click)="chat.createPrivateChat(player.id)">{{getTranslation(player.house)}}</td>
+            <td (click)="chat.createPrivateChat(player.id)">{{getTranslation(player.status)}}</td>
             <td>
               <div *ngIf="currentPlayer.id === player.id" class="btn-group">
                 <button class="btn btn-danger btn-sm" (click)="leaveGame(player.id)" (click)="chat.deletePlayerChats(player.id)">{{getTranslation(localKeys.leaveGameBtn)}}</button>
                 <button *ngIf="player.status !== 'Ready'" class="btn btn-primary btn-sm" (click)="changeStatus('Ready')">{{getTranslation(localKeys.readyBtn)}}</button>
                 <button *ngIf="player.status === 'Ready'" class="btn btn-primary btn-sm" (click)="changeStatus('Joined')">{{getTranslation(localKeys.waitBtn)}}</button>
+              </div>
+              <div *ngIf="currentPlayer.isGameCreator && currentPlayer.id !== player.id" class="btn-group">
+                <button class="btn btn-danger btn-sm" (click)="kickPlayer(player.id)">{{getTranslation(localKeys.kickBtn)}}</button>
+                <button class="btn btn-primary btn-sm">{{getTranslation(localKeys.transferBtn)}}</button>
               </div>
             </td>
           </table>

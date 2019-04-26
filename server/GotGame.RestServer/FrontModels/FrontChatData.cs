@@ -1,5 +1,4 @@
-using GotGame.RestServer.Infrastructure.Models;
-using GotGame.RestServer.Models;
+using GotGame.RestServer.Models.Chat;
 using System;
 using System.Collections.Generic;
 using System.Linq;

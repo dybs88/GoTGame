@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,36 +32,35 @@ namespace GotGame.RestServer.Infrastructure.Extensions
     public static IServiceCollection AddGoTDatabase(this IServiceCollection services, IConfiguration config, IHostingEnvironment environment)
     {
       EnvironmentData[] environments = config.GetEnvironmentCollection();
+      EnvironmentData env = null;
+
       switch (environment.EnvironmentName)
       {
         case Environments.Development:
           {
-            var env = environments.First(e => e.Name == Environments.Development);
-            services.AddDbContext<GoTGameContextDb>(options =>
-            {
-              options.UseSqlServer(env.ConnectionString);
-            });
+            env = environments.First(e => e.Name == Environments.Development);
             break;
           }
         case Environments.Release:
           {
-            var env = environments.First(e => e.Name == Environments.Release);
-            services.AddDbContext<GoTGameContextDb>(options =>
-            {
-              options.UseSqlServer(env.ConnectionString);
-            });
+            env = environments.First(e => e.Name == Environments.Release);
             break;
           }
         case Environments.Production:
           {
-            var env = environments.First(e => e.Name == Environments.Production);
-            services.AddDbContext<GoTGameContextDb>(options =>
-            {
-              options.UseSqlServer(env.ConnectionString);
-            });
+            env = environments.First(e => e.Name == Environments.Production);
             break;
           }
       }
+
+      services.AddDbContext<GoTGameContextDb>(options =>
+      {
+        options.UseSqlServer(env.ConnectionString, sqlServerOptionsAction: sqlOptions =>
+        {
+          sqlOptions.EnableRetryOnFailure(
+          maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(3), errorNumbersToAdd: null);
+        });
+      }, ServiceLifetime.Transient);
 
       services.AddSingleton<IGoTGameContextDb, GoTGameContextDb>();
       services.AddTransient<IGamesRepository, GamesRepository>();

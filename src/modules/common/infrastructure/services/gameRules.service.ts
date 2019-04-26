@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 
 import { GameRules } from "./../../../../models/gameRules.model";
 import { GameRulesServer } from "./../../../dal/infrastructure/gameRules.server";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class GameRulesService {
@@ -38,6 +39,14 @@ export class GameRulesService {
     }
 
     return avaibleHouses;
+  }
+
+  getGameRules(gameRulesId: number): Observable<GameRules> {
+    return this.server.getGameRules(gameRulesId);
+  }
+
+  getGameRulesByGameId(gameId: number): Observable<GameRules> {
+    return this.server.getGameRulesByGameId(gameId);
   }
 
   setGameRules(gameRules: GameRules) {

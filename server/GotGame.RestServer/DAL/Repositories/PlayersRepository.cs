@@ -41,6 +41,7 @@ namespace GotGame.RestServer.DAL.Repositories
         }
 
         context.Players.Remove(player);
+
         var playersLeftInGame = await GetGamePlayersAsync(player.GameId);
         if (!playersLeftInGame.Any())
           await gamesRepository.DeleteGameAsync(player.GameId);
@@ -110,15 +111,15 @@ namespace GotGame.RestServer.DAL.Repositories
         if(newCreator != null)
         {
           newCreator.IsGameCreator = true;
-          storage.SetString(SessionKeys.NewGameCreator, bool.TrueString);
+          storage.SetString(gameId, SessionKeys.NewGameCreator, bool.TrueString);
           return 1;
         }
 
-        storage.SetString(SessionKeys.NewGameCreator, bool.FalseString);
+        storage.SetString(gameId, SessionKeys.NewGameCreator, bool.FalseString);
         return 0;
       }
 
-      storage.SetString(SessionKeys.NewGameCreator, bool.FalseString);
+      storage.SetString(gameId, SessionKeys.NewGameCreator, bool.FalseString);
       return 0;
     }
   }

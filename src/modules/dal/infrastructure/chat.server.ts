@@ -16,12 +16,12 @@ export class ChatServer extends RestServer {
     return this.http.delete<boolean>(`${this.baseUrl}/chat/delete/${playerId}`, super.getOptions());
   }
 
-  public getChatData(chatId: number): Observable<ChatData[]> {
-    return this.http.get<ChatData[]>(`${this.baseUrl}/chat/getchatdata/${chatId}`, super.getOptions());
+  public getChatData(playerId: number, chatId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/chat/getchatdata/${playerId}/${chatId}`, super.getOptions());
   }
 
-  public createPrivateChat(gameId: number, playerIds: number[]): Observable<GameChat> {
-    return this.http.post<GameChat>(`${this.baseUrl}/chat/create`, {gameId, playerIds}, super.getOptions());
+  public createPrivateChat(gameId: number, playerId: number, playerIds: number[]): Observable<GameChat> {
+    return this.http.post<GameChat>(`${this.baseUrl}/chat/create`, {gameId, playerId, playerIds}, super.getOptions());
   }
 
   public getGameChats(gameId: number): Observable<GameChat[]> {

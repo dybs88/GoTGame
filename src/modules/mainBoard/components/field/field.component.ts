@@ -11,7 +11,7 @@ export class FieldComponent {
   field: Field;
 
   imageUrl(): string {
-    return `url(/src/img/${this.field.image})`;
+    return `url(/assets/img/${this.field.image})`;
   }
 
   style(): any {

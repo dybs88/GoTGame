@@ -1,4 +1,4 @@
-using GotGame.RestServer.Models;
+using GotGame.RestServer.Models.Chat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +10,11 @@ namespace GotGame.RestServer.DAL.Repositories
   {
     void AddPlayerToChat(int chatId, int playerId);
     GameChat CreateGameChat(int gameId, string name);
-    GameChat CreatePrivateChat(int gameId, params int[] playerIds);
+    GameChat CreatePrivateChat(int gameId, int playerId, params int[] playerIds);
     void DeleteGameChats(int gameId);
     void DeletePlayerChats(int playerId);
     IList<GameChat> GetChatsByGameId(int gameId);
+    IList<GameChat> GetPrivateChatsByPlayerId(int playerId);
     GameChat GetChatById(int chatId);
     GameChat UpdateGameChat(int chatId, ChatData chatData);
   }
@@ -33,13 +34,13 @@ namespace GotGame.RestServer.DAL.Repositories
 
       if(gameChat != null)
       {
-        gameChat.Players.Add(playerId);
+        gameChat.Players.Add(new ChatPlayer(playerId));
       }
     }
 
     public GameChat CreateGameChat(int gameId, string name = "")
     {
-      GameChat gameChat = new GameChat { GameId = gameId, Name = name, Players = new List<int>() };
+      GameChat gameChat = new GameChat { GameId = gameId, Name = name };
       if (gameChats.Any())
         gameChat.Id = gameChats.Last().Id + 1;
       else
@@ -49,9 +50,13 @@ namespace GotGame.RestServer.DAL.Repositories
       return gameChat;
     }
 
-    public GameChat CreatePrivateChat(int gameId, params int[] playerIds)
+    public GameChat CreatePrivateChat(int gameId, int playerId, params int[] playerIds)
     {
-      GameChat gameChat = new GameChat { GameId = gameId, IsPrivate = true, Players = playerIds, Name = "" };
+      var existedPrivateChat = CheckIfPrivateChatExist(gameId, playerIds);
+      if (existedPrivateChat != null)
+        return existedPrivateChat;
+
+      GameChat gameChat = new GameChat(playerId, playerIds) { GameId = gameId, IsPrivate = true, Name = "" };
       if (gameChats.Any())
         gameChat.Id = gameChats.Last().Id + 1;
       else
@@ -72,7 +77,7 @@ namespace GotGame.RestServer.DAL.Repositories
 
     public void DeletePlayerChats(int playerId)
     {
-      var playerChats = gameChats.Where(gc => gc.Players.Contains(playerId));
+      var playerChats = gameChats.Where(gc => gc.Players.Any(cp => cp.PlayerId == playerId));
       foreach(var playerChat in playerChats)
       {
         gameChats.Remove(playerChat);
@@ -82,6 +87,11 @@ namespace GotGame.RestServer.DAL.Repositories
     public IList<GameChat> GetChatsByGameId(int gameId)
     {
       return gameChats.Where(gc => gc.GameId == gameId).ToList();
+    }
+
+    public IList<GameChat> GetPrivateChatsByPlayerId(int playerId)
+    {
+      return gameChats.Where(gc => gc.Players.Any(cp => cp.PlayerId == playerId) && gc.IsPrivate).ToList();
     }
 
     public GameChat GetChatById(int chatId)
@@ -99,6 +109,14 @@ namespace GotGame.RestServer.DAL.Repositories
       }
 
       return gameChat;
+    }
+
+    private GameChat CheckIfPrivateChatExist(int gameId, int[] playerIds)
+    {
+      var gameChats = GetChatsByGameId(gameId).Where(gc => gc.IsPrivate);
+      gameChats.FirstOrDefault(gc => gc.Players.All(cp => playerIds.Contains(cp.PlayerId)));
+
+      return gameChats.FirstOrDefault(gc => gc.Players.All(cp => playerIds.Contains(cp.PlayerId)));
     }
   }
 }
