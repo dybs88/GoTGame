@@ -1,0 +1,16 @@
+<div *ngIf="data.visible" class="card fixed-top" style="position:absolute; top:15%; left:40%; display: inline-block; width: 25rem; height: auto">
+  <div class="card-body">
+    {{data.message}}
+  </div>
+  <div class="card-footer">
+    <div [ngSwitch]="data.mode" class="text-right">
+      <div *ngSwitchCase="'OK'" class="btn-group">
+        <button class="btn btn-primary btn-sm" (click)="okEventEmit()">{{getTranslation(localKeys.okBtn)}}</button>
+      </div>
+      <div *ngSwitchCase="'YesNo'" class="btn-group">
+        <button class="btn btn-light btn-sm" (click)="noEventEmit()">{{getTranslation(localKeys.cancelBtn)}}</button>
+        <button class="btn btn-primary btn-sm" (click)="yesEventEmit()">{{getTranslation(localKeys.continueBtn)}}</button>
+      </div>
+    </div>
+  </div>
+</div>

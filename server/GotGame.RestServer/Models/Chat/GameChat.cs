@@ -15,16 +15,15 @@ namespace GotGame.RestServer.Models.Chat
     public IList<ChatPlayer> Players { get; set; }
     public IList<ChatData> ChatDatas { get; set; }
 
-    public GameChat(int playerId = 0, int[] playerIds = null)
+    public GameChat(int playerId = 0, ChatPlayer[] chatPlayers = null)
     {
       ChatDatas = new List<ChatData>();
       Players = new List<ChatPlayer>();
-      if(playerIds != null)
+      if(chatPlayers != null)
       {
-        for (int i = 0; i < playerIds.Length; i++)
+        for (int i = 0; i < chatPlayers.Length; i++)
         {
-          bool isNew = playerId != playerIds[i];
-          Players.Add(new ChatPlayer(playerIds[i], isNew));
+          Players.Add(chatPlayers[i]);
         }
       }
     }

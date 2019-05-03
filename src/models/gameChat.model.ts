@@ -13,5 +13,5 @@ export class ChatData {
 }
 
 export class ChatPlayer {
-  constructor(public playerId?: number, public isNew?: boolean) { }
+  constructor(public playerId?: number, public name?: string, public isNew?: boolean) { }
 }

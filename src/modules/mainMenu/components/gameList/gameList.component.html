@@ -29,14 +29,4 @@
     <got-gameDetailsV [game]="selectedGame"></got-gameDetailsV>
   </div>
 </div>
-<div *ngIf="showRejoingMsg" class="card fixed-top" style="position:absolute; top:15%; left:40%; display: inline-block; width: 20rem; height: auto">
-  <div class="card-body">
-    {{getTranslation(localKeys.rejoiningMsg)}}
-  </div>
-  <div class="card-footer">
-    <div class="btn-group">
-      <button class="btn btn-light btn-sm" (click)="toggleShowRejoiningMsg()">{{getTranslation(localKeys.cancelBtn)}}</button>
-      <button class="btn btn-primary btn-sm" (click)="leaveGame()">{{getTranslation(localKeys.continueBtn)}}</button>
-    </div>
-  </div>
-</div>
+<got-messageBox [data]="messageBox" (yesCallback)="leaveGame()" (noCallback)="hideMessageBox()"></got-messageBox>

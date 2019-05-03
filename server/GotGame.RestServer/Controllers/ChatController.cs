@@ -1,5 +1,7 @@
 using GotGame.RestServer.DAL.Repositories;
 using GotGame.RestServer.FrontModels;
+using GotGame.RestServer.Infrastructure.Consts;
+using GotGame.RestServer.Infrastructure.Storage;
 using GotGame.RestServer.Models.Chat;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,20 +17,22 @@ namespace GotGame.RestServer.Controllers
   public class ChatController : Controller
   {
     private IChatRepository chatRepository;
+    private IGoTStorage storage;
 
-    public ChatController(IChatRepository chatRepo)
+    public ChatController(IChatRepository chatRepo, IGoTStorage storage)
     {
       chatRepository = chatRepo;
+      this.storage = storage;
     }
 
   
     [HttpPost("create")]
-    public IActionResult CreatePrivateChat([FromBody]dynamic frontData)
+    public async Task<IActionResult> CreatePrivateChat([FromBody]dynamic frontData)
     {
       int gameId = frontData["gameId"];
       int playerId = frontData["playerId"];
       int[] playerIds = frontData["playerIds"].ToObject<int[]>();
-      GameChat privateGameChat = chatRepository.CreatePrivateChat(gameId, playerId, playerIds);
+      GameChat privateGameChat = await chatRepository.CreatePrivateChat(gameId, playerId, playerIds);
       return new OkObjectResult(privateGameChat);
     }
 

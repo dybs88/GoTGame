@@ -41,22 +41,13 @@
               </div>
             </td>
           </table>
-          <got-chat #chat></got-chat>
+          <got-chat [players]="players" #chat></got-chat>
         </div>
   </div>
   <div class="col-3">
     <got-houseV [selectedHouse]="currentPlayer.house"></got-houseV>
   </div>
 </div>
-<div *ngIf="newGameCreatorMsgShow" class="card fixed-top" style="position:absolute; top:15%; left:40%; display: inline-block; width: 20rem; height: auto">
-  <div class="card-body">
-    {{getTranslation(localKeys.newGameCreatorMsg)}}
-  </div>
-  <div class="card-footer">
-    <div class="btn-group">
-      <button class="btn btn-primary btn-sm" (click)="toggleNewGameCreatorMsg()">{{getTranslation(localKeys.okBtn)}}</button>
-    </div>
-  </div>
-</div>
+<got-messageBox [data]="messageBox" (okCallback)="hideMessageBox()"></got-messageBox>
 
 

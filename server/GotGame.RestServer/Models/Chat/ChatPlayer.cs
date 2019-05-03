@@ -8,11 +8,13 @@ namespace GotGame.RestServer.Models.Chat
   public class ChatPlayer : ICloneable
   {
     public int PlayerId { get; set; }
+    public string Name { get; set; }
     public bool IsNew { get; set; }
 
-    public ChatPlayer(int playerId, bool isNew = true)
+    public ChatPlayer(int playerId, string name, bool isNew = true)
     {
       PlayerId = playerId;
+      Name = name;
       IsNew = isNew;
     }
 
@@ -23,7 +25,7 @@ namespace GotGame.RestServer.Models.Chat
 
     public object Clone()
     {
-      return new ChatPlayer(this.PlayerId, this.IsNew);
+      return new ChatPlayer(this.PlayerId, this.Name, this.IsNew);
     }
   }
 

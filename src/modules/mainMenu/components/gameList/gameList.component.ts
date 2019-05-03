@@ -19,7 +19,6 @@ export class GameListComponent extends GotBaseComponent {
   private player: Player;
   games: Game[];
   selectedGame: Game;
-  showRejoingMsg: boolean = false;
   rejoiningGameId: number;
 
   constructor(private gameRepository: GameService,
@@ -43,6 +42,10 @@ export class GameListComponent extends GotBaseComponent {
     return this.games.find(g => g.id === gameId);
   }
 
+  hideMessageBox() {
+    this.messageBox.hide();
+  }
+
   joinGame(gameId: number) {
     if (this.playerService.player !== undefined && this.playerService.player !== null) {
       if (this.playerService.player.gameId === gameId) {
@@ -53,7 +56,7 @@ export class GameListComponent extends GotBaseComponent {
         }
       } else {
         this.rejoiningGameId = gameId;
-        this.toggleShowRejoiningMsg();
+        this.messageBox.show(this.getTranslation(this.localKeys.rejoiningMsg), "YesNo");
       }
     } else {
       this.gameRepository.joinGame(gameId).subscribe(serverData => {
@@ -67,6 +70,7 @@ export class GameListComponent extends GotBaseComponent {
   }
 
   leaveGame() {
+    this.hideMessageBox();
     this.playerService.deletePlayer().subscribe(serverData => {
       this.playerService.clearPlayer();
       this.joinGame(this.rejoiningGameId);
@@ -81,9 +85,5 @@ export class GameListComponent extends GotBaseComponent {
 
   selectGame(gameId: number) {
     this.selectedGame = this.games.find(g => g.id === gameId);
-  }
-
-  toggleShowRejoiningMsg() {
-    this.showRejoingMsg = !this.showRejoingMsg;
   }
 }

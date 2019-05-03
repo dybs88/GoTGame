@@ -1,5 +1,3 @@
-
-
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
@@ -22,12 +20,14 @@ import { ChatService } from "./infrastructure/services/chat.service";
 import { ChatComponent } from "./components/chat/chat.component";
 import { GameService } from "./infrastructure/services/game.service";
 import { CurrentService } from "./infrastructure/services/current.service";
+import { MessageBoxComponent } from "./components/messageBox/messageBox.component";
 
 @NgModule({
   imports: [BrowserModule, FormsModule],
-  exports: [GotBaseComponent, NavbarComponent, FooterComponent, DisableDirective, MinValueDirective, MaxValueDirective, ChatComponent],
+  exports: [GotBaseComponent, NavbarComponent, FooterComponent, DisableDirective, MinValueDirective, MaxValueDirective, ChatComponent,
+    MessageBoxComponent],
   declarations: [GotBaseComponent, LocaleComponent, NavbarComponent, FooterComponent, AuthComponent, ChangePlayerComponent,
-    DisableDirective, MinValueDirective, MaxValueDirective, ChatComponent],
+    DisableDirective, MinValueDirective, MaxValueDirective, ChatComponent, MessageBoxComponent],
   providers: [LocalizationService, LocalizationData, PlayerService, UserService, GameRulesService, ChatService, GameService, CurrentService]
 })
 export class CommonModule {

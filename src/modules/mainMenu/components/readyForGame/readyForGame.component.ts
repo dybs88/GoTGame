@@ -49,6 +49,10 @@ export class ReadyForGameComponent extends GotBaseComponent {
     this.toggleShowChangeRules();
   }
 
+  public hideMessageBox() {
+    this.messageBox.hide();
+  }
+
   public kickPlayer(playerId: number) {
     this.playerService.deletePlayer(playerId).subscribe();
   }
@@ -72,7 +76,7 @@ export class ReadyForGameComponent extends GotBaseComponent {
 
   private onRefreshGame(serverData: any) {
     if (serverData.newGameCreator && this.playerService.player.id === serverData.newGameCreatorId) {
-      this.newGameCreatorMsgShow = true;
+      this.messageBox.show(this.getTranslation(this.localKeys.newGameCreatorMsg), "OK");
     }
     if (serverData.game.players.find(p => p.id === this.currentPlayer.id) === undefined) {
       this.playerService.clearPlayer();
@@ -94,10 +98,6 @@ export class ReadyForGameComponent extends GotBaseComponent {
 
   private subscribeToData(gameId: number) {
     this.timerSubscription = timer(2500).subscribe(() => this.refreshGameSubscription(gameId));
-  }
-
-  private toggleNewGameCreatorMsg() {
-    this.newGameCreatorMsgShow = !this.newGameCreatorMsgShow;
   }
 
   private toggleShowChangeRules() {

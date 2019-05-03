@@ -15,16 +15,19 @@ namespace GotGame.RestServer.Controllers
   public class PlayerController : Controller
   {
     private IPlayersRepository playerRepository;
+    private IChatRepository chatRepository;
 
-    public PlayerController(IPlayersRepository playersRepo)
+    public PlayerController(IPlayersRepository playersRepo, IChatRepository chatRepo)
     {
       playerRepository = playersRepo;
+      chatRepository = chatRepo;
     }
 
     [HttpDelete("delete/{playerId}")]
     public async Task<IActionResult> DeletePlayerAsync(int playerId)
     {
       await playerRepository.DeletePlayerAsync(playerId);
+      chatRepository.DeletePlayerChats(playerId);
       return new OkObjectResult(new { playerDeleted = true });
     }
 
