@@ -42,7 +42,10 @@ namespace GotGame.RestServer.Infrastructure.Storage
       if (storage.ContainsKey(gameId))
         return storage[gameId];
       else
-        return null;
+      {
+        CreateGameStorage(gameId);
+        return GetGameStorage(gameId);
+      }
     }
   }
 }

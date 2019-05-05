@@ -20,5 +20,6 @@ namespace GotGame.RestServer.Models
     public bool CanLookPlayerCard { get; set; }
     public bool LargeCastleDefence { get; set; }
     public bool SmallCastleDefence { get; set; }
+    public bool MercenaryAvaible { get; set; }
   }
 }

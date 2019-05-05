@@ -6,7 +6,8 @@ export class Game {
     public name?: string,
     public playerCount?: number,
     public gameRules?: GameRules,
-    public players?: Player[]) {
+    public players?: Player[],
+    public isPrivate?: boolean) {
       if (players === undefined) {
         this.players = new Array<Player>();
       }

@@ -1,6 +1,9 @@
-import { Observable } from 'rxjs';
-import { SettingServer } from "../settings.server";
 import { Injectable } from "@angular/core";
+
+import { Observable } from "rxjs";
+
+import { SettingServer } from "../settings.server";
+
 
 @Injectable()
 export class SettingRepository {

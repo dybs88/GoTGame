@@ -1,5 +1,4 @@
-
-import { Component, Output, EventEmitter, Input } from "@angular/core";
+import { Component, Output, EventEmitter } from "@angular/core";
 
 import { UserService } from "src/modules/common/infrastructure/authorization/user.service";
 import { GotBaseComponent } from "./../../../common/components/gotBase.component";
@@ -27,6 +26,7 @@ export class GameRulesComponent extends GotBaseComponent {
   canLookPlayerCard: boolean = true;
   largeCastleDefence: boolean = false;
   smallCastleDefence: boolean = false;
+  mercenaryAvaible: boolean = false;
 
   gameRules: GameRules;
 
@@ -50,6 +50,7 @@ export class GameRulesComponent extends GotBaseComponent {
         this.canLookPlayerCard = this.gameRules.canLookPlayerCard;
         this.largeCastleDefence = this.gameRules.largeCastleDefence;
         this.smallCastleDefence = this.gameRules.smallCastleDefence;
+        this.mercenaryAvaible = this.gameRules.mercenaryAvaible;
       }
 
       this.winUnlimitedRounds = this.gameRules.roundsCount === 999 ? true : false;
@@ -97,5 +98,6 @@ export class GameRulesComponent extends GotBaseComponent {
     this.gameRules.canLookPlayerCard = this.canLookPlayerCard;
     this.gameRules.largeCastleDefence = this.largeCastleDefence;
     this.gameRules.smallCastleDefence = this.smallCastleDefence;
+    this.gameRules.mercenaryAvaible = this.mercenaryAvaible;
   }
 }

@@ -60,6 +60,8 @@ namespace GotGame.RestServer.DAL.Repositories
 
     public async Task<GameChat> CreatePrivateChat(int gameId, int playerId, params int[] playerIds)
     {
+      if (playerIds.Distinct().Count() != 2)
+        return null;
       var existedPrivateChat = CheckIfPrivateChatExist(gameId, playerIds);
       if (existedPrivateChat != null)
         return existedPrivateChat;

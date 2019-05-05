@@ -6,7 +6,6 @@ import { ChatService } from "./../../infrastructure/services/chat.service";
 import { PlayerService } from "src/modules/common/infrastructure/services/player.service";
 import { GameChat, ChatData } from "./../../../../models/gameChat.model";
 import { GameService } from "../../infrastructure/services/game.service";
-import { text } from "@angular/core/src/render3/instructions";
 import { Player } from "src/models/player.model";
 
 
@@ -29,14 +28,16 @@ export class ChatComponent {
     private playerService: PlayerService,
     private gameRepository: GameService) {
     this.chatService.getGameChats().subscribe(serverData => {
-      this.gameChats.push(serverData.find(gc => gc.name === "Public"));
+      const publicChat = serverData.find(gc => gc.isPrivate === false);
+      publicChat.name = this.setPublicChatName();
+      this.gameChats.push(publicChat);
       for (let i = 0; i < serverData.length; i++) {
         if (serverData[i].isPrivate && serverData[i].players.find(cp => cp.playerId === this.playerService.player.id)) {
-          this.setChatName(serverData[i]);
+          serverData[i].name = this.setPrivateChatName(serverData[i]);
           this.gameChats.push(serverData[i]);
         }
       }
-      this.selectedChat = this.gameChats.find(gc => gc.name === "Public");
+      this.selectedChat = publicChat;
     });
     this.refreshChat();
   }
@@ -49,11 +50,15 @@ export class ChatComponent {
     }
     this.chatService.createPrivateChat(this.gameRepository.currentGame.id, this.playerService.player.id,
       new Array<number>(this.playerService.player.id, playerId))
-    .subscribe(serverData => {
-      const privateGameChat = serverData;
-      this.setChatName(privateGameChat);
-        this.gameChats.push(privateGameChat);
+    .subscribe(response => {
+      if (response.privateChatCreated) {
+        const privateGameChat = response.privateGameChat;
+        privateGameChat.name = this.setPrivateChatName(privateGameChat);
+        if (this.gameChats.find(gc => gc.id === privateGameChat.id) === undefined) {
+          this.gameChats.push(privateGameChat);
+        }
         this.selectedChat = privateGameChat;
+      }
     });
   }
 
@@ -64,21 +69,14 @@ export class ChatComponent {
         this.gameChats.splice(this.gameChats.indexOf(playerChats[i], 1));
       }
     }
-
-    this.chatService.deletePlayerChats(playerId);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     const change = changes["players"];
-    if (!change.isFirstChange() && change.currentValue.length !== change.previousValue.length) {
-      const playerIds = this.players.map(p => p.id);
-      for (let i = 0; i < this.gameChats.length; i++) {
-        if (this.gameChats[i].players.find(p => playerIds.includes(p.playerId)) === undefined && this.gameChats[i].isPrivate) {
-          if (this.selectedChat.id === this.gameChats[i].id) {
-            this.selectedChat = this.gameChats.find(gc => gc.name === "Public");
-          }
-
-          this.gameChats.splice(i, 1);
+    if (!change.isFirstChange() && change.currentValue.length < change.previousValue.length) {
+      for (let x = 0; x < change.previousValue.length; x++) {
+        if (change.currentValue.find(p => p.id === change.previousValue[x].id) === undefined) {
+          this.deletePlayerChats(change.previousValue[x].id);
         }
       }
     }
@@ -97,8 +95,10 @@ export class ChatComponent {
           for (let i = 0; i < playerChats.length; i++) {
             if (playerChats[i].players.find(cp => cp.isNew && cp.playerId === this.playerService.player.id)) {
               const privateGameChat = playerChats[i];
-              this.setChatName(privateGameChat);
-              this.gameChats.push(playerChats[i]);
+              privateGameChat.name = this.setPrivateChatName(privateGameChat);
+              if (this.gameChats.find(gc => gc.id === playerChats[i].id) === undefined) {
+                this.gameChats.push(playerChats[i]);
+              }
             }
           }
         }
@@ -120,8 +120,16 @@ export class ChatComponent {
     }
   }
 
-  private setChatName(privateChat: GameChat) {
-    privateChat.name = privateChat.players.find(cp => cp.playerId !== this.playerService.player.id).name;
+  private setPrivateChatName(privateChat: GameChat): string {
+    return privateChat.players.find(cp => cp.playerId !== this.playerService.player.id).name;
+  }
+
+  private setPublicChatName(): string {
+    if (localStorage.getItem("locale_id") === "pl-PL") {
+      return "Publiczny";
+    } else if (localStorage.getItem("locale_id") === "en-EN") {
+      return "Public";
+    }
   }
 
   private subscribeNextRefresh() {

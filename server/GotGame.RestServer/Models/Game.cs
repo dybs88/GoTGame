@@ -13,6 +13,8 @@ namespace GotGame.RestServer.Models
     public int PlayerCount => Players?.Count() ?? 0;
     public IList<Player> Players { get; set; }
     public GameRules GameRules { get; set; }
+    public bool IsPrivate { get; set; }
+    public string PasswordHash { get; set; }
 
       public Game()
       {

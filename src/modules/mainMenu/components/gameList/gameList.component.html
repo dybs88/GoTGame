@@ -6,6 +6,7 @@
           <th>{{getTranslation(localKeys.gameNameColName)}}</th>
           <th>{{getTranslation(localKeys.playersCountColName)}}</th>
           <th>{{getTranslation(localKeys.maxPlayersColName)}}</th>
+          <th class="text-center"><span class="fa fa-lock"></span></th>
           <th>{{getTranslation(localKeys.actionColName)}}</th>
         </tr>
         <tr *ngFor="let game of games" (click)="selectGame(game.id)">
@@ -13,20 +14,21 @@
           <td>{{game.name}}</td>
           <td>{{game.playerCount}}</td>
           <td>{{game.gameRules.maxPlayers}}</td>
+          <td class="text-center"><span class="fa" [class.fa-lock]="game.isPrivate" [class.fa-unlock]="!game.isPrivate"></span></td>
           <td>
             <div class="btn-group">
-                <button [disabled]="showRejoingMsg" class="btn btn-primary btn-sm" (click)="joinGame(game.id)">{{getTranslation(localKeys.joinGameBtn)}}</button>
+                <button [disabled]="messageBox.isVisible" class="btn btn-primary btn-sm" (click)="joinGame(game.id, game.isPrivate)">{{getTranslation(localKeys.joinGameBtn)}}</button>
             </div>
           </td>
         </tr>
       </table>
       <div class="btn-group">
-        <button [disabled]="showRejoingMsg" class="btn btn-dark btn-sm" (click)="refreshGames()">{{getTranslation(localKeys.refreshBtn)}}</button>
-        <button [disabled]="showRejoingMsg" class="btn btn-success btn-sm" (click)="createGame()">{{getTranslation(localKeys.newGameBtn)}}</button>
+        <button [disabled]="messageBox.isVisible" class="btn btn-dark btn-sm" (click)="refreshGames()">{{getTranslation(localKeys.refreshBtn)}}</button>
+        <button [disabled]="messageBox.isVisible" class="btn btn-success btn-sm" (click)="createGame()">{{getTranslation(localKeys.newGameBtn)}}</button>
       </div>
   </div>
   <div class="col-5">
     <got-gameDetailsV [game]="selectedGame"></got-gameDetailsV>
   </div>
 </div>
-<got-messageBox [data]="messageBox" (yesCallback)="leaveGame()" (noCallback)="hideMessageBox()"></got-messageBox>
+<got-messageBox [data]="messageBox" (yesCallback)="yesMessageCallback()" (noCallback)="noMessageCallback()"></got-messageBox>

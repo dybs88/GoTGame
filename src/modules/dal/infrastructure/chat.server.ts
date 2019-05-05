@@ -20,8 +20,8 @@ export class ChatServer extends RestServer {
     return this.http.get(`${this.baseUrl}/chat/getchatdata/${playerId}/${chatId}`, super.getOptions());
   }
 
-  public createPrivateChat(gameId: number, playerId: number, playerIds: number[]): Observable<GameChat> {
-    return this.http.post<GameChat>(`${this.baseUrl}/chat/create`, {gameId, playerId, playerIds}, super.getOptions());
+  public createPrivateChat(gameId: number, playerId: number, playerIds: number[]): Observable<any> {
+    return this.http.post(`${this.baseUrl}/chat/create`, {gameId, playerId, playerIds}, super.getOptions());
   }
 
   public getGameChats(gameId: number): Observable<GameChat[]> {

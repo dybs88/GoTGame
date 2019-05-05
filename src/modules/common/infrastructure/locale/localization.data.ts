@@ -75,6 +75,7 @@ export const localizationKeys = {
   lookPlayerCardLbl: "LookPlayerCardLbl",
   largeCastleDefenceLbl: "LargeCastleDefenceLbl",
   smallCastleDefenceLbl: "SmallCastleDefenceLbl",
+  mercenaryAvaible: "MercenaryAvaible",
 
   polishLang: "PolishLang",
   englishLang: "EnglishLang",
@@ -356,6 +357,10 @@ export class LocalizationData {
     "SmallCastleDefenceLbl": {
       "pl-PL": "Obrona małego zamku",
       "en-EN": "Small castle defence"
+    },
+    "MercenaryAvaible": {
+      "pl-PL": "Najemnicy dostępni",
+      "en-EN": "Mercenary avaible"
     },
     "PolishLang": {
       "pl-PL": "polski",

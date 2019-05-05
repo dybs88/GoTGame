@@ -51,18 +51,29 @@
     <div class="card">
       <div class="card-header" [class.bg-primary]="!standardRules" [class.text-white]="!standardRules"><h4>{{getTranslation(localKeys.otherRulesLbl)}}</h4></div>
       <div class="card-body">
-        <div class="form-inline">
-          <label class="mr-1">{{getTranslation(localKeys.lookPlayerCardLbl)}}:</label>
-          <input type="checkbox" name="canLookPlayerCard" [value]="canLookPlayerCard" [(ngModel)]="canLookPlayerCard" />
+        <div class="row">
+          <div class="col-6">
+              <div class="form-inline">
+                  <label class="mr-1">{{getTranslation(localKeys.lookPlayerCardLbl)}}:</label>
+                  <input type="checkbox" name="canLookPlayerCard" [value]="canLookPlayerCard" [(ngModel)]="canLookPlayerCard" />
+                </div>
+                <div class="form-inline">
+                  <label class="mr-1">{{getTranslation(localKeys.largeCastleDefenceLbl)}}:</label>
+                  <input type="checkbox" name="largeCastleDefence" [value]="largeCastleDefence" [(ngModel)]="largeCastleDefence" />
+                </div>
+                <div class="form-inline">
+                  <label class="mr-1">{{getTranslation(localKeys.smallCastleDefenceLbl)}}:</label>
+                  <input type="checkbox" name="smallCastleDefence" [value]="smallCastleDefence" [(ngModel)]="smallCastleDefence" />
+                </div>
+          </div>
+          <div class="col-6">
+            <div class="form-inline">
+              <label class="mr-1">{{getTranslation(localKeys.mercenaryAvaible)}}:</label>
+              <input type="checkbox" name="mercenaryAvaible" [value]="mercenaryAvaible" [(ngModel)]="mercenaryAvaible" />
+            </div>
+          </div>
         </div>
-        <div class="form-inline">
-          <label class="mr-1">{{getTranslation(localKeys.largeCastleDefenceLbl)}}:</label>
-          <input type="checkbox" name="largeCastleDefence" [value]="largeCastleDefence" [(ngModel)]="largeCastleDefence" />
-        </div>
-        <div class="form-inline">
-          <label class="mr-1">{{getTranslation(localKeys.smallCastleDefenceLbl)}}:</label>
-          <input type="checkbox" name="smallCastleDefence" [value]="smallCastleDefence" [(ngModel)]="smallCastleDefence" />
-        </div>
+
       </div>
     </div>
   </div>

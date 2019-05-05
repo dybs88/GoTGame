@@ -20,6 +20,7 @@ export class GameListComponent extends GotBaseComponent {
   games: Game[];
   selectedGame: Game;
   rejoiningGameId: number;
+  rejoiningGameIsPrivate: boolean;
 
   constructor(private gameRepository: GameService,
     private router: Router,
@@ -42,11 +43,7 @@ export class GameListComponent extends GotBaseComponent {
     return this.games.find(g => g.id === gameId);
   }
 
-  hideMessageBox() {
-    this.messageBox.hide();
-  }
-
-  joinGame(gameId: number) {
+  joinGame(gameId: number, isPrivate: boolean) {
     if (this.playerService.player !== undefined && this.playerService.player !== null) {
       if (this.playerService.player.gameId === gameId) {
         if (this.playerService.player.status === "Joining") {
@@ -56,9 +53,13 @@ export class GameListComponent extends GotBaseComponent {
         }
       } else {
         this.rejoiningGameId = gameId;
-        this.messageBox.show(this.getTranslation(this.localKeys.rejoiningMsg), "YesNo");
+        this.rejoiningGameIsPrivate = isPrivate;
+        this.showMessageBox(this.getTranslation(this.localKeys.rejoiningMsg), "YesNo", null, this.leaveGame, this.hideMessageBox);
       }
     } else {
+      if (isPrivate) {
+
+      }
       this.gameRepository.joinGame(gameId).subscribe(serverData => {
         if (serverData.playerAdded) {
           this.player = serverData.newPlayer;
@@ -73,7 +74,7 @@ export class GameListComponent extends GotBaseComponent {
     this.hideMessageBox();
     this.playerService.deletePlayer().subscribe(serverData => {
       this.playerService.clearPlayer();
-      this.joinGame(this.rejoiningGameId);
+      this.joinGame(this.rejoiningGameId, this.rejoiningGameIsPrivate);
     });
   }
 

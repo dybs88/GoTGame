@@ -27,13 +27,13 @@ namespace GotGame.RestServer.Controllers
 
   
     [HttpPost("create")]
-    public async Task<IActionResult> CreatePrivateChat([FromBody]dynamic frontData)
+    public async Task<IActionResult> CreatePrivateChat([FromBody]dynamic requestData)
     {
-      int gameId = frontData["gameId"];
-      int playerId = frontData["playerId"];
-      int[] playerIds = frontData["playerIds"].ToObject<int[]>();
+      int gameId = requestData["gameId"];
+      int playerId = requestData["playerId"];
+      int[] playerIds = requestData["playerIds"].ToObject<int[]>();
       GameChat privateGameChat = await chatRepository.CreatePrivateChat(gameId, playerId, playerIds);
-      return new OkObjectResult(privateGameChat);
+      return new OkObjectResult(new {privateGameChat, privateChatCreated = privateGameChat != null});
     }
 
     [HttpDelete("delete/{playerId}")]

@@ -2,49 +2,54 @@
   <h3>{{getTranslation(localKeys.gameRulesLbl)}}</h3>
   <div class="row">
     <div class="col-6 p-1">
-      <label style="font-size: small" class="form-control form-control-sm form-control form-control-sm-sm text-center">{{getTranslation(localKeys.maxPlayersLbl)}}:
+      <label style="font-size: small" class="form-control form-control-sm form-control form-control-sm-sm text-center h-auto">{{getTranslation(localKeys.maxPlayersLbl)}}:
         <span style="font-size: small" class="font-weight-bold text-right">{{gameRules.maxPlayers}}</span></label>
     </div>
     <div class="col-6 p-1">
-        <label style="font-size: small" class="form-control form-control-sm text-center">{{getTranslation(localKeys.lookPlayerCardLbl)}}:
+        <label style="font-size: small" class="form-control form-control-sm text-center h-auto">{{getTranslation(localKeys.lookPlayerCardLbl)}}:
             <span style="font-size: small" class="font-weight-bold text-right">{{getTranslation(gameRules.canLookPlayerCard)}}</span></label>
     </div>
   </div>
   <div class="row">
     <div class="col-6 p-1">
-        <label style="font-size: small" class="form-control form-control-sm text-center">{{getTranslation(localKeys.areAllHousesLbl)}}:
+        <label style="font-size: small" class="form-control form-control-sm text-center h-auto">{{getTranslation(localKeys.areAllHousesLbl)}}:
             <span style="font-size: small" class="font-weight-bold text-right">{{getTranslation(gameRules.allHouses)}}</span></label>
     </div>
     <div class="col-6 p-1">
-        <label style="font-size: small" class="form-control form-control-sm text-center">{{getTranslation(localKeys.areRandomHousesLbl)}}:
+        <label style="font-size: small" class="form-control form-control-sm text-center h-auto">{{getTranslation(localKeys.areRandomHousesLbl)}}:
             <span style="font-size: small" class="font-weight-bold text-right">{{getTranslation(gameRules.randomHouses)}}</span></label>
     </div>
   </div>
   <div class="row">
     <div class="col-lg-3 p-1">
-        <label style="font-size: small" class="form-control form-control-sm text-center">{{getTranslation(localKeys.roundCountLbl)}}:
+        <label style="font-size: small" class="form-control form-control-sm text-center h-auto">{{getTranslation(localKeys.roundCountLbl)}}:
             <span style="font-size: small" class="font-weight-bold text-right">{{gameRules.roundsCount}}</span></label>
     </div>
     <div class="col-lg-5 p-1">
-        <label style="font-size: small" class="form-control form-control-sm text-center">{{getTranslation(localKeys.winConditionLbl)}}:
+        <label style="font-size: small" class="form-control form-control-sm text-center h-auto">{{getTranslation(localKeys.winConditionLbl)}}:
             <span style="font-size: small" class="font-weight-bold text-right">{{getTranslation(gameRules.winCondition)}}</span></label>
     </div>
     <div class="col-lg-4 p-1">
-        <label style="font-size: small" *ngIf="gameRules.winCondition === 'Castles'" class="form-control form-control-sm text-center">{{getTranslation(localKeys.castlesCountLbl)}}:
+        <label style="font-size: small" *ngIf="gameRules.winCondition === 'Castles'" class="form-control form-control-sm text-center h-auto">{{getTranslation(localKeys.castlesCountLbl)}}:
             <span class="font-weight-bold text-right">{{gameRules.winCastlesCount}}</span></label>
           <label style="font-size: small" *ngIf="gameRules.winCondition === 'Points'" class="form-control form-control-sm text-center">{{getTranslation(localKeys.pointsCountLbl)}}:
             <span class="font-weight-bold text-right">{{gameRules.winPointsCount}}</span></label>
     </div>
   </div>
   <div class="row">
-    <div class="col-6 p-1">
-      <label style="font-size: small" class="form-control form-control-sm text-center">{{getTranslation(localKeys.largeCastleDefenceLbl)}}:
+    <div class="col-4 p-1">
+      <label style="font-size: small" class="form-control form-control-sm text-center h-auto">{{getTranslation(localKeys.largeCastleDefenceLbl)}}:
         <span style="font-size: small" class="font-weight-bold text-right">{{getTranslation(gameRules.largeCastleDefence)}}</span>
       </label>
     </div>
-    <div class="col-6 p-1">
-      <label style="font-size: small" class="form-control form-control-sm text-center">{{getTranslation(localKeys.smallCastleDefenceLbl)}}:
+    <div class="col-4 p-1">
+      <label style="font-size: small" class="form-control form-control-sm text-center h-auto">{{getTranslation(localKeys.smallCastleDefenceLbl)}}:
         <span style="font-size: small" class="font-weight-bold text-right">{{getTranslation(gameRules.smallCastleDefence)}}</span>
+      </label>
+    </div>
+    <div class="col-4 p-1">
+      <label style="font-size: small" class="form-control form-control-sm text-center h-auto">{{getTranslation(localKeys.mercenaryAvaible)}}:
+          <span style="font-size: small" class="font-weight-bold text-right">{{getTranslation(gameRules.mercenaryAvaible)}}</span>
       </label>
     </div>
   </div>

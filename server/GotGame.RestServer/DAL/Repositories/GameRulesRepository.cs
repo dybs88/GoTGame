@@ -50,6 +50,7 @@ namespace GotGame.RestServer.DAL.Repositories
         dbEntry.CanLookPlayerCard = gameRules.CanLookPlayerCard;
         dbEntry.LargeCastleDefence = gameRules.LargeCastleDefence;
         dbEntry.SmallCastleDefence = gameRules.SmallCastleDefence;
+        dbEntry.MercenaryAvaible = gameRules.MercenaryAvaible;
       }
 
        await context.SaveChangesAsync(true);

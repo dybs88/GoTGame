@@ -49,10 +49,6 @@ export class ReadyForGameComponent extends GotBaseComponent {
     this.toggleShowChangeRules();
   }
 
-  public hideMessageBox() {
-    this.messageBox.hide();
-  }
-
   public kickPlayer(playerId: number) {
     this.playerService.deletePlayer(playerId).subscribe();
   }
@@ -76,7 +72,7 @@ export class ReadyForGameComponent extends GotBaseComponent {
 
   private onRefreshGame(serverData: any) {
     if (serverData.newGameCreator && this.playerService.player.id === serverData.newGameCreatorId) {
-      this.messageBox.show(this.getTranslation(this.localKeys.newGameCreatorMsg), "OK");
+      this.showMessageBox(this.getTranslation(this.localKeys.newGameCreatorMsg), "OK", this.hideMessageBox);
     }
     if (serverData.game.players.find(p => p.id === this.currentPlayer.id) === undefined) {
       this.playerService.clearPlayer();

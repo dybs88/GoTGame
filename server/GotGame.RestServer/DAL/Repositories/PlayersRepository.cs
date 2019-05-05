@@ -41,12 +41,11 @@ namespace GotGame.RestServer.DAL.Repositories
         }
 
         context.Players.Remove(player);
+        await context.SaveChangesAsync(true);
 
         var playersLeftInGame = await GetGamePlayersAsync(player.GameId);
-        if (!playersLeftInGame.Any())
+        if(playersLeftInGame.All(p => p.Id == playerId))
           await gamesRepository.DeleteGameAsync(player.GameId);
-
-        await context.SaveChangesAsync(true);
       }
 
       return 1;

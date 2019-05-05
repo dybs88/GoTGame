@@ -15,7 +15,7 @@ export class ChatService {
     return this.server.deletePlayerChats(playerId);
   }
 
-  createPrivateChat(gameId: number, playerId: number, playerIds: number[]): Observable<GameChat> {
+  createPrivateChat(gameId: number, playerId: number, playerIds: number[]): Observable<any> {
     return this.server.createPrivateChat(gameId, playerId, playerIds);
   }
 
