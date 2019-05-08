@@ -15,9 +15,9 @@ namespace GotGame.RestServer.DAL.Repositories
   }
   public class GameRulesRepository : IGameRulesRepository
   {
-    private IGoTGameContextDb context;
+    private GoTGameContextDb context;
 
-    public GameRulesRepository(IGoTGameContextDb context)
+    public GameRulesRepository(GoTGameContextDb context)
     {
       this.context = context;
     }

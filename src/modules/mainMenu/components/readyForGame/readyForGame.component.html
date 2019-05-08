@@ -36,11 +36,14 @@
                 <button *ngIf="player.status === 'Ready'" class="btn btn-primary btn-sm" (click)="changeStatus('Joined')">{{getTranslation(localKeys.waitBtn)}}</button>
               </div>
               <div *ngIf="currentPlayer.isGameCreator && currentPlayer.id !== player.id" class="btn-group">
-                <button class="btn btn-danger btn-sm" (click)="kickPlayer(player.id)">{{getTranslation(localKeys.kickBtn)}}</button>
-                <button class="btn btn-primary btn-sm">{{getTranslation(localKeys.transferBtn)}}</button>
+                <button [disabled]="disableAdminBtn" class="btn btn-danger btn-sm" (click)="kickPlayer(player.id)">{{getTranslation(localKeys.kickBtn)}}</button>
+                <button [disabled]="disableAdminBtn"  class="btn btn-primary btn-sm" (click)="transferGameCreator(player)">{{getTranslation(localKeys.transferBtn)}}</button>
               </div>
             </td>
           </table>
+          <div class="btn-group text-right float-right mb-1">
+            <button *ngIf="currentPlayer.isGameCreator" [disabled]="start" class="btn btn-success btn-sm">{{getTranslation(localKeys.startBtn)}}</button>
+          </div>
           <got-chat [players]="players" #chat></got-chat>
         </div>
   </div>

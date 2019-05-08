@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GotGame.RestServer.DAL.Repositories;
 using GotGame.RestServer.FrontModels;
@@ -31,21 +33,30 @@ namespace GotGame.RestServer.Controllers
     }
 
     [HttpPut]
-    public async Task<IActionResult> ConfirmJoinGame([FromBody]FrontPlayer frontPlayer)
+    public async Task<IActionResult> ConfirmJoinGame([FromBody]dynamic requestData)
     {
-      var player = frontPlayer.Player;
+      Player player = requestData["player"].ToObject<Player>();
+      int gameId = requestData["gameId"];
       player.Status = PlayerStatus.Joined;
-      await playersRepository.SavePlayerAsync(player);
+      Game game = await gamesRepository.GetGameAsync(gameId);
+      if(game.Players.FirstOrDefault(p => p.House == player.House) == null)
+      {
+        await playersRepository.SavePlayerAsync(player);
+        return new OkObjectResult(new { player, playerJoined = true });
+      }
 
-      return new OkObjectResult(new { player, playerJoined = true });
+      player.House = null;
+      return new OkObjectResult(new { player, playerJoined = false });
     }
 
     [HttpPost("creategame")]
-    public async Task<IActionResult> CreateGame([FromBody]Game game)
+    public async Task<IActionResult> CreateGame([FromBody]dynamic requestData)
     {
-      await gamesRepository.SaveGameAsync(game);
+      Game game = requestData["game"].ToObject<Game>();
+      string password = requestData["password"];
+      await gamesRepository.SaveGameAsync(game, password);
       chatRepository.CreateGameChat(game.Id, "Public");
-      storage.CreateGameStorage(game.Id);
+      storage.CreateGameStorage(game.Id, game.Players.Select(p => p.Id).ToArray());
       return new OkObjectResult(new { game, player = game.Players.First(), gameRules = game.GameRules });
     }
 
@@ -79,19 +90,34 @@ namespace GotGame.RestServer.Controllers
       }
     }
 
-    [HttpGet("refresh/{gameId}")]
-    public async Task<IActionResult> RefreshGame(int gameId)
+    [HttpGet("refresh/{gameId}/{playerId}")]
+    public async Task<IActionResult> RefreshGame(int gameId, int playerId)
     {
       Game game = await gamesRepository.GetGameAsync(gameId);
-      dynamic responseData = new { game };
-      if (storage.GetString(gameId, SessionKeys.NewGameCreator) == bool.TrueString)
+      dynamic responseData = new ExpandoObject();
+      responseData.game = game;
+      StorageItem newGameCreatorItem = storage.GetItem(gameId, SessionKeys.NewGameCreator);
+      if (newGameCreatorItem != null && !newGameCreatorItem.IsReadedByPlayerId(playerId))
       {
-        storage.SetString(gameId, SessionKeys.NewGameCreator, bool.FalseString);
-        responseData.newGameCreator = true;
-        responseData.newGameCreatorId = game.Players.First(p => p.IsGameCreator).Id;
+        Player newGameCreator = game.Players.First(p => p.IsGameCreator);
+        if(newGameCreator != null)
+        {
+          newGameCreatorItem.MarkAsReadedByPlayerId(playerId);
+          responseData.newGameCreator = true;
+          responseData.newGameCreatorId = newGameCreator.Id;
+          storage.TryRemoveItem(gameId, SessionKeys.NewGameCreator);
+        }
       }
 
       return new OkObjectResult(responseData);
+    }
+
+    [HttpPost("verify")]
+    public async Task<IActionResult> VerifyPassword([FromBody]dynamic requestData)
+    {
+      int gameId = requestData["gameId"];
+      string password = requestData["password"];
+      return new OkObjectResult(await gamesRepository.VerifyPassword(gameId, password));
     }
   }
 }

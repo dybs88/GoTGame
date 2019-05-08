@@ -30,7 +30,7 @@ export class JoinGameComponent extends GotBaseComponent {
     userService: UserService,
     localService: LocalizationService) {
     super(localService, userService);
-    this.newPlayer = playerService.player;
+    this.newPlayer = playerService.currentPlayer;
 
     this.route.params.subscribe(params => {
         this.gameRepository.getGame(parseInt(params["id"], 10)).subscribe(serverData => {
@@ -57,6 +57,9 @@ export class JoinGameComponent extends GotBaseComponent {
         if (serverData.playerJoined) {
           this.playerService.setPlayer(serverData.player);
           this.router.navigate(["/readyforgame", this.game.id]);
+        } else {
+          this.showMessageBox(this.getTranslation(this.localKeys.housePlayerExistMsg), "OK");
+          window.location.reload();
         }
       });
     }

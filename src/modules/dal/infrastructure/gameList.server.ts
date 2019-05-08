@@ -24,8 +24,8 @@ export class GameServer extends RestServer {
       return this.http.put<Player>(`${this.baseUrl}/games`, {gameId: gameId, player: player}, super.getOptions());
     }
 
-    public createGame(game: Game): Observable<any> {
-      return this.http.post(`${this.baseUrl}/games/creategame`, game, super.getOptions());
+    public createGame(game: Game, password?: string): Observable<any> {
+      return this.http.post(`${this.baseUrl}/games/creategame`, {game, password}, super.getOptions());
     }
 
     public getGame(gameId: number): Observable<Game> {
@@ -40,7 +40,11 @@ export class GameServer extends RestServer {
       return this.http.post<Game>(`${this.baseUrl}/games`, {gameId: gameId}, this.getOptions());
     }
 
-    public refreshGame(gameId: number): Observable<any> {
-      return this.http.get(`${this.baseUrl}/games/refresh/${gameId}`, super.getOptions());
+    public refreshGame(gameId: number, playerId: number): Observable<any> {
+      return this.http.get(`${this.baseUrl}/games/refresh/${gameId}/${playerId}`, super.getOptions());
+    }
+
+    public verifyPassword(gameId: number, password: string): Observable<boolean> {
+      return this.http.post<boolean>(`${this.baseUrl}/games/verify`, {gameId: gameId, password: password}, super.getOptions());
     }
 }

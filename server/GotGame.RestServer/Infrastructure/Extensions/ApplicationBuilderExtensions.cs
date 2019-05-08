@@ -1,6 +1,9 @@
 using GotGame.RestServer.DAL;
+using GotGame.RestServer.DAL.Repositories;
 using GotGame.RestServer.Infrastructure.Logging;
 using GotGame.RestServer.Infrastructure.SeedDatas;
+using GotGame.RestServer.Infrastructure.Storage;
+using GotGame.RestServer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +37,22 @@ namespace GotGame.RestServer.Infrastructure.Extensions
     public static IApplicationBuilder UseLoggingMiddlewares(this IApplicationBuilder app)
     {
       app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+      return app;
+    }
+
+    public static IApplicationBuilder UseGoTStorage(this IApplicationBuilder app)
+    {
+      IGoTStorage storage = app.ApplicationServices.GetRequiredService<IGoTStorage>();
+      GoTGameContextDb context = app.ApplicationServices.GetRequiredService<GoTGameContextDb>();
+
+      var games = context.Games.ToList();
+
+      foreach(Game game in games)
+      {
+        var playerIds = context.Players.Where(p => p.GameId == game.Id).Select(p => p.Id).ToArray();
+        storage.CreateGameStorage(game.Id, playerIds);
+      }
 
       return app;
     }

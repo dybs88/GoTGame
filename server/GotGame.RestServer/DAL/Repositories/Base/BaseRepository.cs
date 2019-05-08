@@ -10,9 +10,9 @@ namespace GotGame.RestServer.DAL.Repositories.Base
   public abstract class BaseRepository
   {
     protected IGoTStorage storage;
-    protected IGoTGameContextDb context;
+    protected GoTGameContextDb context;
 
-    public BaseRepository(IGoTGameContextDb context, IGoTStorage storage)
+    public BaseRepository(GoTGameContextDb context, IGoTStorage storage)
     {
       this.context = context;
       this.storage = storage;

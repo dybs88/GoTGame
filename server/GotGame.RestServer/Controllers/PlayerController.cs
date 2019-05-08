@@ -16,11 +16,13 @@ namespace GotGame.RestServer.Controllers
   {
     private IPlayersRepository playerRepository;
     private IChatRepository chatRepository;
+    private IGamesRepository gamesRepository;
 
-    public PlayerController(IPlayersRepository playersRepo, IChatRepository chatRepo)
+    public PlayerController(IPlayersRepository playersRepo, IChatRepository chatRepo, IGamesRepository gamesRepo)
     {
       playerRepository = playersRepo;
       chatRepository = chatRepo;
+      gamesRepository = gamesRepo;
     }
 
     [HttpDelete("delete/{playerId}")]

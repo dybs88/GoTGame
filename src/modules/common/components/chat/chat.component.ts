@@ -32,7 +32,7 @@ export class ChatComponent {
       publicChat.name = this.setPublicChatName();
       this.gameChats.push(publicChat);
       for (let i = 0; i < serverData.length; i++) {
-        if (serverData[i].isPrivate && serverData[i].players.find(cp => cp.playerId === this.playerService.player.id)) {
+        if (serverData[i].isPrivate && serverData[i].players.find(cp => cp.playerId === this.playerService.currentPlayer.id)) {
           serverData[i].name = this.setPrivateChatName(serverData[i]);
           this.gameChats.push(serverData[i]);
         }
@@ -48,8 +48,8 @@ export class ChatComponent {
         .find(gc => gc.players.find(cp => cp.playerId === playerId) !== undefined);
       return;
     }
-    this.chatService.createPrivateChat(this.gameRepository.currentGame.id, this.playerService.player.id,
-      new Array<number>(this.playerService.player.id, playerId))
+    this.chatService.createPrivateChat(this.gameRepository.currentGame.id, this.playerService.currentPlayer.id,
+      new Array<number>(this.playerService.currentPlayer.id, playerId))
     .subscribe(response => {
       if (response.privateChatCreated) {
         const privateGameChat = response.privateGameChat;
@@ -93,7 +93,7 @@ export class ChatComponent {
           const playerChats: GameChat[] = response.gameChats
             .map(gc => new GameChat(gc.id, gc.name, gc.gameId, gc.isPrivate, gc.chatDatas, gc.players));
           for (let i = 0; i < playerChats.length; i++) {
-            if (playerChats[i].players.find(cp => cp.isNew && cp.playerId === this.playerService.player.id)) {
+            if (playerChats[i].players.find(cp => cp.isNew && cp.playerId === this.playerService.currentPlayer.id)) {
               const privateGameChat = playerChats[i];
               privateGameChat.name = this.setPrivateChatName(privateGameChat);
               if (this.gameChats.find(gc => gc.id === playerChats[i].id) === undefined) {
@@ -115,13 +115,13 @@ export class ChatComponent {
 
   sendMessage() {
     if (this.text !== "") {
-      this.chatService.updateChat(this.selectedChat.id, new ChatData(this.playerService.player.name, this.text)).subscribe();
+      this.chatService.updateChat(this.selectedChat.id, new ChatData(this.playerService.currentPlayer.name, this.text)).subscribe();
       this.text = "";
     }
   }
 
   private setPrivateChatName(privateChat: GameChat): string {
-    return privateChat.players.find(cp => cp.playerId !== this.playerService.player.id).name;
+    return privateChat.players.find(cp => cp.playerId !== this.playerService.currentPlayer.id).name;
   }
 
   private setPublicChatName(): string {

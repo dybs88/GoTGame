@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace GotGame.RestServer.DAL.Repositories
 {
@@ -11,15 +12,20 @@ namespace GotGame.RestServer.DAL.Repositories
     Task<int> DeleteGameAsync(int gameId);
     Task<Game> GetGameAsync(int id);
     Task<IEnumerable<Game>> GetGamesAsync();
-    Task<Game> SaveGameAsync(Game game);
+    Task<Game> SaveGameAsync(Game game, string password = "");
+
+    Task<bool> VerifyPassword(int gameId, string password);
   }
 
   public class GamesRepository : IGamesRepository
   {
-    private IGoTGameContextDb context;
-    public GamesRepository(IGoTGameContextDb context)
+    private GoTGameContextDb context;
+    IPasswordHasher<Game> passwordHasher;
+
+    public GamesRepository(GoTGameContextDb context, IPasswordHasher<Game> passwordHasher)
     {
       this.context = context;
+      this.passwordHasher = passwordHasher;
     }
 
     public async Task<int> DeleteGameAsync(int gameId)
@@ -33,7 +39,10 @@ namespace GotGame.RestServer.DAL.Repositories
 
     public async Task<Game> GetGameAsync(int id)
     {
-      return await context.Games.FirstOrDefaultAsync(g => g.Id == id);
+      return await context.Games
+        .Include(g => g.Players)
+        .Include(g => g.GameRules)
+        .FirstOrDefaultAsync(g => g.Id == id);
     }
 
     public async Task<IEnumerable<Game>> GetGamesAsync()
@@ -43,10 +52,11 @@ namespace GotGame.RestServer.DAL.Repositories
           .Include(g => g.GameRules).ToListAsync();
     }
 
-    public async Task<Game> SaveGameAsync(Game game)
+    public async Task<Game> SaveGameAsync(Game game, string password = "")
     {
       if (game.Id == 0)
       {
+        game.PasswordHash = passwordHasher.HashPassword(game, password);
         await context.Games.AddAsync(game);
       }
       else
@@ -57,7 +67,8 @@ namespace GotGame.RestServer.DAL.Repositories
           dbEntry.Name = game.Name;
           dbEntry.GameRules = game.GameRules;
           dbEntry.Players = game.Players;
-
+          dbEntry.IsPrivate = game.IsPrivate;
+          dbEntry.PasswordHash = game.PasswordHash;
         }
       }
 
@@ -65,6 +76,18 @@ namespace GotGame.RestServer.DAL.Repositories
       await context.SaveChangesAsync(true);
 
       return game;
+    }
+
+    public async Task<bool> VerifyPassword(int gameId, string password)
+    {
+      Game game = await GetGameAsync(gameId);
+      if (game == null)
+        return false;
+      var result = passwordHasher.VerifyHashedPassword(game, game.PasswordHash, password);
+      if (result == PasswordVerificationResult.Success)
+        return true;
+      else
+        return false;
     }
   }
 }

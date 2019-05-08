@@ -17,6 +17,8 @@ export const localizationKeys = {
   createGameNameValidator: "CreateGameNameValidator",
   rulesConfirmedValidator: "RulesConfirmedValidator",
   selectedHouseValidator: "SelectedHouseValidator",
+  passwordValidator: "PasswordValidator",
+  repeatPasswordValidator: "RepeatPasswordValidator",
 
   enterTheGameBtn: "EnterTheGameBtn",
   lookBoardBtn: "LookBoardBtn",
@@ -37,6 +39,7 @@ export const localizationKeys = {
   okBtn: "OkBtn",
   kickBtn: "KickBtn",
   transferBtn: "TransferBtn",
+  startBtn: "StartBtn",
 
   idColName: "IdColName",
   gameNameColName: "GameNameColName",
@@ -75,7 +78,10 @@ export const localizationKeys = {
   lookPlayerCardLbl: "LookPlayerCardLbl",
   largeCastleDefenceLbl: "LargeCastleDefenceLbl",
   smallCastleDefenceLbl: "SmallCastleDefenceLbl",
-  mercenaryAvaible: "MercenaryAvaible",
+  mercenaryAvaibleLbl: "MercenaryAvaibleLbl",
+  privateGameLbl: "PrivateGameLbl",
+  passwordLbl: "PasswordLbl",
+  repeatPasswordLbl: "RepeatPasswordLbl",
 
   polishLang: "PolishLang",
   englishLang: "EnglishLang",
@@ -86,6 +92,8 @@ export const localizationKeys = {
 
   rejoiningMsg: "RejoiningMsg",
   newGameCreatorMsg: "NewGameCreatorMsg",
+  verifyPasswordMsg: "VerifyPasswordMsg",
+  housePlayerExistMsg: "HousePlayerExistMsg",
 
   yesValue: "true",
   noValue: "false",
@@ -137,6 +145,14 @@ export class LocalizationData {
     "SelectedHouseValidator": {
       "pl-PL": "Wybierz ród, którym będziesz grał",
       "en-EN": "Select house which you will play"
+    },
+    "PasswordValidator": {
+      "pl-PL": "Nieprawidłowe hasło - od 6 do 20 znaków",
+      "en-EN": "Wrong password - from 6 to 20 signs"
+    },
+    "RepeatPasswordValidator": {
+      "pl-PL": "Hasła nie są takie same",
+      "en-EN": "Passwords aren't equal"
     },
     "EnterTheGameBtn": {
       "pl-PL": "Wejdź do gry",
@@ -213,6 +229,10 @@ export class LocalizationData {
     "TransferBtn": {
       "pl-PL": "Przekaż",
       "en-EN": "transfer"
+    },
+    "StartBtn": {
+      "pl-PL": "START",
+      "en-EN": "START"
     },
     "IdColName": {
       "pl-PL": "Id",
@@ -358,7 +378,19 @@ export class LocalizationData {
       "pl-PL": "Obrona małego zamku",
       "en-EN": "Small castle defence"
     },
-    "MercenaryAvaible": {
+    "PrivateGameLbl" : {
+      "pl-PL": "Prywatna gra",
+      "en-EN": "Private game"
+    },
+    "PasswordLbl": {
+      "pl-PL": "Hasło",
+      "en-EN": "Password"
+    },
+    "RepeatPasswordLbl": {
+      "pl-PL": "Powtórz hasło",
+      "en-EN": "Repeat password"
+    },
+    "MercenaryAvaibleLbl": {
       "pl-PL": "Najemnicy dostępni",
       "en-EN": "Mercenary avaible"
     },
@@ -389,6 +421,14 @@ export class LocalizationData {
     "NewGameCreatorMsg": {
       "pl-PL": "Jesteś nowym administratorem gry",
       "en-EN": "You are new game admin"
+    },
+    "VerifyPasswordMsg": {
+      "pl-PL": "Podaj hasło do gry",
+      "en-EN": "Type game password"
+    },
+    "HousePlayerExistMsg": {
+      "pl-PL": "W grze jest już gracz, który wybrał ten ród",
+      "en-EN": "In game exist already player which choosed same house"
     },
     "true": {
       "pl-PL": "Tak",

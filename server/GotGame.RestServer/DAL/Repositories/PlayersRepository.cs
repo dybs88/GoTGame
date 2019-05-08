@@ -24,7 +24,7 @@ namespace GotGame.RestServer.DAL.Repositories
   {
     private IGamesRepository gamesRepository;
 
-    public PlayersRepository(IGoTGameContextDb context, IGoTStorage storage, IGamesRepository gamesRepo)
+    public PlayersRepository(GoTGameContextDb context, IGoTStorage storage, IGamesRepository gamesRepo)
       :base (context, storage)
     {
       gamesRepository = gamesRepo;
@@ -70,11 +70,15 @@ namespace GotGame.RestServer.DAL.Repositories
       else
       {
         Player dbEntry = await GetPlayerAsync(player.Id);
+        if (player.IsGameCreator && !dbEntry.IsGameCreator)
+          storage.SetItem(player.GameId, SessionKeys.NewGameCreator, bool.TrueString);
+
         dbEntry.GameId = player.GameId;
         dbEntry.House = player.House;
         dbEntry.IpAddress = player.IpAddress;
         dbEntry.Name = player.Name;
         dbEntry.Status = player.Status;
+        dbEntry.IsGameCreator = player.IsGameCreator;
       }
 
       await context.SaveChangesAsync(true);
@@ -110,15 +114,15 @@ namespace GotGame.RestServer.DAL.Repositories
         if(newCreator != null)
         {
           newCreator.IsGameCreator = true;
-          storage.SetString(gameId, SessionKeys.NewGameCreator, bool.TrueString);
+          storage.SetItem(gameId, SessionKeys.NewGameCreator, bool.TrueString);
           return 1;
         }
 
-        storage.SetString(gameId, SessionKeys.NewGameCreator, bool.FalseString);
+        storage.SetItem(gameId, SessionKeys.NewGameCreator, bool.FalseString);
         return 0;
       }
 
-      storage.SetString(gameId, SessionKeys.NewGameCreator, bool.FalseString);
+      storage.SetItem(gameId, SessionKeys.NewGameCreator, bool.FalseString);
       return 0;
     }
   }

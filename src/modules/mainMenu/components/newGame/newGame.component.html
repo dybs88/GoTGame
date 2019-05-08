@@ -11,6 +11,25 @@
             <input class="form-control" name="gameName" #gName="ngModel" [(ngModel)]="gameName" type="text" required minlength="6" maxlength="50"/>
             <span class="text-danger" style="font-size: small" *ngIf="gName.dirty && gName.invalid">{{getTranslation(localKeys.createGameNameValidator)}}</span>
           </div>
+          <div class="form-inline">
+            <label class="mr-1">{{getTranslation(localKeys.privateGameLbl)}}:</label>
+            <input type="checkbox" name="gameIsPrivate" [value]="gameIsPrivate" [(ngModel)]="gameIsPrivate" (change)="toggleShowPassword()" />
+          </div>
+          <div *ngIf="showPassword">
+          <div class="form-group">
+            <label>{{getTranslation(localKeys.passwordLbl)}}:</label>
+            <input class="form-control" name="password" #passwordModel="ngModel" [(ngModel)]="password" type="password" minlength="6" maxlength="20" />
+            <span class="text-danger" style="font-size: small" *ngIf="passwordModel.dirty && passwordModel.invalid">{{getTranslation(localKeys.passwordValidator)}}</span>
+          </div>
+          <div class="form-group">
+            <label>{{getTranslation(localKeys.repeatPasswordLbl)}}:</label>
+            <input class="form-control"
+              [class.ng-valid]="rPasswordModel.dirty && passwordModel.value === rPasswordModel.value"
+              [class.ng-invalid]="rPasswordModel.dirty && passwordModel.value !== rPasswordModel.value"
+              name="rPassword" #rPasswordModel="ngModel" [(ngModel)]="rPassword" type="password" minlength="6" maxlength="20" />
+            <span class="text-danger" *ngIf="rPasswordModel.dirty && passwordModel.value !== rPasswordModel.value" style="font-size: small">{{getTranslation(localKeys.repeatPasswordValidator)}}</span>
+          </div>
+          </div>
         </div>
         <div class="col-6">
           <div class="form-group">

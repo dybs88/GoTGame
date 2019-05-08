@@ -20,14 +20,19 @@ import { GameRulesService } from "src/modules/common/infrastructure/services/gam
 export class ReadyForGameComponent extends GotBaseComponent {
   game: Game;
   players: Player[];
-  currentPlayer: Player;
   joined: boolean = false;
   refreshCounter: number = 0;
   showChangeRules: boolean = false;
   newGameCreatorMsgShow: boolean = false;
+  start: boolean;
+  disableAdminBtn: boolean;
 
   private gameSubscription: Subscription;
   private timerSubscription: Subscription;
+
+  get currentPlayer() {
+    return this.playerService.currentPlayer;
+  }
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -37,12 +42,15 @@ export class ReadyForGameComponent extends GotBaseComponent {
     userService: UserService,
     localizationService: LocalizationService) {
       super(localizationService, userService);
-      this.currentPlayer = this.playerService.player;
 
       this.route.params.subscribe(params => {
         this.refreshGameSubscription(parseInt(params["id"], 10));
       });
      }
+
+  public changeStatus(playerStatus: string) {
+    this.playerService.changeStatus(playerStatus);
+  }
 
   public confirmRules() {
     this.gameRulesService.updateGameRules();
@@ -50,7 +58,10 @@ export class ReadyForGameComponent extends GotBaseComponent {
   }
 
   public kickPlayer(playerId: number) {
-    this.playerService.deletePlayer(playerId).subscribe();
+    this.disableAdminBtn = true;
+    this.playerService.deletePlayer(playerId).subscribe(response => {
+      this.disableAdminBtn = false;
+    });
   }
 
   public leaveGame() {
@@ -60,20 +71,30 @@ export class ReadyForGameComponent extends GotBaseComponent {
     });
   }
 
+  public transferGameCreator(newCreator: Player) {
+    this.disableAdminBtn = true;
+    this.playerService.currentPlayer.isGameCreator = false;
+    newCreator.isGameCreator = true;
+    this.playerService.updatePlayer(this.currentPlayer).subscribe(response => {
+      this.playerService.setPlayer(response);
+    });
+    this.playerService.updatePlayer(newCreator).subscribe(response => {
+      this.disableAdminBtn = false;
+    });
+  }
+
   ngOnDestroy() {
     this.gameSubscription.unsubscribe();
     this.timerSubscription.unsubscribe();
     this.router.navigateByUrl("/gamelist");
   }
 
-  public changeStatus(playerStatus: string) {
-    this.playerService.changeStatus(playerStatus);
-  }
-
   private onRefreshGame(serverData: any) {
-    if (serverData.newGameCreator && this.playerService.player.id === serverData.newGameCreatorId) {
+    if (serverData.newGameCreator && this.playerService.currentPlayer.id === serverData.newGameCreatorId) {
+      this.playerService.setPlayerById(this.playerService.currentPlayer.id);
       this.showMessageBox(this.getTranslation(this.localKeys.newGameCreatorMsg), "OK", this.hideMessageBox);
     }
+
     if (serverData.game.players.find(p => p.id === this.currentPlayer.id) === undefined) {
       this.playerService.clearPlayer();
       this.router.navigateByUrl("/gamelist");
@@ -82,18 +103,19 @@ export class ReadyForGameComponent extends GotBaseComponent {
     this.game = serverData.game;
     this.players = serverData.game.players;
     this.gameRulesService.setGameRules(serverData.game.gameRules);
+    this.start = !(this.players !== undefined && this.players.length >= 3 && this.players.every(p => p.status === "Ready"));
     this.refreshCounter++;
   }
 
   private refreshGameSubscription(gameId: number) {
-    this.gameSubscription = this.gameRepository.refreshGame(gameId).subscribe(serverData => {
+    this.gameSubscription = this.gameRepository.refreshGame(gameId, this.currentPlayer.id).subscribe(serverData => {
       this.onRefreshGame(serverData);
       this.subscribeToData(gameId);
     });
   }
 
   private subscribeToData(gameId: number) {
-    this.timerSubscription = timer(2500).subscribe(() => this.refreshGameSubscription(gameId));
+    this.timerSubscription = timer(1000).subscribe(() => this.refreshGameSubscription(gameId));
   }
 
   private toggleShowChangeRules() {

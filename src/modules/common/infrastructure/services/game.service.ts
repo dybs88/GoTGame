@@ -16,8 +16,8 @@ export class GameService {
     return this.server.confirmJoinGame(gameId, player);
   }
 
-  public createGame(game: Game): Observable<any> {
-    return this.server.createGame(game);
+  public createGame(game: Game, password?: string): Observable<any> {
+    return this.server.createGame(game, password);
   }
 
   public getGames(): Observable<Game[]> {
@@ -36,7 +36,11 @@ export class GameService {
     return this.server.getGames();
   }
 
-  public refreshGame(gameId: number): Observable<any> {
-    return this.server.refreshGame(gameId);
+  public refreshGame(gameId: number, playerId: number): Observable<any> {
+    return this.server.refreshGame(gameId, playerId);
+  }
+
+  public verifyPassword(gameId: number, password: string): Observable<boolean> {
+    return this.server.verifyPassword(gameId, password);
   }
 }

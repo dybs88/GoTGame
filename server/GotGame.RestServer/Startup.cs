@@ -56,6 +56,7 @@ namespace GotGame.RestServer
         .MigrateDatabase()
         .PopulateDatabase()
         .UseLoggingMiddlewares()
+        .UseGoTStorage()
         .UseDeveloperExceptionPage()
         .UseStatusCodePages()
         .UseStaticFiles()

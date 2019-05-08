@@ -1,3 +1,4 @@
+import { NgForm } from "@angular/forms";
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
@@ -21,15 +22,19 @@ export class GameListComponent extends GotBaseComponent {
   selectedGame: Game;
   rejoiningGameId: number;
   rejoiningGameIsPrivate: boolean;
+  password: string;
+  passwordVerified: boolean;
+  showPasswordVerification: boolean;
+  actionBtnDisabled: boolean = false;
 
-  constructor(private gameRepository: GameService,
+  constructor(private gameService: GameService,
     private router: Router,
     private playerService: PlayerService,
     private gameRulesService: GameRulesService,
     userService: UserService,
     localizationService: LocalizationService) {
     super(localizationService, userService);
-    this.gameRepository.getGames().subscribe(serverData => {
+    this.gameService.getGames().subscribe(serverData => {
       this.games = serverData;
     });
    }
@@ -43,10 +48,15 @@ export class GameListComponent extends GotBaseComponent {
     return this.games.find(g => g.id === gameId);
   }
 
+  hideMessageBox() {
+    this.actionBtnDisabled = true;
+    super.hideMessageBox();
+  }
+
   joinGame(gameId: number, isPrivate: boolean) {
-    if (this.playerService.player !== undefined && this.playerService.player !== null) {
-      if (this.playerService.player.gameId === gameId) {
-        if (this.playerService.player.status === "Joining") {
+    if (this.playerService.currentPlayer !== undefined && this.playerService.currentPlayer !== null) {
+      if (this.playerService.currentPlayer.gameId === gameId) {
+        if (this.playerService.currentPlayer.status === "Joining") {
           this.router.navigate(["/joingame", gameId]);
         } else {
           this.router.navigate(["/readyforgame", gameId]);
@@ -54,13 +64,17 @@ export class GameListComponent extends GotBaseComponent {
       } else {
         this.rejoiningGameId = gameId;
         this.rejoiningGameIsPrivate = isPrivate;
-        this.showMessageBox(this.getTranslation(this.localKeys.rejoiningMsg), "YesNo", null, this.leaveGame, this.hideMessageBox);
+        this.showMessageBox(this.getTranslation(this.localKeys.rejoiningMsg), "YesNo", null, this.rejoinGame, this.hideMessageBox);
       }
     } else {
       if (isPrivate) {
-
+        if (!this.passwordVerified) {
+          this.rejoiningGameId = gameId;
+          this.toogleShowPasswordVerification();
+          return;
+        }
       }
-      this.gameRepository.joinGame(gameId).subscribe(serverData => {
+      this.gameService.joinGame(gameId).subscribe(serverData => {
         if (serverData.playerAdded) {
           this.player = serverData.newPlayer;
           this.playerService.joinGame(this.getGame(gameId), this.player);
@@ -70,7 +84,7 @@ export class GameListComponent extends GotBaseComponent {
     }
   }
 
-  leaveGame() {
+  rejoinGame() {
     this.hideMessageBox();
     this.playerService.deletePlayer().subscribe(serverData => {
       this.playerService.clearPlayer();
@@ -79,12 +93,26 @@ export class GameListComponent extends GotBaseComponent {
   }
 
   refreshGames() {
-    this.gameRepository.refreshGames().subscribe(serverData => {
+    this.gameService.refreshGames().subscribe(serverData => {
       this.games = serverData;
     });
   }
 
   selectGame(gameId: number) {
     this.selectedGame = this.games.find(g => g.id === gameId);
+  }
+
+  toogleShowPasswordVerification() {
+    this.actionBtnDisabled = !this.actionBtnDisabled;
+    this.showPasswordVerification = !this.showPasswordVerification;
+  }
+
+  verifyPassword(form: NgForm) {
+    if (form.valid) {
+      this.gameService.verifyPassword(this.rejoiningGameId, this.password).subscribe(response => {
+        this.passwordVerified = response;
+        this.joinGame(this.rejoiningGameId, true);
+      });
+    }
   }
 }

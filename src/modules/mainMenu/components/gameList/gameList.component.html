@@ -17,14 +17,14 @@
           <td class="text-center"><span class="fa" [class.fa-lock]="game.isPrivate" [class.fa-unlock]="!game.isPrivate"></span></td>
           <td>
             <div class="btn-group">
-                <button [disabled]="messageBox.isVisible" class="btn btn-primary btn-sm" (click)="joinGame(game.id, game.isPrivate)">{{getTranslation(localKeys.joinGameBtn)}}</button>
+                <button [disabled]="actionBtnDisabled" class="btn btn-primary btn-sm" (click)="joinGame(game.id, game.isPrivate)">{{getTranslation(localKeys.joinGameBtn)}}</button>
             </div>
           </td>
         </tr>
       </table>
       <div class="btn-group">
-        <button [disabled]="messageBox.isVisible" class="btn btn-dark btn-sm" (click)="refreshGames()">{{getTranslation(localKeys.refreshBtn)}}</button>
-        <button [disabled]="messageBox.isVisible" class="btn btn-success btn-sm" (click)="createGame()">{{getTranslation(localKeys.newGameBtn)}}</button>
+        <button [disabled]="actionBtnDisabled" class="btn btn-dark btn-sm" (click)="refreshGames()">{{getTranslation(localKeys.refreshBtn)}}</button>
+        <button [disabled]="actionBtnDisabled" class="btn btn-success btn-sm" (click)="createGame()">{{getTranslation(localKeys.newGameBtn)}}</button>
       </div>
   </div>
   <div class="col-5">
@@ -32,3 +32,23 @@
   </div>
 </div>
 <got-messageBox [data]="messageBox" (yesCallback)="yesMessageCallback()" (noCallback)="noMessageCallback()"></got-messageBox>
+
+<div *ngIf="showPasswordVerification" class="card fixed-top" style="position:absolute; top:15%; left:40%; display: inline-block; width: 25rem; height: auto">
+    <form novalidate #form="ngForm" (ngSubmit)="verifyPassword(form)">
+      <div class="card-body">
+        <div>
+          <label>
+            {{getTranslation(localKeys.verifyPasswordMsg)}}:
+          </label>
+          <input class="form-control" name="password" #passwordModel="ngModel" [(ngModel)]="password" type="password" minlength="6" maxlength="20" />
+          <span class="text-danger" style="font-size: small" *ngIf="passwordModel.dirty && passwordModel.invalid">{{getTranslation(localKeys.passwordValidator)}}</span>
+        </div>
+        <div class="card-footer text-right">
+          <div class="btn-group">
+            <button class="btn btn-light btn-sm" (click)="toogleShowPasswordVerification()">{{getTranslation(localKeys.cancelBtn)}}</button>
+            <button type="submit" class="btn btn-primary btn-sm">{{getTranslation(localKeys.continueBtn)}}</button>
+          </div>
+        </div>
+      </div>
+    </form>
+</div>

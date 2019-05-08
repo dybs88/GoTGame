@@ -20,7 +20,7 @@ export class ChatService {
   }
 
   getChatDatas(chatId: number): Observable<any> {
-    return this.server.getChatData(this.playerService.player.id, chatId);
+    return this.server.getChatData(this.playerService.currentPlayer.id, chatId);
   }
 
   getGameChats(): Observable<GameChat[]> {

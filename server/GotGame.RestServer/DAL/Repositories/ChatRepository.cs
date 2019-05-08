@@ -28,7 +28,7 @@ namespace GotGame.RestServer.DAL.Repositories
 
     private IPlayersRepository playersRepository;
 
-    public ChatRepository(IGoTGameContextDb context, IGoTStorage storage, IPlayersRepository playersRepository)
+    public ChatRepository(GoTGameContextDb context, IGoTStorage storage, IPlayersRepository playersRepository)
       :base(context, storage)
     {
       gameChats = new List<GameChat>();

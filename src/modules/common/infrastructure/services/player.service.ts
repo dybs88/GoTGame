@@ -11,7 +11,7 @@ import { PlayerStatus } from "../consts/goTEnums";
 @Injectable()
 export class PlayerService {
   private playerToken: string;
-  private currentPlayer: Player;
+  public currentPlayer: Player;
 
   constructor(private server: PlayerServer) {
     if (localStorage.getItem("player_id") !== null && localStorage.getItem("player_id") !== "") {
@@ -23,10 +23,6 @@ export class PlayerService {
 
   get token() {
     return this.playerToken;
-  }
-
-  get player() {
-    return this.currentPlayer;
   }
 
   public changeStatus(playerStatus: string) {
