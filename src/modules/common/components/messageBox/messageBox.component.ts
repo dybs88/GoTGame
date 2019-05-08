@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 import { GotBaseComponent } from "./../gotBase.component";
-import { MessageBox } from "../../models/messageBox";
+import { MessageBox } from "src/models/messageBox";
 
 @Component({
   selector: "got-messageBox",

@@ -18,7 +18,7 @@
           <div *ngIf="showPassword">
           <div class="form-group">
             <label>{{getTranslation(localKeys.passwordLbl)}}:</label>
-            <input class="form-control" name="password" #passwordModel="ngModel" [(ngModel)]="password" type="password" minlength="6" maxlength="20" />
+            <input class="form-control" name="password" #passwordModel="ngModel" [(ngModel)]="password" type="password" minlength="6" maxlength="20" required />
             <span class="text-danger" style="font-size: small" *ngIf="passwordModel.dirty && passwordModel.invalid">{{getTranslation(localKeys.passwordValidator)}}</span>
           </div>
           <div class="form-group">
@@ -26,7 +26,7 @@
             <input class="form-control"
               [class.ng-valid]="rPasswordModel.dirty && passwordModel.value === rPasswordModel.value"
               [class.ng-invalid]="rPasswordModel.dirty && passwordModel.value !== rPasswordModel.value"
-              name="rPassword" #rPasswordModel="ngModel" [(ngModel)]="rPassword" type="password" minlength="6" maxlength="20" />
+              name="rPassword" #rPasswordModel="ngModel" [(ngModel)]="rPassword" type="password" minlength="6" maxlength="20" required />
             <span class="text-danger" *ngIf="rPasswordModel.dirty && passwordModel.value !== rPasswordModel.value" style="font-size: small">{{getTranslation(localKeys.repeatPasswordValidator)}}</span>
           </div>
           </div>
@@ -47,7 +47,7 @@
         </div>
         <div class="btn-group justify-content-end ml-auto mr-3">
           <button class="btn btn-light btn-sm" routerLink="/gamelist" routerLinkActive="router-link-active">{{getTranslation(localKeys.cancelBtn)}}</button>
-          <button type="submit" class="btn btn-success btn-sm">{{getTranslation(localKeys.newGameBtn)}}</button>
+          <button [disabled]="form.invalid" type="submit" class="btn btn-success btn-sm">{{getTranslation(localKeys.newGameBtn)}}</button>
         </div>
       </div>
       <input type="hidden" #rules="ngModel" name="gameRules" [(ngModel)]="gameRules" required />
