@@ -4,7 +4,7 @@ import { Component } from "@angular/core";
 import { LocalizationService } from "./../infrastructure/locale/localization.service";
 import { localizationKeys, localizationLanguages } from "./../infrastructure/locale/localization.data";
 import { UserService } from "../infrastructure/authorization/user.service";
-import { MessageBox } from "./../models/messageBox";
+import { MessageBox } from "src/models/messageBox";
 
 @Component({
   selector: "got-base",
