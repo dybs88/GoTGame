@@ -5,11 +5,12 @@ import { NgForm } from "@angular/forms";
 
 import { GotBaseComponent } from "../../../common/components/gotBase.component";
 import { LocalizationService } from "src/modules/common/infrastructure/locale/localization.service";
-import { GameRepository } from "./../../../dal/infrastructure/repositories/game.repository";
-import { PlayerService } from "src/modules/common/infrastructure/authorization/player.service";
+import { GameService } from "../../../common/infrastructure/services/game.service";
+import { PlayerService } from "src/modules/common/infrastructure/services/player.service";
 import { Player } from "src/models/player.model";
 import { Game } from "src/models/game.model";
 import { UserService } from "./../../../common/infrastructure/authorization/user.service";
+import { GameRulesService } from "./../../../common/infrastructure/services/gameRules.service";
 
 @Component({
   selector: "got-joinGame",
@@ -19,33 +20,46 @@ export class JoinGameComponent extends GotBaseComponent {
   newPlayer: Player;
   selectedHouse: string;
   game: Game;
+  avaibleHouses: string[];
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private gameRepository: GameRepository,
+    private gameRepository: GameService,
     private playerService: PlayerService,
+    private gameRulesService: GameRulesService,
     userService: UserService,
     localService: LocalizationService) {
     super(localService, userService);
-    this.newPlayer = playerService.player;
-  }
+    this.newPlayer = playerService.currentPlayer;
 
-  ngOnInit() {
-    this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => params.get("id"))).subscribe(s => {
-        this.gameRepository.getGame(parseInt(s, 10)).subscribe(serverData => {
+    this.route.params.subscribe(params => {
+        this.gameRepository.getGame(parseInt(params["id"], 10)).subscribe(serverData => {
           this.game = serverData;
+          this.gameRulesService.setGameRules(this.game.gameRules);
+          this.avaibleHouses = gameRulesService.calculateAvaibleHouses(this.game.players.map(p => p.house));
         });
       });
+  }
+  cancelJoinGame() {
+    this.playerService.deletePlayer().subscribe(serverData => {
+      this.router.navigate(["/gamelist"]);
+    });
   }
 
   confirmJoinGame(form: NgForm) {
     if (form.valid) {
+      if (this.game.gameRules.randomHouses) {
+        const r = Math.floor(Math.random() * (this.avaibleHouses.length - 1)  + 1);
+        this.selectedHouse = this.avaibleHouses[r];
+      }
       this.newPlayer.house = this.selectedHouse;
       this.gameRepository.confirmJoinGame(this.game.id, this.newPlayer).subscribe(serverData => {
         if (serverData.playerJoined) {
-          this.playerService.updatePlayer(serverData.player);
+          this.playerService.setPlayer(serverData.player);
           this.router.navigate(["/readyforgame", this.game.id]);
+        } else {
+          this.showMessageBox(this.getTranslation(this.localKeys.housePlayerExistMsg), "OK");
+          window.location.reload();
         }
       });
     }

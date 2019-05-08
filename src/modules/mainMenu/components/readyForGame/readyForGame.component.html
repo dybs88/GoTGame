@@ -1,19 +1,56 @@
-<h6>Odświeżanie: {{refreshCounter}}</h6>
-<h4 class="text-center">{{game.name}}</h4>
-  <table class="table table-hover table-striped table-lg" style="table-layout: fixed">
-  <tr>
-    <th>{{getTranslation(localKeys.indexColName)}}</th>
-    <th>{{getTranslation(localKeys.playerColName)}}</th>
-    <th>{{getTranslation(localKeys.houseColName)}}</th>
-    <th>{{getTranslation(localKeys.playerStatusColName)}}</th>
-    <th>{{getTranslation(localKeys.actionColName)}}</th>
-  </tr>
- <tr [class.bg-success]="player.status === 2" [class.bg-warning]="player.status === 1" [class.bg-danger]="player.status === 0"
- *ngFor="let player of players; let i = index">
-    <td>{{i + 1}}</td>
-    <td>{{player.name}}</td>
-    <td>{{player.house}}</td>
-    <td>{{player.status}}</td>
-    <td>
-    </td>
-  </table>
+<h6 *ngIf="isAuthorized">Odświeżanie: {{refreshCounter}}</h6>
+<div class="row mr-1 ml-1">
+  <div class="col-3">
+    <button *ngIf="isAuthorized || (currentPlayer.isGameCreator && !showChangeRules)" class="btn btn-success btn-sm" (click)="toggleShowChangeRules()">{{getTranslation(localKeys.changeRulesBtn)}}</button>
+    <got-gameRules *ngIf="showChangeRules" (rulesConfirmed)="confirmRules()"></got-gameRules>
+    <got-gameRulesV *ngIf="game!= undefined && !showChangeRules" [gameRules]="game.gameRules"></got-gameRulesV>
+  </div>
+  <div class="col-6 pl-0 pr-0">
+      <div *ngIf="game !== undefined">
+          <h4 class="text-center">{{game.name}}</h4>
+          <table class="table table-hover table-striped table" style="table-layout: fixed">
+          <tr>
+            <th style="width: 5%">{{getTranslation(localKeys.indexColName)}}</th>
+            <th *ngIf="isAuthorized">{{getTranslation(localKeys.idColName)}}</th>
+            <th *ngIf="isAuthorized">{{getTranslation(localKeys.isCreatorColName)}}</th>
+            <th>{{getTranslation(localKeys.playerColName)}}</th>
+            <th>{{getTranslation(localKeys.houseColName)}}</th>
+            <th>{{getTranslation(localKeys.playerStatusColName)}}</th>
+            <th>{{getTranslation(localKeys.actionColName)}}</th>
+          </tr>
+         <tr [class.text-white]="player.status === 'Ready'"
+         [class.bg-success]="player.status === 'Ready'"
+         [class.bg-warning]="player.status === 'Joined'"
+         [class.bg-danger]="player.status === 'Joining'"
+         *ngFor="let player of players; let i = index">
+            <td (click)="chat.createPrivateChat(player.id)" style="width: 5%">{{i + 1}}</td>
+            <td (click)="chat.createPrivateChat(player.id)" *ngIf="isAuthorized">{{player.id}}</td>
+            <td (click)="chat.createPrivateChat(player.id)" *ngIf="isAuthorized">{{getTranslation(player.isGameCreator)}}</td>
+            <td (click)="chat.createPrivateChat(player.id)">{{player.name}}</td>
+            <td (click)="chat.createPrivateChat(player.id)">{{getTranslation(player.house)}}</td>
+            <td (click)="chat.createPrivateChat(player.id)">{{getTranslation(player.status)}}</td>
+            <td>
+              <div *ngIf="currentPlayer.id === player.id" class="btn-group">
+                <button class="btn btn-danger btn-sm" (click)="leaveGame(player.id)" (click)="chat.deletePlayerChats(player.id)">{{getTranslation(localKeys.leaveGameBtn)}}</button>
+                <button *ngIf="player.status !== 'Ready'" class="btn btn-primary btn-sm" (click)="changeStatus('Ready')">{{getTranslation(localKeys.readyBtn)}}</button>
+                <button *ngIf="player.status === 'Ready'" class="btn btn-primary btn-sm" (click)="changeStatus('Joined')">{{getTranslation(localKeys.waitBtn)}}</button>
+              </div>
+              <div *ngIf="currentPlayer.isGameCreator && currentPlayer.id !== player.id" class="btn-group">
+                <button [disabled]="disableAdminBtn" class="btn btn-danger btn-sm" (click)="kickPlayer(player.id)">{{getTranslation(localKeys.kickBtn)}}</button>
+                <button [disabled]="disableAdminBtn"  class="btn btn-primary btn-sm" (click)="transferGameCreator(player)">{{getTranslation(localKeys.transferBtn)}}</button>
+              </div>
+            </td>
+          </table>
+          <div class="btn-group text-right float-right mb-1">
+            <button *ngIf="currentPlayer.isGameCreator" [disabled]="start" class="btn btn-success btn-sm">{{getTranslation(localKeys.startBtn)}}</button>
+          </div>
+          <got-chat [players]="players" #chat></got-chat>
+        </div>
+  </div>
+  <div class="col-3">
+    <got-houseV [selectedHouse]="currentPlayer.house"></got-houseV>
+  </div>
+</div>
+<got-messageBox [data]="messageBox" (okCallback)="okMessageCallback()"></got-messageBox>
+
+

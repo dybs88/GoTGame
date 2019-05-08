@@ -9,8 +9,14 @@ export class LocalizationService {
       this.data = this.localizationDatas.localizationData;
    }
 
-  public getTranslation(key: string): string {
-    let locale_id = localStorage.getItem("locale_id");
+  public getTranslation(key: any): string {
+    if (key === undefined || key === null || key === "") {
+      return "";
+    }
+    if (key instanceof Boolean) {
+      key = String(key);
+    }
+    const locale_id = localStorage.getItem("locale_id");
     return this.data[key][locale_id];
   }
 }

@@ -14,7 +14,8 @@ namespace GotGame.RestServer.Infrastructure.Policies
         {
           policy.WithOrigins(settings.WebClientAddress)
               .WithMethods("GET", "POST", "PUT", "DELETE")
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials();
         });
       });
     }

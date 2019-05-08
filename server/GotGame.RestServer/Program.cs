@@ -9,11 +9,7 @@ namespace GotGame.RestServer
   {
     public static void Main(string[] args)
     {
-      var webHost = CreateWebHostBuilder(args).Build();
-
-      var logger = webHost.Services.GetRequiredService<ILogger<Program>>();
-      logger.LogInformation("Run host");
-      
+      var webHost = CreateWebHostBuilder(args).Build();    
       webHost.Run();
     }
 
@@ -21,13 +17,13 @@ namespace GotGame.RestServer
         WebHost.CreateDefaultBuilder(args)
             .UseStartup<Startup>()
             .UseDefaultServiceProvider(options => options.ValidateScopes = false)
-            .UseIISIntegration()
-            .ConfigureLogging((hostingContext, logging) =>
-            {
-              logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-              logging.AddConsole();
-              logging.AddDebug();
-              logging.AddEventSourceLogger();
-            });
+            .UseIISIntegration();
+            //.ConfigureLogging((hostingContext, logging) =>
+            //{
+            //  logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+            //  logging.AddConsole();
+            //  logging.AddDebug();
+            //  logging.AddEventSourceLogger();
+            //});
   }
 }

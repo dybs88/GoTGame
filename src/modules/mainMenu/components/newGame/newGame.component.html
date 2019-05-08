@@ -1,0 +1,59 @@
+<div class="row mr-1 ml-1">
+  <div class="col-3">
+    <got-gameRules (rulesConfirmed)="getRules($event)"></got-gameRules>
+  </div>
+  <div class="col-6">
+    <form #form="ngForm" novalidate (ngSubmit)="createNewGame(form)">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label>{{getTranslation(localKeys.gameNameLbl)}}:</label>
+            <input class="form-control" name="gameName" #gName="ngModel" [(ngModel)]="gameName" type="text" required minlength="6" maxlength="50"/>
+            <span class="text-danger" style="font-size: small" *ngIf="gName.dirty && gName.invalid">{{getTranslation(localKeys.createGameNameValidator)}}</span>
+          </div>
+          <div class="form-inline">
+            <label class="mr-1">{{getTranslation(localKeys.privateGameLbl)}}:</label>
+            <input type="checkbox" name="gameIsPrivate" [value]="gameIsPrivate" [(ngModel)]="gameIsPrivate" (change)="toggleShowPassword()" />
+          </div>
+          <div *ngIf="showPassword">
+          <div class="form-group">
+            <label>{{getTranslation(localKeys.passwordLbl)}}:</label>
+            <input class="form-control" name="password" #passwordModel="ngModel" [(ngModel)]="password" type="password" minlength="6" maxlength="20" />
+            <span class="text-danger" style="font-size: small" *ngIf="passwordModel.dirty && passwordModel.invalid">{{getTranslation(localKeys.passwordValidator)}}</span>
+          </div>
+          <div class="form-group">
+            <label>{{getTranslation(localKeys.repeatPasswordLbl)}}:</label>
+            <input class="form-control"
+              [class.ng-valid]="rPasswordModel.dirty && passwordModel.value === rPasswordModel.value"
+              [class.ng-invalid]="rPasswordModel.dirty && passwordModel.value !== rPasswordModel.value"
+              name="rPassword" #rPasswordModel="ngModel" [(ngModel)]="rPassword" type="password" minlength="6" maxlength="20" />
+            <span class="text-danger" *ngIf="rPasswordModel.dirty && passwordModel.value !== rPasswordModel.value" style="font-size: small">{{getTranslation(localKeys.repeatPasswordValidator)}}</span>
+          </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label>{{getTranslation(localKeys.playerNameLbl)}}:</label>
+            <input class="form-control" type="text" name="playerName" #pName="ngModel" [(ngModel)]="playerName" required minlength="6" maxlength="20" pattern="^[a-zA-Z]{6,20}"/>
+            <span class="text-danger" style="font-size: small" *ngIf="pName.dirty && pName.invalid">{{getTranslation(localKeys.joinGameNameValidator)}}</span>
+          </div>
+          <div *ngIf="gameRules !== undefined && gameRules !== null && !gameRules.randomHouses" class="form-group">
+            <label>{{getTranslation(localKeys.houseNameLbl)}}:</label>
+            <select class="form-control" #house="ngModel" name="selectedHouse" [(ngModel)]="selectedHouse" required>
+              <option *ngFor="let house of avaibleHouses" [value]="house">{{getTranslation(house)}}</option>
+            </select>
+            <span class="text-danger" style="font-size: small" *ngIf="house.dirty && house.invalid">{{getTranslation(localKeys.selectedHouseValidator)}}</span>
+          </div>
+        </div>
+        <div class="btn-group justify-content-end ml-auto mr-3">
+          <button class="btn btn-light btn-sm" routerLink="/gamelist" routerLinkActive="router-link-active">{{getTranslation(localKeys.cancelBtn)}}</button>
+          <button type="submit" class="btn btn-success btn-sm">{{getTranslation(localKeys.newGameBtn)}}</button>
+        </div>
+      </div>
+      <input type="hidden" #rules="ngModel" name="gameRules" [(ngModel)]="gameRules" required />
+      <span class="text-danger text-center ml-auto mr-auto" style="font-size: small" *ngIf="rules.invalid">{{getTranslation(localKeys.rulesConfirmedValidator)}}</span>
+    </form>
+    <got-gameRulesV [gameRules]="gameRules"></got-gameRulesV>
+  </div>
+  <div class="col-3"></div>
+</div>

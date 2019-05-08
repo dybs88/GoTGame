@@ -1,8 +1,10 @@
+
 import { Component } from "@angular/core";
 
 import { LocalizationService } from "./../infrastructure/locale/localization.service";
 import { localizationKeys, localizationLanguages } from "./../infrastructure/locale/localization.data";
 import { UserService } from "../infrastructure/authorization/user.service";
+import { MessageBox } from "./../models/messageBox";
 
 @Component({
   selector: "got-base",
@@ -13,6 +15,11 @@ export class GotBaseComponent {
   protected localKeys = localizationKeys;
   protected localLang = localizationLanguages;
 
+  protected messageBox: MessageBox = new MessageBox();
+  protected okMessageCallback: Function;
+  protected yesMessageCallback: Function;
+  protected noMessageCallback: Function;
+
   constructor(private localizationService: LocalizationService,
     protected userService: UserService) { }
 
@@ -22,5 +29,21 @@ export class GotBaseComponent {
 
   protected getTranslation(key: string): string {
     return this.localizationService.getTranslation(key);
+  }
+
+  protected hideMessageBox() {
+    this.okMessageCallback = undefined;
+    this.yesMessageCallback = undefined;
+    this.noMessageCallback = undefined;
+
+    this.messageBox.hide();
+  }
+
+  protected showMessageBox(message: string, mode: string, okMsgCallback?: Function, yesMsgCallback?: Function, noMsgCallback?: Function) {
+    this.okMessageCallback = okMsgCallback;
+    this.yesMessageCallback = yesMsgCallback;
+    this.noMessageCallback = noMsgCallback;
+
+    this.messageBox.show(message, mode);
   }
 }

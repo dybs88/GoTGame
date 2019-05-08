@@ -1,0 +1,84 @@
+<h3>{{getTranslation(localKeys.gameRulesLbl)}}:</h3>
+<div>
+  <form #form="ngForm" novalidate (ngSubmit)="confirm(form)">
+  <div *ngIf="!isModified" class="form-inline">
+      <label class="mr-1">{{getTranslation(localKeys.maxPlayersLbl)}}:</label>
+      <input class="form-control form-control-sm" type="number" name="maxPlayers" [(ngModel)]="maxPlayers" minValue="3" maxValue="6" min="3" max="6"/>
+  </div>
+  <div *ngIf="!isModified" class="form-inline">
+    <label class="mr-1">{{getTranslation(localKeys.standardRulesLbl)}}:</label>
+    <input type="checkbox" [(value)]="standardRules" name="standardRules" [(ngModel)]="standardRules"/>
+  </div>
+  <div *gotDisable="standardRules">
+    <div *ngIf="!isModified" class="card">
+      <div class="card-header" [class.bg-primary]="!standardRules" [class.text-white]="!standardRules"><h4>{{getTranslation(localKeys.housesLbl)}}</h4></div>
+      <div class="card-body">
+        <div class="form-inline">
+          <label class="mr-1">{{getTranslation(localKeys.allHousesLbl)}}:</label>
+          <input type="checkbox" [value]="allHouses" name="allHouses" [(ngModel)]="allHouses" />
+        </div>
+        <div class="form-inline">
+          <label class="mr-1">{{getTranslation(localKeys.randomHousesLbl)}}:</label>
+          <input type="checkbox" [value]="randomHouses" name="randomHouses" [(ngModel)]="randomHouses" />
+        </div>
+      </div>
+    </div>
+    <div class="card">
+        <div class="card-header" [class.bg-primary]="!standardRules" [class.text-white]="!standardRules"><h4>{{getTranslation(localKeys.winConditionsLbl)}}</h4></div>
+        <div class="card-body">
+          <div class="form-inline">
+            <input type="radio" class="" id="roundLimit" name="winUnlimitedRounds" [checked]="!winUnlimitedRounds"
+              (change)="roundsCountRadioChange($event.target)" />
+            <label class="mr-1">{{getTranslation(localKeys.roundCountLbl)}}:</label>
+            <input class="form-control form-control-sm mr-1" type="number" name="winRoundCount" [(ngModel)]="roundsCount"
+            minValue="5" maxValue="20" min="5" max="20"/>
+            <input type="radio"  class="" id="unlimitedRounds"  name="winUnlimitedRounds" [checked]="winUnlimitedRounds"
+              (change)="roundsCountRadioChange($event.target)"/>
+            <label class="mr-1">{{getTranslation(localKeys.unlimitedRoundsLbl)}}</label>
+          </div>
+          <div class="form-inline">
+              <input type="radio" class="ml-5" id="winCastleCount" name="isWinCastles" [checked]="isWinCastles" (change)="winConditionRaioChange($event.target)" />
+              <label class="mr-1">{{getTranslation(localKeys.castlesCountLbl)}}:</label>
+              <input class="form-control form-control-sm" type="number" name="winCastles" [(ngModel)]="winCastlesCount" minValue="7" maxValue="11" min="7" max="11"/>
+          </div>
+          <div class="form-inline">
+            <input type="radio" class="ml-5" id="winPointCount" name="isWinCastles" [checked]="!isWinCastles" (change)="winConditionRaioChange($event.target)" />
+            <label class="mr-1">{{getTranslation(localKeys.pointsCountLbl)}}:</label>
+            <input class="form-control form-control-sm" type="number" name="winPoints" [(ngModel)]="winPointsCount" minValue="15" maxValue="30" min="15" max="30" />
+          </div>
+        </div>
+    </div>
+    <div class="card">
+      <div class="card-header" [class.bg-primary]="!standardRules" [class.text-white]="!standardRules"><h4>{{getTranslation(localKeys.otherRulesLbl)}}</h4></div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+              <div class="form-inline">
+                  <label class="mr-1">{{getTranslation(localKeys.lookPlayerCardLbl)}}:</label>
+                  <input type="checkbox" name="canLookPlayerCard" [value]="canLookPlayerCard" [(ngModel)]="canLookPlayerCard" />
+                </div>
+                <div class="form-inline">
+                  <label class="mr-1">{{getTranslation(localKeys.largeCastleDefenceLbl)}}:</label>
+                  <input type="checkbox" name="largeCastleDefence" [value]="largeCastleDefence" [(ngModel)]="largeCastleDefence" />
+                </div>
+                <div class="form-inline">
+                  <label class="mr-1">{{getTranslation(localKeys.smallCastleDefenceLbl)}}:</label>
+                  <input type="checkbox" name="smallCastleDefence" [value]="smallCastleDefence" [(ngModel)]="smallCastleDefence" />
+                </div>
+          </div>
+          <div class="col-6">
+            <div class="form-inline">
+              <label class="mr-1">{{getTranslation(localKeys.mercenaryAvaibleLbl)}}:</label>
+              <input type="checkbox" name="mercenaryAvaible" [value]="mercenaryAvaible" [(ngModel)]="mercenaryAvaible" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="btn-group float-right">
+      <button [disabled]="form.invalid" type="submit" class="btn btn-success btn-sm text-right float-right mt-1">{{getTranslation(localKeys.confirmBtn)}}</button>
+  </div>
+</form>
+</div>

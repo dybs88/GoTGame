@@ -1,0 +1,25 @@
+<div *ngIf="game !== undefined">
+  <div *ngIf="isAuthorized">{{getTranslation(localKeys.idColName)}}: {{game.id}}</div>
+  <div>{{getTranslation(localKeys.gameNameColName)}}: {{game.name}}</div>
+  <div>{{getTranslation(localKeys.playersCountColName)}}: {{game.playerCount}}</div>
+  <div>{{getTranslation(localKeys.maxPlayersColName)}}: {{game.gameRules.maxPlayers}}</div>
+  <div>{{getTranslation(localKeys.privateGameLbl)}}: {{getTranslation(game.isPrivate)}}</div>
+  <table class="table table-striped table-sm">
+    <tr>
+      <th>{{getTranslation(localKeys.indexColName)}}</th>
+      <th *ngIf="isAuthorized">{{getTranslation(localKeys.idColName)}}</th>
+      <th>{{getTranslation(localKeys.isCreatorColName)}}</th>
+      <th>{{getTranslation(localKeys.playerColName)}}</th>
+      <th>{{getTranslation(localKeys.houseColName)}}</th>
+      <th>{{getTranslation(localKeys.playerStatusColName)}}</th>
+    </tr>
+   <tr *ngFor="let player of game.players; let i = index">
+      <td>{{i + 1}}</td>
+      <td *ngIf="isAuthorized">{{player.id}}</td>
+      <td>{{getTranslation(player.isGameCreator)}}</td>
+      <td>{{player.name}}</td>
+      <td>{{getTranslation(player.house)}}</td>
+      <td>{{getTranslation(player.status)}}</td>
+    </table>
+    <got-gameRulesV [gameRules]="game.gameRules"></got-gameRulesV>
+</div>

@@ -16,4 +16,9 @@ namespace GotGame.RestServer.Infrastructure.Consts
     public const string Release = "Release";
     public const string Production = "Production";
   }
+
+  public class SessionKeys
+  {
+    public const string NewGameCreator = "NewGameCreator";
+  }
 }

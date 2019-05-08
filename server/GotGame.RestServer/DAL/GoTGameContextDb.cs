@@ -14,6 +14,7 @@ namespace GotGame.RestServer.DAL
   {
     DbSet<Game> Games { get; }
     DbSet<Player> Players { get; }
+    DbSet<GameRules> GameRules { get; }
 
     ChangeTracker ChangeTracker { get; }
     Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken));
@@ -27,8 +28,8 @@ namespace GotGame.RestServer.DAL
     { }
 
     public DbSet<Game> Games { get; set; }
-
     public DbSet<Player> Players { get; set; }
+    public DbSet<GameRules> GameRules { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -44,6 +45,12 @@ namespace GotGame.RestServer.DAL
         .HasConversion(
           v => v.ToString(),
           v => (PlayerStatus)Enum.Parse(typeof(PlayerStatus), v));
+      builder
+        .Entity<GameRules>()
+        .Property(g => g.WinCondition)
+        .HasConversion(
+        v => v.ToString(),
+        v => (WinCondition)Enum.Parse(typeof(WinCondition), v));
     }
   }
 }

@@ -11,6 +11,6 @@ export class SettingServer extends RestServer {
 }
 
   public getSettings(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/setting`);
+    return this.http.get(`${this.baseUrl}/setting`, super.getOptions());
   }
 }

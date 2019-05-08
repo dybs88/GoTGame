@@ -1,4 +1,6 @@
 using GotGame.RestServer.DAL;
+using GotGame.RestServer.DAL.Repositories;
+using GotGame.RestServer.Infrastructure.Consts;
 using GotGame.RestServer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -15,13 +17,22 @@ namespace GotGame.RestServer.Infrastructure.SeedDatas
     public static void PopulateGame(IApplicationBuilder app)
     {
       GoTGameContextDb context = app.ApplicationServices.GetRequiredService<GoTGameContextDb>();
+      IChatRepository chatRepo = app.ApplicationServices.GetRequiredService<IChatRepository>();
 
       bool saveNeeded = false;
       if(!context.Games.Any())
       {
         context.Games.AddRange(new[]
         {
-          new Game { Name = "Temporary game", MaxPlayers = 3 }
+          new Game { Name = "Temporary game",
+            GameRules = new GameRules {
+              AllHouses = false,
+              RandomHouses = false,
+              MaxPlayers = 6,
+              WinCondition = WinCondition.Castles,
+              WinCastlesCount = 7,
+              RoundsCount = 10 }
+          }
         });
 
         saveNeeded = true;
@@ -29,6 +40,11 @@ namespace GotGame.RestServer.Infrastructure.SeedDatas
 
       if (saveNeeded)
         context.SaveChanges();
+
+      foreach(var game in context.Games)
+      {
+        chatRepo.CreateGameChat(game.Id, "Public");
+      }
     }
   }
 }
