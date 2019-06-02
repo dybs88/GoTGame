@@ -15,11 +15,9 @@ namespace GotGame.RestServer.DAL
     DbSet<Game> Games { get; }
     DbSet<Player> Players { get; }
     DbSet<GameRules> GameRules { get; }
-
     ChangeTracker ChangeTracker { get; }
     Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken));
   }
-
 
   public class GoTGameContextDb : DbContext, IGoTGameContextDb
   {
@@ -38,13 +36,14 @@ namespace GotGame.RestServer.DAL
           .Property(p => p.House)
           .HasConversion(
               v => v.ToString(),
-              v => (House)Enum.Parse(typeof(House), v));
+              v => (HouseType)Enum.Parse(typeof(HouseType), v));
       builder
         .Entity<Player>()
         .Property(p => p.Status)
         .HasConversion(
           v => v.ToString(),
           v => (PlayerStatus)Enum.Parse(typeof(PlayerStatus), v));
+      
       builder
         .Entity<GameRules>()
         .Property(g => g.WinCondition)

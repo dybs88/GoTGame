@@ -1,4 +1,3 @@
-
 import { Injectable } from "@angular/core";
 
 import { Observable } from "rxjs";
@@ -7,13 +6,14 @@ import { Game } from "src/models/game.model";
 import { Player } from "src/models/player.model";
 import { PlayerServer } from "src/modules/dal/infrastructure/player.server";
 import { PlayerStatus } from "../consts/goTEnums";
+import { GameListService } from "./gameList.service";
 
 @Injectable()
 export class PlayerService {
   private playerToken: string;
   public currentPlayer: Player;
 
-  constructor(private server: PlayerServer) {
+  constructor(private server: PlayerServer, private gameService: GameListService) {
     if (localStorage.getItem("player_id") !== null && localStorage.getItem("player_id") !== "") {
       this.server.getPlayer(parseInt(localStorage.getItem("player_id"), 10)).subscribe(serverData => {
         this.currentPlayer = serverData;
@@ -40,9 +40,9 @@ export class PlayerService {
 
   public deletePlayer(playerId?: number): Observable<any> {
     if (playerId === undefined) {
-      return this.server.deletePlayer(this.currentPlayer.id);
+      return this.server.deletePlayer(this.gameService.currentGame.id, this.currentPlayer.id);
     } else {
-      return this.server.deletePlayer(playerId);
+      return this.server.deletePlayer(this.gameService.currentGame.id, playerId);
     }
   }
 

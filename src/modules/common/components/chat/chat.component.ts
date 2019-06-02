@@ -5,7 +5,7 @@ import { timer, Subscription } from "rxjs";
 import { ChatService } from "./../../infrastructure/services/chat.service";
 import { PlayerService } from "src/modules/common/infrastructure/services/player.service";
 import { GameChat, ChatData } from "./../../../../models/gameChat.model";
-import { GameService } from "../../infrastructure/services/game.service";
+import { GameListService } from "../../infrastructure/services/gameList.service";
 import { Player } from "src/models/player.model";
 
 
@@ -26,7 +26,7 @@ export class ChatComponent {
 
   constructor(private chatService: ChatService,
     private playerService: PlayerService,
-    private gameRepository: GameService) {
+    private gameRepository: GameListService) {
     this.chatService.getGameChats().subscribe(serverData => {
       const publicChat = serverData.find(gc => gc.isPrivate === false);
       publicChat.name = this.setPublicChatName();

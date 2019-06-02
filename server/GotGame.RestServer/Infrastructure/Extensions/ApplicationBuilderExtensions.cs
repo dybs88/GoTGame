@@ -46,12 +46,9 @@ namespace GotGame.RestServer.Infrastructure.Extensions
       IGoTStorage storage = app.ApplicationServices.GetRequiredService<IGoTStorage>();
       GoTGameContextDb context = app.ApplicationServices.GetRequiredService<GoTGameContextDb>();
 
-      var games = context.Games.ToList();
-
-      foreach(Game game in games)
+      foreach(Game game in context.Games)
       {
-        var playerIds = context.Players.Where(p => p.GameId == game.Id).Select(p => p.Id).ToArray();
-        storage.CreateGameStorage(game.Id, playerIds);
+        storage.CreateGameStorage(game);
       }
 
       return app;

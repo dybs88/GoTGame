@@ -16,9 +16,9 @@ namespace GotGame.RestServer.Models
     public bool IsPrivate { get; set; }
     public string PasswordHash { get; set; }
 
-      public Game()
-      {
-          Players = new List<Player>();
-      }
+    public Game()
+    {
+        Players = new List<Player>();
+    }
   }
 }

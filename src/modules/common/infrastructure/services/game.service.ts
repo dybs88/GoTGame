@@ -1,46 +1,41 @@
 import { Injectable } from "@angular/core";
+
 import { Observable } from "rxjs";
 
-import { Game } from "src/models/game.model";
-import { GameServer} from "../../../dal/infrastructure/gameList.server";
-import { Player } from "src/models/player.model";
+import { PlayerService } from "./player.service";
+import { GameBoard } from "./../../../../models/gameBoard.model";
+import { GameServer } from "./../../../dal/infrastructure/game.server";
+import { House } from "src/models/house.model";
 
 @Injectable()
 export class GameService {
+  private board: GameBoard;
+  private house: House;
 
-  currentGame: Game;
-
-  constructor(private server: GameServer) { }
-
-  public confirmJoinGame(gameId: number, player: Player): Observable<any> {
-    return this.server.confirmJoinGame(gameId, player);
+  get gameBoard() {
+    return this.board;
   }
 
-  public createGame(game: Game, password?: string): Observable<any> {
-    return this.server.createGame(game, password);
+  get currentHouse() {
+    return this.house;
   }
 
-  public getGames(): Observable<Game[]> {
-    return this.server.getGames();
+  constructor(private server: GameServer, private playerService: PlayerService) { }
+
+  public quickStart(): Observable<any> {
+    return this.server.quickStart();
   }
 
-  public getGame(gameId: number): Observable<Game> {
-    return this.server.getGame(gameId);
+  public startGame(gameId: number): Observable<any> {
+    return this.server.startGame(gameId);
   }
 
-  public joinGame(gameId: number): Observable<any> {
-    return this.server.joinGame(gameId);
-  }
+  public setGameBoard(gameBoard: GameBoard) {
+    this.board = gameBoard;
 
-  public refreshGames(): Observable<Game[]> {
-    return this.server.getGames();
-  }
-
-  public refreshGame(gameId: number, playerId: number): Observable<any> {
-    return this.server.refreshGame(gameId, playerId);
-  }
-
-  public verifyPassword(gameId: number, password: string): Observable<boolean> {
-    return this.server.verifyPassword(gameId, password);
+    const currentPlayer = this.playerService.currentPlayer;
+    if (currentPlayer !== undefined) {
+      this.house = this.board.houses.find(h => h.playerId === currentPlayer.id);
+    }
   }
 }

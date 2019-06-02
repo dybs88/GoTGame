@@ -1,4 +1,4 @@
-export enum House {
+export enum HouseType {
   Lannister = "Lannister",
   Baratheon = "Baratheon",
   Stark = "Stark",
@@ -22,4 +22,17 @@ export enum GameStatus {
 export enum WinCondition {
   Castles = "Castles",
   Points = "Points"
+}
+
+export enum CastleType {
+  None = "None",
+  Large = "Large",
+  Small = "Small"
+}
+
+export enum FieldType {
+  Land = "Land",
+  Sea = "Sea",
+  Port = "Port",
+  River = "River"
 }

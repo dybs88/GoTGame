@@ -3,11 +3,11 @@ import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 
+import { GameViewComponent } from "./../mainBoard/components/gameView/gameView.component";
 import { ReadyForGameComponent } from "./components/readyForGame/readyForGame.component";
 import { GameListComponent } from "./components/gameList/gameList.component";
 import { DalModule } from "./../dal/dal.module";
 import { MainBoardModule } from "./../mainBoard/mainBoard.module";
-import { MainBoardComponent } from "./../mainBoard/components/mainBoard.component";
 import { MainMenuComponent } from "./components/mainMenu.component";
 import { CommonModule } from "./../common/common.module";
 import { GotGuard } from ".//infrastructure/got.guard";
@@ -29,7 +29,7 @@ import { HouseModule } from "../house/house.module";
     BrowserModule,
     FormsModule,
     RouterModule.forRoot([
-    {path: "mainboard", component: MainBoardComponent, canActivate: [GotGuard] },
+    {path: "gameboard/:id", component: GameViewComponent, canActivate: [GotGuard] },
     {path: "gamelist", component: GameListComponent, canActivate: [GotGuard]},
     {path: "joingame/:id", component: JoinGameComponent, canActivate: [GotGuard] },
     {path: "readyforgame/:id", component: ReadyForGameComponent, canActivate: [GotGuard]},

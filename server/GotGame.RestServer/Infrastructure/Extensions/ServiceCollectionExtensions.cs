@@ -62,8 +62,7 @@ namespace GotGame.RestServer.Infrastructure.Extensions
         });
       }, ServiceLifetime.Transient);
 
-      //services.AddSingleton<IGoTGameContextDb, GoTGameContextDb>();
-      services.AddTransient<IGamesRepository, GamesRepository>();
+      services.AddTransient<IGameListRepository, GameListRepository>();
       services.AddTransient<IPlayersRepository, PlayersRepository>();
       services.AddTransient<IGameRulesRepository, GameRulesRepository>();
 
@@ -71,6 +70,8 @@ namespace GotGame.RestServer.Infrastructure.Extensions
 
       services.AddTransient<IUserRepository, UserRepository>();
       services.AddTransient<ISignInService, SignInService>();
+
+      services.AddTransient<IGameService, GameService>();
 
       return services;
 

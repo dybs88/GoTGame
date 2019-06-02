@@ -1,5 +1,12 @@
-import { Field } from "./../../../../models/field.model";
-import { Component, Input } from "@angular/core";
+import { Observable } from "rxjs";
+
+import { FieldData } from "./../../../../models/fieldData.model";
+import { FieldView } from "../../../../models/fieldView.model";
+import { Component, Input, SimpleChanges } from "@angular/core";
+import { MainBoardSettings } from "../../infrastructure/models/mainboard.settings";
+import { BaratheonDescription, LannisterDescription, StarkDescription} from "./../../../house/infrastructure/consts/houseDescriptions";
+import { GreyjoyDescription, MartellDescription, TyrellDescription } from "./../../../house/infrastructure/consts/houseDescriptions";
+import { HouseType } from "src/modules/common/infrastructure/consts/goTEnums";
 
 @Component({
   selector: "got-field",
@@ -8,18 +15,58 @@ import { Component, Input } from "@angular/core";
 
 export class FieldComponent {
   @Input()
-  field: Field;
+  displayHouseFields: boolean;
+  @Input()
+  settings: Observable<MainBoardSettings>;
+  @Input()
+  field: FieldView;
+  @Input()
+  fieldData: FieldData;
+
+  fillOpacity: number = 0.0;
+  fill: string = "#000000";
 
   imageUrl(): string {
     return `url(/assets/img/${this.field.image})`;
   }
 
+  ngOnInit(): void {
+    if (this.fieldData.controlledHouse !== undefined) {
+      if (this.fieldData.controlledHouse === HouseType.Baratheon) {
+        this.fill = BaratheonDescription.backgroundColor;
+      } else if (this.fieldData.controlledHouse === HouseType.Lannister) {
+        this.fill = LannisterDescription.backgroundColor;
+      } else if (this.fieldData.controlledHouse === HouseType.Stark) {
+        this.fill = StarkDescription.backgroundColor;
+      } else if (this.fieldData.controlledHouse === HouseType.Greyjoy) {
+        this.fill = GreyjoyDescription.backgroundColor;
+      } else if (this.fieldData.controlledHouse === HouseType.Martell) {
+        this.fill = MartellDescription.backgroundColor;
+      } else if (this.fieldData.controlledHouse === HouseType.Tyrell) {
+        this.fill = TyrellDescription.backgroundColor;
+      }
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const houseFieldsChange = changes["displayHouseFields"];
+    if (houseFieldsChange !== undefined && !houseFieldsChange.firstChange) {
+      if (houseFieldsChange.currentValue && this.fieldData.controlledHouse !== undefined) {
+        this.fillOpacity = 0.5;
+
+      } else {
+        this.fillOpacity = 0.0;
+      }
+    }
+  }
+
+  onControlledHouseChange() {
+
+  }
+
   style(): any {
     return {
-      "background-image": this.imageUrl(),
-      "position": "absolute",
-      "left": this.field.location.x,
-      "top": this.field.location.y
+      "background-image": this.imageUrl()
      };
   }
 

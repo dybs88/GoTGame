@@ -6,6 +6,7 @@ using GotGame.RestServer.FrontModels;
 using GotGame.RestServer.Infrastructure.Consts;
 using System;
 using Microsoft.AspNetCore.Http;
+using GotGame.RestServer.Infrastructure.Storage;
 
 namespace GotGame.RestServer.Controllers
 {
@@ -16,34 +17,44 @@ namespace GotGame.RestServer.Controllers
   {
     private IPlayersRepository playerRepository;
     private IChatRepository chatRepository;
-    private IGamesRepository gamesRepository;
+    private IGameListRepository gamesRepository;
+    private IGoTStorage goTStorage;
 
-    public PlayerController(IPlayersRepository playersRepo, IChatRepository chatRepo, IGamesRepository gamesRepo)
+    public PlayerController(IPlayersRepository playersRepo, IChatRepository chatRepo, IGameListRepository gamesRepo, IGoTStorage storage)
     {
       playerRepository = playersRepo;
       chatRepository = chatRepo;
       gamesRepository = gamesRepo;
+      goTStorage = storage;
     }
 
-    [HttpDelete("delete/{playerId}")]
-    public async Task<IActionResult> DeletePlayerAsync(int playerId)
+    [HttpDelete("delete/{gameId}/{playerId}")]
+    public async Task<IActionResult> DeletePlayer(int gameId, int playerId)
     {
       await playerRepository.DeletePlayerAsync(playerId);
+
+      Game game = await gamesRepository.GetGameAsync(gameId);
+
+      goTStorage.UpdateGame(game);
       chatRepository.DeletePlayerChats(playerId);
       return new OkObjectResult(new { playerDeleted = true });
     }
 
     [HttpGet("{playerId}")]
-    public async Task<IActionResult> GetPlayerAsync(int playerId)
+    public async Task<IActionResult> GetPlayer(int playerId)
     {
       return new OkObjectResult(await playerRepository.GetPlayerAsync(playerId));
     }
 
     [HttpPost]
-    public async Task<IActionResult> UpdatePlayerAsync([FromBody]Player player)
+    public async Task<IActionResult> UpdatePlayer([FromBody]Player player)
     {
-        await playerRepository.SavePlayerAsync(player);
-        return new OkObjectResult(player);
+      await playerRepository.SavePlayerAsync(player);
+
+      Game game = await gamesRepository.GetGameAsync(player.GameId);
+
+      goTStorage.UpdateGame(game);
+      return new OkObjectResult(player);
     }
   }
 }

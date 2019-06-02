@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace GotGame.RestServer.Infrastructure.Storage
 {
-  public class StorageItem
+  public class SessionItem
   {
     public string Value { get; set; }
     public IList<int> ReadedBy { get; set; }
 
-    public StorageItem(string value)
+    public SessionItem(string value)
     {
       Value = value;
       ReadedBy = new List<int>();

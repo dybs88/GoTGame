@@ -1,14 +1,17 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { MainBoardComponent } from "./components/mainBoard.component";
 import { NgModule } from "@angular/core";
+
+import { HouseModule } from "./../house/house.module";
+import { GameViewComponent } from "./components/gameView/gameView.component";
+import { MainBoardComponent } from "./components/mainBoard.component";
 import { FieldComponent } from "./components/field/field.component";
-import { FieldRepository } from "src/models/field.repository";
+import { FieldViewRepository } from "./infrastructure/repositories/fieldView.repository";
 
 @NgModule({
-  declarations: [MainBoardComponent, FieldComponent],
-  imports: [BrowserModule],
+  declarations: [MainBoardComponent, FieldComponent, GameViewComponent],
+  imports: [BrowserModule, HouseModule],
   exports: [MainBoardComponent],
-  providers: [FieldRepository]
+  providers: [FieldViewRepository]
 })
 
 export class MainBoardModule {

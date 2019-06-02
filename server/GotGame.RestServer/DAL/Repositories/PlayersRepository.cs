@@ -22,9 +22,9 @@ namespace GotGame.RestServer.DAL.Repositories
 
   public class PlayersRepository : BaseRepository, IPlayersRepository
   {
-    private IGamesRepository gamesRepository;
+    private IGameListRepository gamesRepository;
 
-    public PlayersRepository(GoTGameContextDb context, IGoTStorage storage, IGamesRepository gamesRepo)
+    public PlayersRepository(GoTGameContextDb context, IGoTStorage storage, IGameListRepository gamesRepo)
       :base (context, storage)
     {
       gamesRepository = gamesRepo;

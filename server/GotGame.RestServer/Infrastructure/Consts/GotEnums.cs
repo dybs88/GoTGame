@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace GotGame.RestServer.Infrastructure.Consts
 {
-    public enum House
+    public enum HouseType
     {
-        Lannister,
-        Baratheon,
-        Stark,
-        Greyjoy,
-        Martell,
-        Tyrell
+      Lannister,
+      Baratheon,
+      Stark,
+      Greyjoy,
+      Martell,
+      Tyrell
     }
 
   public enum PlayerStatus
@@ -26,5 +26,20 @@ namespace GotGame.RestServer.Infrastructure.Consts
   {
     Castles,
     Points
+  }
+
+  public enum FieldType
+  {
+    Land,
+    Sea,
+    Port,
+    River
+  }
+
+  public enum CastleType
+  {
+    Large,
+    Small,
+    None
   }
 }

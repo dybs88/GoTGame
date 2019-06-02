@@ -1,3 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
-input.ng-dirty.ng-invalid { border: 2px solid #ff0000 }    
+input.ng-dirty.ng-invalid { border: 2px solid #ff0000 }
 input.ng-dirty.ng-valid { border: 2px solid #6bc502 }
+svg:hoover {
+  color: red;
+}
+
+.col-1-got, .col-2-got, .col-10-got {
+  position: relative;
+  overflow-x: hidden
+}
+
+.col-1-got {
+  flex: 0 0 8.333333%;
+  max-width: 8.2%;
+}
+
+.col-2-got {
+  flex: 0 0 22.666667%;
+  max-width: 22.7%;
+}
+
+.col-10-got {
+  flex:0 0 83.333333%;
+  max-width: 77.3%;
+  width: fit-content;
+  height: fit-content;
+  overflow-y: auto;
+  overflow-x: hidden
+}

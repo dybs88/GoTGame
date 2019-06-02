@@ -2,7 +2,7 @@
   <div class="card-body">
     <div class="btn-group-vertical">
       <button class="btn btn-light" routerLink="/gamelist" routerLinkActive="router-link-active">{{getTranslation(localKeys.enterTheGameBtn)}}</button>
-      <button class="btn btn-warning" routerLink="/mainboard" routerLinkActive="router-link-active">{{getTranslation(localKeys.lookBoardBtn)}}</button>
+      <button class="btn btn-warning" routerLinkActive="router-link-active" (click)="quickStart()">{{getTranslation(localKeys.quickStartBtn)}}</button>
       <button class="btn btn-dark">{{getTranslation(localKeys.aboutGameBtn)}}</button>
     </div>
   </div>

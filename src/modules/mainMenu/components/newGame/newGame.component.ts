@@ -7,7 +7,7 @@ import { GotBaseComponent } from "./../../../common/components/gotBase.component
 import { LocalizationService } from "src/modules/common/infrastructure/locale/localization.service";
 import { Game } from "src/models/game.model";
 import { Player } from "src/models/player.model";
-import { GameService } from "../../../common/infrastructure/services/game.service";
+import { GameListService } from "../../../common/infrastructure/services/gameList.service";
 import { PlayerService } from "src/modules/common/infrastructure/services/player.service";
 import { GameRules } from "src/models/gameRules.model";
 import { GameRulesService } from "./../../../common/infrastructure/services/gameRules.service";
@@ -32,7 +32,7 @@ export class NewGameComponent extends GotBaseComponent {
   gameRules: GameRules;
 
   constructor(private router: Router,
-    private gameRepository: GameService,
+    private gameRepository: GameListService,
     private playerService: PlayerService,
     private gameRulesService: GameRulesService,
     localService: LocalizationService,

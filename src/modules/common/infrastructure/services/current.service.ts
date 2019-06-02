@@ -6,7 +6,7 @@ import { Player } from "src/models/player.model";
 import { GameRules } from "./../../../../models/gameRules.model";
 import { PlayerService } from "./player.service";
 import { GameRulesService } from "./gameRules.service";
-import { GameService } from "./game.service";
+import { GameListService } from "./gameList.service";
 
 
 @Injectable()
@@ -15,7 +15,7 @@ export class CurrentService {
   currentPlayer: Player;
   currentGameRules: GameRules;
 
-  constructor(private gameService: GameService,
+  constructor(private gameService: GameListService,
     private playerService: PlayerService,
     private rulesService: GameRulesService,
     route: ActivatedRoute) {

@@ -2,14 +2,14 @@ import { Injectable } from "@angular/core";
 
 import { Observable } from "rxjs";
 
-import { GameService } from "./game.service";
+import { GameListService } from "./gameList.service";
 import { ChatServer } from "./../../../dal/infrastructure/chat.server";
 import { GameChat, ChatData } from "./../../../../models/gameChat.model";
 import { PlayerService } from "./player.service";
 
 @Injectable()
 export class ChatService {
-  constructor(private server: ChatServer, private gameRepository: GameService, private playerService: PlayerService) { }
+  constructor(private server: ChatServer, private gameRepository: GameListService, private playerService: PlayerService) { }
 
   deletePlayerChats(playerId: number): Observable<boolean> {
     return this.server.deletePlayerChats(playerId);

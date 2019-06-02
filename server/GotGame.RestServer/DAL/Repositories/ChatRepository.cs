@@ -1,6 +1,3 @@
-using GotGame.RestServer.DAL.Repositories.Base;
-using GotGame.RestServer.Infrastructure.Consts;
-using GotGame.RestServer.Infrastructure.Storage;
 using GotGame.RestServer.Models.Chat;
 using System;
 using System.Collections.Generic;
@@ -22,14 +19,13 @@ namespace GotGame.RestServer.DAL.Repositories
     GameChat UpdateGameChat(int chatId, ChatData chatData);
   }
 
-  public class ChatRepository: BaseRepository, IChatRepository
+  public class ChatRepository: IChatRepository
   {
     private IList<GameChat> gameChats;
 
     private IPlayersRepository playersRepository;
 
-    public ChatRepository(GoTGameContextDb context, IGoTStorage storage, IPlayersRepository playersRepository)
-      :base(context, storage)
+    public ChatRepository(IPlayersRepository playersRepository)
     {
       gameChats = new List<GameChat>();
       this.playersRepository = playersRepository;

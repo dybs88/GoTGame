@@ -40,6 +40,7 @@ export const localizationKeys = {
   kickBtn: "KickBtn",
   transferBtn: "TransferBtn",
   startBtn: "StartBtn",
+  quickStartBtn: "QuickStartBtn",
 
   idColName: "IdColName",
   gameNameColName: "GameNameColName",
@@ -233,6 +234,10 @@ export class LocalizationData {
     "StartBtn": {
       "pl-PL": "START",
       "en-EN": "START"
+    },
+    "QuickStartBtn": {
+      "pl-PL": "Szybki start",
+      "en-EN": "Quick start"
     },
     "IdColName": {
       "pl-PL": "Id",
@@ -446,6 +451,251 @@ export class LocalizationData {
       "pl-PL": "Punkty",
       "en-EN": "Points"
     },
+
+    "BayOfIce": {
+      "pl-PL": "Lodowa zatoka",
+      "en-EN": "Bay of Ice"
+    },
+    "Blackwater": {
+      "pl-PL": "Czarny Nurt",
+      "en-EN": "Blackwater"
+    },
+    "BlackwaterBay": {
+      "pl-PL": "Zatoka Czarnego Nurtu",
+      "en-EN": "Blackwater Bay"
+    },
+    "CastleBlack": {
+      "pl-PL": "Czarny Zamek",
+      "en-EN": "Castle Black"
+    },
+    "CrackclawPoint": {
+      "pl-PL": "Szczypcowy przylądek",
+      "en-EN": "Crackclaw Point"
+    },
+    "DornishMarches": {
+      "pl-PL": "Dornijskie pogranicze",
+      "en-EN": "Dornish Marches"
+    },
+    "DragonStone": {
+      "pl-PL": "Smocza Skała",
+      "en-EN": "DragonStone"
+    },
+    "DragonStonePort": {
+      "pl-PL": "Port Smoczej Skały",
+      "en-EN": "DragonStone Port"
+    },
+    "EastSummerSea": {
+      "pl-PL": "Wschodnie Morze Letnie",
+      "en-EN": "East Summer Sea"
+    },
+    "FeverRiver": {
+      "pl-PL": "Rzeka Fever",
+      "en-EN": "Fever river"
+    },
+    "FlintsFinger": {
+      "pl-PL": "Palec Flinta",
+      "en-EN": "Flints Finger"
+    },
+    "GreywaterWatch": {
+      "pl-PL": "Strażnica nad Szarą Wodą",
+      "en-EN": "Greywater Watch"
+    },
+    "Harrenhal": {
+      "pl-PL": "Harrenhal",
+      "en-EN": "Harrenhal"
+    },
+    "Highgarden": {
+      "pl-PL": "Wysogród",
+      "en-EN": "Highgarden"
+    },
+    "IronmansBay": {
+      "pl-PL": "Zatoka Żelaznych Ludzi",
+      "en-EN": "Ironmans bay"
+    },
+    "Karhold": {
+      "pl-PL": "Karhold",
+      "en-EN": "Karhold"
+    },
+    "KingsLanding": {
+      "pl-PL": "Królewska Przystań",
+      "en-EN": "Kings Landing"
+    },
+    "Kingswood": {
+      "pl-PL": "Królewski Las",
+      "en-EN": "Kingswood"
+    },
+    "Lannisport": {
+      "pl-PL": "Lannisport",
+      "en-EN": "Lannisport"
+    },
+    "LannisportPort": {
+      "pl-PL": "Port Lannisportu",
+      "en-EN": "Lannisport Port"
+    },
+    "MoatCailin": {
+      "pl-PL": "Fosa Cailin",
+      "en-EN": "Moat Cailin"
+    },
+    "Oldtown": {
+      "pl-PL": "Stare Miasto",
+      "en-EN": "Oldtown"
+    },
+    "OldtownPort": {
+      "pl-PL": "Port Starego Miasta",
+      "en-EN": "Oldtown Port"
+    },
+    "PrincesPass": {
+      "pl-PL": "Przełęcz Księcia",
+      "en-EN": "Prince's Pass"
+    },
+    "Pyke": {
+      "pl-PL": "Pyke",
+      "en-EN": "Pyke"
+    },
+    "PykePort": {
+      "pl-PL": "Port Pyke",
+      "en-EN": "Pyke Port"
+    },
+    "RedwyneStraights": {
+      "pl-PL": "Cieśnina Redwyne'ów",
+      "en-EN": "Redwyne Straights"
+    },
+    "Riverrun": {
+      "pl-PL": "Riverrun",
+      "en-EN": "Riverrun"
+    },
+    "SaltShore": {
+      "pl-PL": "Słony brzeg",
+      "en-EN": "Salt shore"
+    },
+    "Seagard": {
+      "pl-PL": "Seagard",
+      "en-EN": "Seagard"
+    },
+    "SeaOfDorne": {
+      "pl-PL": "Morze dornijskie",
+      "en-EN": "Sea Of Dorne"
+    },
+    "SearoadMarches": {
+      "pl-PL": "Mokradła Wschodniego Traktu",
+      "en-EN": "Searoad marches"
+    },
+    "ShipbreakerBay": {
+      "pl-PL": "Zatoka rozbitków",
+      "en-EN": "Shipbreaker bay"
+    },
+    "Starfall": {
+      "pl-PL": "Starfall",
+      "en-EN": "Starfall",
+    },
+    "StoneySept": {
+      "pl-PL": "Kamienny sept",
+      "en-EN": "Stoney Sept"
+    },
+    "StormsEnd": {
+      "pl-PL": "Koniec Burzy",
+      "en-EN": "Storms End"
+    },
+    "StormsEndPort": {
+      "pl-PL": "Port Końca Burzy",
+      "en-EN": "Storms End Port"
+    },
+    "SunsetSea": {
+      "pl-PL": "Morze Zachodzącego Słońca",
+      "en-EN": "Sunset Sea"
+    },
+    "Sunspear": {
+      "pl-PL": "Słoneczna Włócznia",
+      "en-EN": "Sunspear"
+    },
+    "SunspearPort": {
+      "pl-PL": "Port Słonecznej Włóczni",
+      "en-EN": "Sunspear Port"
+    },
+    "TheArbor": {
+      "pl-PL": "Wyspa Arbor",
+      "en-EN": "The Arbor"
+    },
+    "TheBoneway": {
+      "pl-PL": "Szlak Kości",
+      "en-EN": "The Boneway"
+    },
+    "TheEyrie": {
+      "pl-PL": "Eyrie",
+      "en-EN": "The Eyrie"
+    },
+    "TheFingers": {
+      "pl-PL": "Paluchy",
+      "en-EN": "The Fingers"
+    },
+    "TheGoldenSound": {
+      "pl-PL": "Złota cieśnina",
+      "en-EN": "The Golden Sound"
+    },
+    "TheMountainsOfTheMoon": {
+      "pl-PL": "Góry Księżycowe",
+      "en-EN": "The Mountains of The Moon"
+    },
+    "TheNarrowSea": {
+      "pl-PL": "Wąskie morze",
+      "en-EN": "The Narrow Sea"
+    },
+    "TheReach": {
+      "pl-PL": "Reach",
+      "en-EN": "The Reach"
+    },
+    "TheShiveringSea": {
+      "pl-PL": "Morze Dreszczy",
+      "en-EN": "The Shivering Sea"
+    },
+    "TheStonyShore": {
+      "pl-PL": "Kamienny brzeg",
+      "en-EN": "TheStonyShore"
+    },
+    "TheTwins": {
+      "pl-PL": "Bliźniaki",
+      "en-EN": "The Twins"
+    },
+    "ThreeTowers": {
+      "pl-PL": "Trzy wieże",
+      "en-EN": "Three Towers"
+    },
+    "TorentineRiver": {
+      "pl-PL": "Rzeka Torentine",
+      "en-EN": "Torentine river"
+    },
+    "TridentRiver": {
+      "pl-PL": "Rzeka Trident",
+      "en-EN": "Trident river"
+    },
+    "WestSummerSea": {
+      "pl-PL": "Zachodnie Morze Letnie",
+      "en-EN": "West Summer Sea"
+    },
+    "WhiteHarbor": {
+      "pl-PL": "Biały Port",
+      "en-EN": "White Harbor"
+    },
+    "WhiteHarborPort": {
+      "pl-PL": "Port Białego Portu",
+      "en-EN": "White Harbor Port"
+    },
+    "WidowsWatch": {
+      "pl-PL": "Wdowia przystań",
+      "en-EN": "Widows Watch"
+    },
+    "Winterfell": {
+      "pl-PL": "Winterfell",
+      "en-EN": "Winterfell"
+    },
+    "WinterfellPort": {
+      "pl-PL": "Port Winterfell",
+      "en-EN": "Winterfell Port"
+    },
+    "Yronwood": {
+      "pl-PL": "Yronwood",
+      "en-EN": "Yronwood"
+    }
   };
 
   public get localizationData() {

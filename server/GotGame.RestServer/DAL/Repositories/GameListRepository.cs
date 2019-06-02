@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace GotGame.RestServer.DAL.Repositories
 {
-  public interface IGamesRepository
+  public interface IGameListRepository
   {
     Task<int> DeleteGameAsync(int gameId);
     Task<Game> GetGameAsync(int id);
@@ -17,12 +17,12 @@ namespace GotGame.RestServer.DAL.Repositories
     Task<bool> VerifyPassword(int gameId, string password);
   }
 
-  public class GamesRepository : IGamesRepository
+  public class GameListRepository : IGameListRepository
   {
     private GoTGameContextDb context;
     IPasswordHasher<Game> passwordHasher;
 
-    public GamesRepository(GoTGameContextDb context, IPasswordHasher<Game> passwordHasher)
+    public GameListRepository(GoTGameContextDb context, IPasswordHasher<Game> passwordHasher)
     {
       this.context = context;
       this.passwordHasher = passwordHasher;

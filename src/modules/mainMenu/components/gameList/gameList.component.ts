@@ -2,7 +2,7 @@ import { NgForm } from "@angular/forms";
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { GameService } from "../../../common/infrastructure/services/game.service";
+import { GameListService } from "../../../common/infrastructure/services/gameList.service";
 import { Game } from "src/models/game.model";
 import { LocalizationService } from "src/modules/common/infrastructure/locale/localization.service";
 import { GotBaseComponent } from "./../../../common/components/gotBase.component";
@@ -27,7 +27,7 @@ export class GameListComponent extends GotBaseComponent {
   showPasswordVerification: boolean;
   actionBtnDisabled: boolean = false;
 
-  constructor(private gameService: GameService,
+  constructor(private gameService: GameListService,
     private router: Router,
     private playerService: PlayerService,
     private gameRulesService: GameRulesService,

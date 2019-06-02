@@ -1,1 +1,12 @@
-<got-field [field]="field" *ngFor="let field of fields"></got-field>
+<got-field *ngFor="let field of fields"
+[style.width]="field.width"
+[style.height]="field.height"
+[style.position]="'absolute'"
+[style.left]="field.location.x + 'px'"
+[style.top]="field.location.y + 'px'"
+[field]="field"
+[fieldData]="getFieldData(field.id)"
+[displayHouseFields]="displayHouseFields">
+</got-field>
+
+

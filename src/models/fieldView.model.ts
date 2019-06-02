@@ -1,5 +1,7 @@
-export class Field {
-  constructor(public name: string,
+export class FieldView {
+  constructor(
+    public id: number,
+    public name: string,
     public paths: string[],
     public width: string,
     public height: string,
@@ -12,3 +14,4 @@ export class Field {
 export class Location {
   constructor(public x: number, public y: number) { }
 }
+

@@ -3,9 +3,10 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { Subscription, timer } from "rxjs";
 
+import { GameService } from "./../../../common/infrastructure/services/game.service";
 import { LocalizationService } from "../../../common/infrastructure/locale/localization.service";
 import { GotBaseComponent } from "../../../common/components/gotBase.component";
-import { GameService } from "../../../common/infrastructure/services/game.service";
+import { GameListService } from "../../../common/infrastructure/services/gameList.service";
 import { Game } from "src/models/game.model";
 import { Player } from "src/models/player.model";
 import { PlayerService } from "src/modules/common/infrastructure/services/player.service";
@@ -36,9 +37,10 @@ export class ReadyForGameComponent extends GotBaseComponent {
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private gameRepository: GameService,
+    private gameRepository: GameListService,
     private playerService: PlayerService,
     private gameRulesService: GameRulesService,
+    private gameService: GameService,
     userService: UserService,
     localizationService: LocalizationService) {
       super(localizationService, userService);
@@ -83,10 +85,16 @@ export class ReadyForGameComponent extends GotBaseComponent {
     });
   }
 
+  public startGame() {
+    this.gameService.startGame(this.game.id).subscribe(response => {
+      this.gameService.setGameBoard(response.gameBoard);
+      this.router.navigate(["/gameboard", response.game.id]);
+    });
+  }
+
   ngOnDestroy() {
     this.gameSubscription.unsubscribe();
     this.timerSubscription.unsubscribe();
-    this.router.navigateByUrl("/gamelist");
   }
 
   private onRefreshGame(serverData: any) {

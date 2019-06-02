@@ -20,7 +20,7 @@ export class ChangePlayerComponent extends GotBaseComponent {
     userService: UserService) {
     super(localeService, userService);
     const playerId = localStorage.getItem("player_id");
-    if (playerId !== "undefined") {
+    if (playerId !== "undefined" && playerId !== null) {
       playerService.setPlayerById(parseInt(playerId, 10));
     }
    }

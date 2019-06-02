@@ -13,7 +13,7 @@ const PORT = environment.restServerPort;
 const API = "api";
 
 @Injectable()
-export class GameServer extends RestServer {
+export class GameListServer extends RestServer {
     baseUrl: string;
 
     constructor(http: HttpClient) {

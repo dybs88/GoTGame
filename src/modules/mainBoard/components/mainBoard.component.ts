@@ -1,6 +1,12 @@
-import { Field } from "./../../../models/field.model";
-import { FieldRepository } from "src/models/field.repository";
 import { Component } from "@angular/core";
+import { Observable } from "rxjs";
+
+import { FieldData } from "./../../../models/fieldData.model";
+import { GameService } from "./../../common/infrastructure/services/game.service";
+import { FieldView } from "../../../models/fieldView.model";
+import { FieldViewRepository } from "../infrastructure/repositories/fieldView.repository";
+import { GameBoard } from "src/models/gameBoard.model";
+import { MainBoardSettings } from "../infrastructure/models/mainboard.settings";
 
 @Component({
   selector: "got-mainboard",
@@ -8,9 +14,23 @@ import { Component } from "@angular/core";
 })
 
 export class MainBoardComponent {
-  constructor(private data: FieldRepository) { }
+  private gameBoard: GameBoard;
+  displayHouseFields: boolean;
 
-  get fields(): Field[] {
-    return this.data.fields;
+  constructor(private data: FieldViewRepository, private gameService: GameService) {
+    this.gameBoard = this.gameService.gameBoard;
+   }
+
+
+  get fields(): FieldView[] {
+    return this.data.fieldViews;
+  }
+
+  public getFieldData(fieldId: number): FieldData {
+    return this.gameBoard.fields.find(f => f.id === fieldId);
+  }
+
+  public toggleShowHouseFields() {
+    this.displayHouseFields = !this.displayHouseFields;
   }
 }

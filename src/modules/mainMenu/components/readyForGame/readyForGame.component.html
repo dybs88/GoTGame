@@ -42,7 +42,7 @@
             </td>
           </table>
           <div class="btn-group text-right float-right mb-1">
-            <button *ngIf="currentPlayer.isGameCreator" [disabled]="start" class="btn btn-success btn-sm">{{getTranslation(localKeys.startBtn)}}</button>
+            <button *ngIf="currentPlayer.isGameCreator" [disabled]="start" class="btn btn-success btn-sm" (click)="startGame()">{{getTranslation(localKeys.startBtn)}}</button>
           </div>
           <got-chat [players]="players" #chat></got-chat>
         </div>
