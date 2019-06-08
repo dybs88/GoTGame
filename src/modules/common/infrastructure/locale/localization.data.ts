@@ -83,6 +83,8 @@ export const localizationKeys = {
   privateGameLbl: "PrivateGameLbl",
   passwordLbl: "PasswordLbl",
   repeatPasswordLbl: "RepeatPasswordLbl",
+  roundNumberLbl: "RoundNumberLbl",
+  phaseLbl: "PhaseLbl",
 
   polishLang: "PolishLang",
   englishLang: "EnglishLang",
@@ -90,6 +92,9 @@ export const localizationKeys = {
   statusJoining: "StatusJoining",
   statusJoined: "StatusJoined",
   statusReady: "StatusReady",
+
+  planning: "Planning",
+  action: "Action",
 
   rejoiningMsg: "RejoiningMsg",
   newGameCreatorMsg: "NewGameCreatorMsg",
@@ -399,6 +404,14 @@ export class LocalizationData {
       "pl-PL": "Najemnicy dostępni",
       "en-EN": "Mercenary avaible"
     },
+    "RoundNumberLbl": {
+      "pl-PL": "Runda",
+      "en-EN": "Round"
+    },
+    "PhaseLbl": {
+      "pl-PL": "Faza",
+      "en-EN": "Phase"
+    },
     "PolishLang": {
       "pl-PL": "polski",
       "en-EN": "polish"
@@ -418,6 +431,14 @@ export class LocalizationData {
     "Ready": {
       "pl-PL": "Gotowy",
       "en-EN": "Ready"
+    },
+    "Planning": {
+      "pl-PL": "Planowanie",
+      "en-EN": "Planning"
+    },
+    "Action": {
+      "pl-PL": "Akcja",
+      "en-EN": "Action"
     },
     "RejoiningMsg": {
       "pl-PL": "Jesteś już w innej grze. Czy chcesz zrezygnować z poprzedniej i gry i dołączyć do nowej?",

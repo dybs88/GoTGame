@@ -34,8 +34,11 @@ export class GameService {
     this.board = gameBoard;
 
     const currentPlayer = this.playerService.currentPlayer;
-    if (currentPlayer !== undefined) {
+    if (currentPlayer !== undefined && currentPlayer !== null) {
       this.house = this.board.houses.find(h => h.playerId === currentPlayer.id);
+    } else {
+      const playerId = parseInt(localStorage.getItem("player_id"), 10);
+      this.house = this.board.houses.find(h => h.playerId === playerId);
     }
   }
 }

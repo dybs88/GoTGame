@@ -16,12 +16,16 @@ namespace GotGame.RestServer.Models
     public string GameName { get; set; }
     public FieldCollection Fields { get; private set; }
     public HouseCollection Houses { get; set; }
+    public int RoundNumber { get; set; }
+    public RoundPhase CurrentRoundPhase { get; set; }
 
     public GameBoard(Game game)
     {
       GameId = game.Id;
       GameName = game.Name;
       gameRules = game.GameRules;
+      RoundNumber = 1;
+      CurrentRoundPhase = RoundPhase.Planning;
 
       Houses = new HouseCollection(game.Players.ToList());
       Fields = new FieldCollection(gameRules, Houses);

@@ -3,9 +3,6 @@
     <got-mainboard #mainboard style="height: -webkit-fill-available; display: inline-block; width:-webkit-fill-available;"></got-mainboard>
   </div>
   <div class="col-2-got">
-      <h1 style="text-orientation: upright; writing-mode:vertical-lr;">
-        House panel
-      </h1>
-      <got-housePanel (houseFieldsMode)="mainboard.toggleShowHouseFields()"></got-housePanel>
+      <got-gamePanel [gameBoard]="gameBoard" [currentHouse]="currentHouse" (houseFieldsMode)="mainboard.toggleShowHouseFields()"></got-gamePanel>
     </div>
 </div>

@@ -42,4 +42,11 @@ namespace GotGame.RestServer.Infrastructure.Consts
     Small,
     None
   }
+
+  public enum RoundPhase
+  {
+    Westeros,
+    Planning,
+    Action
+  }
 }

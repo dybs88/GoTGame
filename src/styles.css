@@ -16,8 +16,14 @@ svg:hoover {
 }
 
 .col-2-got {
+  position: fixed;
   flex: 0 0 22.666667%;
+  top: 0%;
+  left: 77.3%;
   max-width: 22.7%;
+  width: 22.7%;
+  height: 100%;
+  z-index: 1030;
 }
 
 .col-10-got {

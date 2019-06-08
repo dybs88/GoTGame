@@ -1,15 +1,15 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-
-import { GameServer } from "./infrastructure/game.server";
-import { AuthServer } from "./infrastructure/auth.server";
-import { SettingServer } from "./infrastructure/settings.server";
+import { HttpClientModule } from "@angular/common/http";
 import { BrowserModule } from "@angular/platform-browser";
-import { GameListServer } from "./infrastructure/gameList.server";
 import { NgModule } from "@angular/core";
-import { SettingRepository } from "./infrastructure/repositories/setting.repository";
-import { PlayerServer } from "./infrastructure/player.server";
-import { GameRulesServer } from "./infrastructure/gameRules.server";
+
+import { AuthServer } from "./infrastructure/auth.server";
 import { ChatServer } from "./infrastructure/chat.server";
+import { GameServer } from "./infrastructure/game.server";
+import { GameListServer } from "./infrastructure/gameList.server";
+import { GameRulesServer } from "./infrastructure/gameRules.server";
+import { PlayerServer } from "./infrastructure/player.server";
+import { SettingServer } from "./infrastructure/settings.server";
+import { SettingRepository } from "./infrastructure/repositories/setting.repository";
 
 @NgModule({
   imports: [BrowserModule, HttpClientModule],
