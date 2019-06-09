@@ -1,12 +1,11 @@
-import { Component } from "@angular/core";
-import { Observable } from "rxjs";
+import { Component, Output, EventEmitter } from "@angular/core";
 
 import { FieldData } from "./../../../models/fieldData.model";
 import { GameService } from "./../../common/infrastructure/services/game.service";
 import { FieldView } from "../../../models/fieldView.model";
 import { FieldViewRepository } from "../infrastructure/repositories/fieldView.repository";
 import { GameBoard } from "src/models/gameBoard.model";
-import { MainBoardSettings } from "../infrastructure/models/mainboard.settings";
+import { Location } from "src/models/common/location.model";
 
 @Component({
   selector: "got-mainboard",
@@ -16,6 +15,9 @@ import { MainBoardSettings } from "../infrastructure/models/mainboard.settings";
 export class MainBoardComponent {
   private gameBoard: GameBoard;
   displayHouseFields: boolean;
+
+  @Output()
+  fieldClick = new EventEmitter<Location>();
 
   constructor(private data: FieldViewRepository, private gameService: GameService) {
     this.gameBoard = this.gameService.gameBoard;
@@ -32,5 +34,20 @@ export class MainBoardComponent {
 
   public toggleShowHouseFields() {
     this.displayHouseFields = !this.displayHouseFields;
+  }
+
+  onFieldClick(location: Location) {
+    this.fieldClick.emit(location);
+  }
+
+  fieldStyle(field: FieldView) {
+    return {
+      "pointer-events": "none",
+      "width": field.width,
+      "height": field.height,
+      "position": "absolute",
+      "left": `${field.location.x}px`,
+      "top": `${field.location.y}px`
+    };
   }
 }

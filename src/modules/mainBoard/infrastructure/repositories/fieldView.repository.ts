@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 
 import { fieldInfo } from "./../../../common/infrastructure/consts/fieldNames";
-import { FieldView, Location } from "src/models/fieldView.model";
+import { FieldView } from "src/models/fieldView.model";
+import { Location } from "src/models/common/location.model";
 
 
 @Injectable()

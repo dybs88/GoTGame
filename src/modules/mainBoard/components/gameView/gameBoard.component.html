@@ -1,8 +1,15 @@
 <div class="row">
   <div class="col-10-got">
-    <got-mainboard #mainboard style="height: -webkit-fill-available; display: inline-block; width:-webkit-fill-available;"></got-mainboard>
+    <ng-template got-generate></ng-template>
+    <button class="btn btn-danger btn-lg fixed-top" (click)="generatePawn()">Generuj</button>
+    <got-mainboard
+      #mainboard style="height: -webkit-fill-available; display: inline-block; width:-webkit-fill-available;"
+      (fieldClick)="onFieldClick($event)"></got-mainboard>
   </div>
   <div class="col-2-got">
-      <got-gamePanel [gameBoard]="gameBoard" [currentHouse]="currentHouse" (houseFieldsMode)="mainboard.toggleShowHouseFields()"></got-gamePanel>
+      <got-gamePanel [gameBoard]="gameBoard" [currentHouse]="currentHouse" (houseFieldsMode)="mainboard.toggleShowHouseFields()" (pawnClickEvent)="onPawnClick($event)"></got-gamePanel>
     </div>
 </div>
+
+
+

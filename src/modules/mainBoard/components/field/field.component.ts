@@ -2,18 +2,22 @@ import { Observable } from "rxjs";
 
 import { FieldData } from "./../../../../models/fieldData.model";
 import { FieldView } from "../../../../models/fieldView.model";
-import { Component, Input, SimpleChanges } from "@angular/core";
+import { Component, Input, SimpleChanges, Output, EventEmitter, HostBinding } from "@angular/core";
 import { MainBoardSettings } from "../../infrastructure/models/mainboard.settings";
 import { BaratheonDescription, LannisterDescription, StarkDescription} from "./../../../house/infrastructure/consts/houseDescriptions";
 import { GreyjoyDescription, MartellDescription, TyrellDescription } from "./../../../house/infrastructure/consts/houseDescriptions";
 import { HouseType } from "src/modules/common/infrastructure/consts/goTEnums";
+import { Location } from "src/models/common/location.model";
 
 @Component({
   selector: "got-field",
-  templateUrl: "field.component.html"
+  templateUrl: "field.component.html",
 })
 
 export class FieldComponent {
+
+  // @HostBinding("class.pe-none") true;
+
   @Input()
   displayHouseFields: boolean;
   @Input()
@@ -22,6 +26,9 @@ export class FieldComponent {
   field: FieldView;
   @Input()
   fieldData: FieldData;
+
+  @Output()
+  fieldClick = new EventEmitter<Location>();
 
   fillOpacity: number = 0.0;
   fill: string = "#000000";
@@ -62,6 +69,10 @@ export class FieldComponent {
 
   onControlledHouseChange() {
 
+  }
+
+  onClick(event) {
+    this.fieldClick.emit(new Location(parseInt(event.clientX, 10) - 25, parseInt(event.clientY, 10) - 25));
   }
 
   style(): any {

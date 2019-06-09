@@ -1,6 +1,10 @@
 // tslint:disable: max-line-length
 export const LannisterDescription = {
   imageSrc: "assets/img/HouseLannisterShield.png",
+  footmanImageSrc: "/assets/img/LannisterFootman.png",
+  knightImageSrc: "/assets/img/LannisterKnight.png",
+  shipImageSrc: "/assets/img/LannisterShip.png",
+  towerImageSrc: "/assets/img/LannisterTower.png",
   backgroundColor: "#87090a",
   text: {
     "Sentence" : {
@@ -24,6 +28,10 @@ export const LannisterDescription = {
 
 export const BaratheonDescription = {
   imageSrc: "assets/img/HouseBaratheonShield.png",
+  footmanImageSrc: "/assets/img/BaratheonFootman.png",
+  knightImageSrc: "/assets/img/BaratheonKnight.png",
+  shipImageSrc: "/assets/img/BaratheonShip.png",
+  towerImageSrc: "/assets/img/BaratheonTower.png",
   backgroundColor: "#fecf03",
   text: {
     "Sentence": {
@@ -47,6 +55,10 @@ export const BaratheonDescription = {
 
 export const StarkDescription = {
   imageSrc: "assets/img/HouseStarkShield.png",
+  footmanImageSrc: "/assets/img/StarkFootman.png",
+  knightImageSrc: "/assets/img/StarkKnight.png",
+  shipImageSrc: "/assets/img/StarkShip.png",
+  towerImageSrc: "/assets/img/StarkTower.png",
   backgroundColor: "#d4cdb1",
   text: {
     "Sentence": {
@@ -70,6 +82,10 @@ export const StarkDescription = {
 
 export const TyrellDescription = {
   imageSrc: "assets/img/HouseTyrellShield.png",
+  footmanImageSrc: "/assets/img/TyrellFootman.png",
+  knightImageSrc: "/assets/img/TyrellKnight.png",
+  shipImageSrc: "/assets/img/TyrellShip.png",
+  towerImageSrc: "/assets/img/TyrellTower.png",
   backgroundColor: "#8da080",
   text: {
     "Sentence": {
@@ -93,6 +109,10 @@ export const TyrellDescription = {
 
 export const GreyjoyDescription = {
   imageSrc: "assets/img/HouseGreyjoyShield.png",
+  footmanImageSrc: "/assets/img/GreyjoyFootman.png",
+  knightImageSrc: "/assets/img/GreyjoyKnight.png",
+  shipImageSrc: "/assets/img/GreyjoyShip.png",
+  towerImageSrc: "/assets/img/GreyjoyTower.png",
   backgroundColor: "#1a1a1a",
   text: {
     "Sentence": {
@@ -116,6 +136,10 @@ export const GreyjoyDescription = {
 
 export const MartellDescription = {
   imageSrc: "assets/img/HouseMartellShield.png",
+  footmanImageSrc: "/assets/img/MartellFootman.png",
+  knightImageSrc: "/assets/img/MartellKnight.png",
+  shipImageSrc: "/assets/img/MartellShip.png",
+  towerImageSrc: "/assets/img/MartellTower.png",
   backgroundColor: "#f0863a",
   text: {
     "Sentence": {

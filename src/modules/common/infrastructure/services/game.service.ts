@@ -6,6 +6,8 @@ import { PlayerService } from "./player.service";
 import { GameBoard } from "./../../../../models/gameBoard.model";
 import { GameServer } from "./../../../dal/infrastructure/game.server";
 import { House } from "src/models/house.model";
+import { HouseType } from "../consts/goTEnums";
+import { BaratheonDescription, LannisterDescription, StarkDescription, GreyjoyDescription, TyrellDescription, MartellDescription } from "src/modules/house/infrastructure/consts/houseDescriptions";
 
 @Injectable()
 export class GameService {
@@ -18,6 +20,22 @@ export class GameService {
 
   get currentHouse() {
     return this.house;
+  }
+
+  get houseDescription() {
+    if (this.currentHouse.type === HouseType.Baratheon) {
+      return BaratheonDescription;
+    } else if (this.currentHouse.type === HouseType.Lannister) {
+      return LannisterDescription;
+    } else if (this.currentHouse.type === HouseType.Stark) {
+      return StarkDescription;
+    } else if (this.currentHouse.type === HouseType.Greyjoy) {
+      return GreyjoyDescription;
+    } else if (this.currentHouse.type === HouseType.Tyrell) {
+      return TyrellDescription;
+    } else if (this.currentHouse.type === HouseType.Martell) {
+      return MartellDescription;
+    }
   }
 
   constructor(private server: GameServer, private playerService: PlayerService) { }

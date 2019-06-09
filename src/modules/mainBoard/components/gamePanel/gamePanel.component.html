@@ -1,6 +1,16 @@
 <got-gameInfo [gameBoard]="gameBoard"></got-gameInfo>
-<h1 style="text-orientation: upright; writing-mode:vertical-lr;">
-  House panel
-</h1>
-
+<div class="inline d-flex mt-5" style="width: 100%">
+  <div class="ml-4" style="border: 2px; border-style: inset; width: 70px; height: 70px;">
+    <got-pawn *ngFor="let footman of footmans" [goTObject]="footman" (clickEvent)="onPawnClick($event)"></got-pawn>
+  </div>
+  <div class="ml-4" style="border: 2px; border-style: inset; width: 70px; height: 70px;">
+    <got-pawn *ngFor="let knight of knights" [goTObject]="knight" (clickEvent)="onPawnClick($event)"></got-pawn>
+  </div>
+  <div class="ml-4" style="border: 2px; border-style: inset; width: 70px; height: 70px;">
+    <got-pawn *ngFor="let ship of ships" [goTObject]="ship" (clickEvent)="onPawnClick($event)"></got-pawn>
+  </div>
+  <div class="ml-4" style="border: 2px; border-style: inset; width: 70px; height: 70px;">
+    <got-pawn *ngFor="let tower of towers" [goTObject]="tower" (clickEvent)="onPawnClick($event)"></got-pawn>
+  </div>
+</div>
 <button class="btn btn-success btn-sm" (click)="onHouseFieldsClick()">H</button>

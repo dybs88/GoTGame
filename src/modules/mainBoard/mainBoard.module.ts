@@ -9,12 +9,14 @@ import { GamePanelComponent } from "./components/gamePanel/gamePanel.component";
 import { FieldComponent } from "./components/field/field.component";
 import { MainBoardComponent } from "./components/mainBoard.component";
 import { FieldViewRepository } from "./infrastructure/repositories/fieldView.repository";
+import { PawnComponent } from "./components/pawn/pawn.component";
 
 @NgModule({
-  declarations: [MainBoardComponent, FieldComponent, GameBoardComponent, GameInfoComponent, GamePanelComponent],
+  declarations: [MainBoardComponent, FieldComponent, GameBoardComponent, GameInfoComponent, GamePanelComponent, PawnComponent],
   imports: [BrowserModule, HouseModule, CommonModule],
   exports: [MainBoardComponent],
-  providers: [FieldViewRepository]
+  providers: [FieldViewRepository],
+  entryComponents: [PawnComponent]
 })
 
 export class MainBoardModule {

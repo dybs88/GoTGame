@@ -1,0 +1,5 @@
+<svg [attr.width]="goTObject.size.width" [attr.height]="goTObject.size.height" [ngStyle]="style()" stroke="none" pointer-events="visibleFill" (click)="onClick($event)">
+  <g [attr.transform]="transform()">
+    <path [id]="goTObject.id" [attr.data-house]="goTObject.house" [attr.d]="goTObject.path" fill-opacity="0.0" fill="#00000"></path>
+  </g>
+</svg>

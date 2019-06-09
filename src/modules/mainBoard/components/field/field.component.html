@@ -1,6 +1,9 @@
-<svg [id]="field.name" [attr.width]="field.width" [attr.height]="field.height" [ngStyle]="style()" pointer-events="none">
-  <g [attr.transform]="transform()" [attr.fill-opacity]="fillOpacity">
-    <path *ngFor="let path of field.paths" [attr.d]="path" stroke="none" [attr.fill]="fill" pointer-events="visibleFill"/>
-  </g>
+<svg [id]="field.name" [attr.width]="field.width" [attr.height]="field.height" [ngStyle]="style()">
+    <g [attr.transform]="transform()">
+      <path [id]="field.name" [attr.fill-opacity]="fillOpacity" [attr.fill]="fill" pointer-events="painted" *ngFor="let path of field.paths" [attr.d]="path" stroke="none" (click)="onClick($event)"/>
+    </g>
 </svg>
+
+
+
 

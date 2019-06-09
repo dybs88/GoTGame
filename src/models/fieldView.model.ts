@@ -1,3 +1,5 @@
+import { Location } from "./common/location.model";
+
 export class FieldView {
   constructor(
     public id: number,
@@ -11,7 +13,5 @@ export class FieldView {
   }
 }
 
-export class Location {
-  constructor(public x: number, public y: number) { }
-}
+
 
