@@ -1,5 +1,8 @@
+import { HouseType } from "src/modules/common/infrastructure/consts/goTEnums";
+
 // tslint:disable: max-line-length
 export const LannisterDescription = {
+  type: HouseType.Lannister,
   imageSrc: "assets/img/HouseLannisterShield.png",
   footmanImageSrc: "/assets/img/LannisterFootman.png",
   knightImageSrc: "/assets/img/LannisterKnight.png",
@@ -27,6 +30,7 @@ export const LannisterDescription = {
 };
 
 export const BaratheonDescription = {
+  type: HouseType.Baratheon,
   imageSrc: "assets/img/HouseBaratheonShield.png",
   footmanImageSrc: "/assets/img/BaratheonFootman.png",
   knightImageSrc: "/assets/img/BaratheonKnight.png",
@@ -54,6 +58,7 @@ export const BaratheonDescription = {
 };
 
 export const StarkDescription = {
+  type: HouseType.Stark,
   imageSrc: "assets/img/HouseStarkShield.png",
   footmanImageSrc: "/assets/img/StarkFootman.png",
   knightImageSrc: "/assets/img/StarkKnight.png",
@@ -81,6 +86,7 @@ export const StarkDescription = {
 };
 
 export const TyrellDescription = {
+  type: HouseType.Tyrell,
   imageSrc: "assets/img/HouseTyrellShield.png",
   footmanImageSrc: "/assets/img/TyrellFootman.png",
   knightImageSrc: "/assets/img/TyrellKnight.png",
@@ -108,6 +114,7 @@ export const TyrellDescription = {
 };
 
 export const GreyjoyDescription = {
+  type: HouseType.Greyjoy,
   imageSrc: "assets/img/HouseGreyjoyShield.png",
   footmanImageSrc: "/assets/img/GreyjoyFootman.png",
   knightImageSrc: "/assets/img/GreyjoyKnight.png",
@@ -135,6 +142,7 @@ export const GreyjoyDescription = {
 };
 
 export const MartellDescription = {
+  type: HouseType.Martell,
   imageSrc: "assets/img/HouseMartellShield.png",
   footmanImageSrc: "/assets/img/MartellFootman.png",
   knightImageSrc: "/assets/img/MartellKnight.png",

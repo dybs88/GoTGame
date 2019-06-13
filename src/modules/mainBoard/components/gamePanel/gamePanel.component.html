@@ -1,16 +1,8 @@
 <got-gameInfo [gameBoard]="gameBoard"></got-gameInfo>
 <div class="inline d-flex mt-5" style="width: 100%">
-  <div class="ml-4" style="border: 2px; border-style: inset; width: 70px; height: 70px;">
-    <got-pawn *ngFor="let footman of footmans" [goTObject]="footman" (clickEvent)="onPawnClick($event)"></got-pawn>
-  </div>
-  <div class="ml-4" style="border: 2px; border-style: inset; width: 70px; height: 70px;">
-    <got-pawn *ngFor="let knight of knights" [goTObject]="knight" (clickEvent)="onPawnClick($event)"></got-pawn>
-  </div>
-  <div class="ml-4" style="border: 2px; border-style: inset; width: 70px; height: 70px;">
-    <got-pawn *ngFor="let ship of ships" [goTObject]="ship" (clickEvent)="onPawnClick($event)"></got-pawn>
-  </div>
-  <div class="ml-4" style="border: 2px; border-style: inset; width: 70px; height: 70px;">
-    <got-pawn *ngFor="let tower of towers" [goTObject]="tower" (clickEvent)="onPawnClick($event)"></got-pawn>
-  </div>
+  <got-selectPawn [imageSrc]="houseDescription.footmanImageSrc" (click)="onPawnClick('Footman')"></got-selectPawn>
+  <got-selectPawn [imageSrc]="houseDescription.knightImageSrc" (click)="onPawnClick('Knight')"></got-selectPawn>
+  <got-selectPawn [imageSrc]="houseDescription.shipImageSrc" (click)="onPawnClick('Ship')"></got-selectPawn>
+  <got-selectPawn [imageSrc]="houseDescription.towerImageSrc" (click)="onPawnClick('Tower')"></got-selectPawn>
 </div>
 <button class="btn btn-success btn-sm" (click)="onHouseFieldsClick()">H</button>

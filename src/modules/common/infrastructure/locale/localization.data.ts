@@ -100,6 +100,8 @@ export const localizationKeys = {
   newGameCreatorMsg: "NewGameCreatorMsg",
   verifyPasswordMsg: "VerifyPasswordMsg",
   housePlayerExistMsg: "HousePlayerExistMsg",
+  wrongPawnOnSeaFieldMsg: "WrongPawnOnSeaFieldMsg",
+  wrongPawnOnLandFieldMsg: "WrongPawnOnLandFieldMsg",
 
   yesValue: "true",
   noValue: "false",
@@ -455,6 +457,14 @@ export class LocalizationData {
     "HousePlayerExistMsg": {
       "pl-PL": "W grze jest już gracz, który wybrał ten ród",
       "en-EN": "In game exist already player which choosed same house"
+    },
+    "WrongPawnOnSeaFieldMsg": {
+      "pl-PL": "Na morzu lub w porcie można postawić jedynie pionek typu Statek",
+      "en-EN": "On sea or in port field it can only be pawn as Ship type"
+    },
+    "WrongPawnOnLandFieldMsg": {
+      "pl-PL": "Na lądzie nie można postawić pionka typu Statek",
+      "en-EN": "On land field it cannot be pawn as Ship type"
     },
     "true": {
       "pl-PL": "Tak",

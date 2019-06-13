@@ -49,4 +49,18 @@ namespace GotGame.RestServer.Infrastructure.Consts
     Planning,
     Action
   }
+
+  public enum PawnType
+  {
+    Footman,
+    Knight,
+    Ship,
+    Tower
+  }
+
+  public enum PawnMode
+  {
+    InGame,
+    OutGame
+  }
 }

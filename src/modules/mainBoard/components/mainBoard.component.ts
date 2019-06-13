@@ -1,4 +1,5 @@
-import { Component, Output, EventEmitter } from "@angular/core";
+import { FieldClickParams } from './../infrastructure/models/fieldClickParams.model';
+import { Component, Output, EventEmitter, Input } from "@angular/core";
 
 import { FieldData } from "./../../../models/fieldData.model";
 import { GameService } from "./../../common/infrastructure/services/game.service";
@@ -15,9 +16,8 @@ import { Location } from "src/models/common/location.model";
 export class MainBoardComponent {
   private gameBoard: GameBoard;
   displayHouseFields: boolean;
-
-  @Output()
-  fieldClick = new EventEmitter<Location>();
+  @Input() scrollTop: number;
+  @Output() fieldClick = new EventEmitter<FieldClickParams>();
 
   constructor(private data: FieldViewRepository, private gameService: GameService) {
     this.gameBoard = this.gameService.gameBoard;
@@ -36,8 +36,8 @@ export class MainBoardComponent {
     this.displayHouseFields = !this.displayHouseFields;
   }
 
-  onFieldClick(location: Location) {
-    this.fieldClick.emit(location);
+  onFieldClick(params: FieldClickParams) {
+    this.fieldClick.emit(params);
   }
 
   fieldStyle(field: FieldView) {

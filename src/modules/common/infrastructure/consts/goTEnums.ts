@@ -36,3 +36,15 @@ export enum FieldType {
   Port = "Port",
   River = "River"
 }
+
+export enum PawnType {
+  Footman = "Footman",
+  Knight = "Knight",
+  Ship = "Ship",
+  Tower = "Tower"
+}
+
+export enum PawnMode {
+  InGame = "InGame",
+  OutGame = "OutGame"
+}

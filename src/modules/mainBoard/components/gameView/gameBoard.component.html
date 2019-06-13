@@ -1,10 +1,15 @@
 <div class="row">
   <div class="col-10-got">
     <ng-template got-generate></ng-template>
-    <button class="btn btn-danger btn-lg fixed-top" (click)="generatePawn()">Generuj</button>
     <got-mainboard
       #mainboard style="height: -webkit-fill-available; display: inline-block; width:-webkit-fill-available;"
-      (fieldClick)="onFieldClick($event)"></got-mainboard>
+      (fieldClick)="onFieldClick($event)"
+      [scrollTop]="scrollTop"></got-mainboard>
+  </div>
+  <div *ngIf="settings.showTooltip" class="card" [ngStyle]="settings.tooltipStyle">
+    <div class="card-body p-1">
+      {{settings.tooltipMessage}}
+    </div>
   </div>
   <div class="col-2-got">
       <got-gamePanel [gameBoard]="gameBoard" [currentHouse]="currentHouse" (houseFieldsMode)="mainboard.toggleShowHouseFields()" (pawnClickEvent)="onPawnClick($event)"></got-gamePanel>

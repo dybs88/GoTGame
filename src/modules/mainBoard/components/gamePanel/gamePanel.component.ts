@@ -1,9 +1,10 @@
-import { Component, Output, EventEmitter, Input } from "@angular/core";
+import { Component, Output, EventEmitter, Input, ElementRef, ViewRef } from "@angular/core";
 
 import { GameBoard } from "src/models/gameBoard.model";
 import { House } from "src/models/house.model";
-import { FootmanView, KnightView, ShipView, TowerView } from "src/models/pawnView.model";
 import { GameService } from "src/modules/common/infrastructure/services/game.service";
+import { PawnType, PawnMode } from "src/modules/common/infrastructure/consts/goTEnums";
+import { PawnClickParams } from "../../infrastructure/models/pawnClickParams.model";
 
 @Component({
   selector: "got-gamePanel",
@@ -11,44 +12,24 @@ import { GameService } from "src/modules/common/infrastructure/services/game.ser
 })
 
 export class GamePanelComponent {
-  @Input()
-  gameBoard: GameBoard;
 
-  @Input()
-  currentHouse: House;
+  houseDescription: any;
 
-  footmans: FootmanView[] = new Array<FootmanView>();
-  knights: KnightView[] = new Array<KnightView>();
-  ships: ShipView[] = new Array<ShipView>();
-  towers: TowerView[] = new Array<TowerView>();
+  @Input() gameBoard: GameBoard;
+  @Input() currentHouse: House;
+  @Output() houseFieldsMode = new EventEmitter();
+  @Output() pawnClickEvent = new EventEmitter<PawnClickParams>();
 
-  @Output()
-  houseFieldsMode = new EventEmitter();
-
-  @Output()
-  pawnClickEvent = new EventEmitter<any>();
-
-  constructor(private gameService: GameService) { }
-
-  ngOnInit(): void {
-    for (let id = 1; id <= 23; id++) {
-      if (id <= 10) {
-        this.footmans.push(new FootmanView(id, this.currentHouse.type.toString(), this.gameService.houseDescription.footmanImageSrc ));
-      } else if ( id <= 15) {
-        this.knights.push(new KnightView(id, this.currentHouse.type.toString(), this.gameService.houseDescription.knightImageSrc));
-      } else if (id <= 21) {
-        this.ships.push(new ShipView(id, this.currentHouse.type.toString(), this.gameService.houseDescription.shipImageSrc));
-      } else {
-        this.towers.push(new TowerView(id, this.currentHouse.type.toString(), this.gameService.houseDescription.towerImageSrc));
-      }
-    }
-  }
+  constructor(private gameService: GameService) {
+    this.houseDescription = this.gameService.houseDescription;
+   }
 
   onHouseFieldsClick() {
     this.houseFieldsMode.emit();
   }
 
-  onPawnClick(pawn: any) {
-    this.pawnClickEvent.emit(pawn);
+  onPawnClick(pawnType: PawnType) {
+    const pawnId = this.gameService.currentHouse.pawns.find(p => p.mode === PawnMode.OutGame && p.type === pawnType).id;
+    this.pawnClickEvent.emit(new PawnClickParams(pawnId, this.gameService.currentHouse.type, pawnType));
   }
 }

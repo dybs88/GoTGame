@@ -2,12 +2,13 @@ import { Observable } from "rxjs";
 
 import { FieldData } from "./../../../../models/fieldData.model";
 import { FieldView } from "../../../../models/fieldView.model";
-import { Component, Input, SimpleChanges, Output, EventEmitter, HostBinding } from "@angular/core";
+import { Component, Input, SimpleChanges, Output, EventEmitter } from "@angular/core";
 import { MainBoardSettings } from "../../infrastructure/models/mainboard.settings";
 import { BaratheonDescription, LannisterDescription, StarkDescription} from "./../../../house/infrastructure/consts/houseDescriptions";
 import { GreyjoyDescription, MartellDescription, TyrellDescription } from "./../../../house/infrastructure/consts/houseDescriptions";
 import { HouseType } from "src/modules/common/infrastructure/consts/goTEnums";
 import { Location } from "src/models/common/location.model";
+import { FieldClickParams } from "../../infrastructure/models/fieldClickParams.model";
 
 @Component({
   selector: "got-field",
@@ -15,20 +16,12 @@ import { Location } from "src/models/common/location.model";
 })
 
 export class FieldComponent {
-
-  // @HostBinding("class.pe-none") true;
-
-  @Input()
-  displayHouseFields: boolean;
-  @Input()
-  settings: Observable<MainBoardSettings>;
-  @Input()
-  field: FieldView;
-  @Input()
-  fieldData: FieldData;
-
-  @Output()
-  fieldClick = new EventEmitter<Location>();
+  @Input() scrollTop: number;
+  @Input() displayHouseFields: boolean;
+  @Input() settings: Observable<MainBoardSettings>;
+  @Input() field: FieldView;
+  @Input() fieldData: FieldData;
+  @Output() fieldClick = new EventEmitter<FieldClickParams>();
 
   fillOpacity: number = 0.0;
   fill: string = "#000000";
@@ -72,7 +65,9 @@ export class FieldComponent {
   }
 
   onClick(event) {
-    this.fieldClick.emit(new Location(parseInt(event.clientX, 10) - 25, parseInt(event.clientY, 10) - 25));
+    const params = new FieldClickParams(this.fieldData.id, this.fieldData.name, this.fieldData.type,
+      new Location(parseInt(event.clientX, 10) - 15, parseInt(event.clientY, 10) - 65));
+    this.fieldClick.emit(params);
   }
 
   style(): any {

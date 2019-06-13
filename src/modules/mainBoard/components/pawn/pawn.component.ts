@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, ViewChild, TemplateRef, ViewRef, OnInit } from "@angular/core";
 import { PawnView } from "src/models/pawnView.model";
 import { GoTObject } from "src/models/abstract/got.object";
 
@@ -8,24 +8,20 @@ import { GoTObject } from "src/models/abstract/got.object";
 })
 export class PawnComponent implements GoTObject {
 
-  @Input()
-  goTObject: PawnView;
-
-  @Output()
-  clickEvent = new EventEmitter<any>();
+  @Input() goTObject: PawnView;
+  @Output() clickEvent = new EventEmitter<ViewRef>();
 
   imageUrl(): string {
     return `url(${this.goTObject.image})`;
   }
 
-  onClick(event) {
-    this.clickEvent.emit(event.currentTarget);
-  }
-
   style(): any {
     return {
       "background-image": this.imageUrl(),
-      "position": "absolute"
+      "position": "absolute",
+      "left": `${this.goTObject.location.x}px`,
+      "top": `${this.goTObject.location.y}px`,
+      "z-index": 1030
      };
   }
 
