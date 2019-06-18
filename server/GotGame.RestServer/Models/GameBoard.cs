@@ -18,7 +18,7 @@ namespace GotGame.RestServer.Models
     public HouseCollection Houses { get; set; }
     public int RoundNumber { get; set; }
     public RoundPhase CurrentRoundPhase { get; set; }
-
+    public Tracks Tracks { get; set; }
     public GameBoard(Game game)
     {
       GameId = game.Id;
@@ -29,6 +29,7 @@ namespace GotGame.RestServer.Models
 
       Houses = new HouseCollection(game.Players.ToList());
       Fields = new FieldCollection(gameRules, Houses);
+      Tracks = new Tracks(Houses);
     }
 
     public void RemovePlayer(int playerId)

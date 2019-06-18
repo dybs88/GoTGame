@@ -1,8 +1,15 @@
-<got-gameInfo [gameBoard]="gameBoard"></got-gameInfo>
-<div class="inline d-flex mt-5" style="width: 100%">
-  <got-selectPawn [imageSrc]="houseDescription.footmanImageSrc" (click)="onPawnClick('Footman')"></got-selectPawn>
-  <got-selectPawn [imageSrc]="houseDescription.knightImageSrc" (click)="onPawnClick('Knight')"></got-selectPawn>
-  <got-selectPawn [imageSrc]="houseDescription.shipImageSrc" (click)="onPawnClick('Ship')"></got-selectPawn>
-  <got-selectPawn [imageSrc]="houseDescription.towerImageSrc" (click)="onPawnClick('Tower')"></got-selectPawn>
+<got-gameInfo class="mb-5" [gameBoard]="gameBoard"></got-gameInfo>
+<div class="inline btn-group mt-2 ml-4 mr-1" style="width: -webkit-fill-available">
+  <button class="btn btn-outline-dark btn-sm">Tor władzy</button>
+  <button class="btn btn-outline-dark btn-sm">Tor zaopatrzenia</button>
 </div>
-<button class="btn btn-success btn-sm" (click)="onHouseFieldsClick()">H</button>
+<div class="inline d-flex mt-5" style="width: 100%">
+  <got-selectPawn [imageSrc]="houseDescription.footmanImageSrc" [pawnType]="'Footman'" [pawnClick]="pawnClick" (pawnClickChange)="pawnClick = $event"></got-selectPawn>
+  <got-selectPawn [imageSrc]="houseDescription.knightImageSrc" [pawnType]="'Knight'" [(pawnClick)]="pawnClick"></got-selectPawn>
+  <got-selectPawn [imageSrc]="houseDescription.shipImageSrc" [pawnType]="'Ship'" [(pawnClick)]="pawnClick"></got-selectPawn>
+  <got-selectPawn [imageSrc]="houseDescription.towerImageSrc" [pawnType]="'Tower'" [(pawnClick)]="pawnClick"></got-selectPawn>
+</div>
+<got-tokens></got-tokens>
+<div class="d-flex ml-4 mt-1">
+  <button class="btn btn-outline-success btn-lg-got" (click)="onHouseFieldsClick()" [ngStyle]="houseFieldsBtnStyle()"></button>
+</div>

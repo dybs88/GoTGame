@@ -1,12 +1,11 @@
-import { FieldClickParams } from './../infrastructure/models/fieldClickParams.model';
-import { Component, Output, EventEmitter, Input } from "@angular/core";
+import { Component, Output, EventEmitter, Input, SimpleChanges } from "@angular/core";
 
 import { FieldData } from "./../../../models/fieldData.model";
 import { GameService } from "./../../common/infrastructure/services/game.service";
 import { FieldView } from "../../../models/fieldView.model";
 import { FieldViewRepository } from "../infrastructure/repositories/fieldView.repository";
 import { GameBoard } from "src/models/gameBoard.model";
-import { Location } from "src/models/common/location.model";
+import { FieldClickParams } from "./../infrastructure/models/fieldClickParams.model";
 
 @Component({
   selector: "got-mainboard",
@@ -15,29 +14,27 @@ import { Location } from "src/models/common/location.model";
 
 export class MainBoardComponent {
   private gameBoard: GameBoard;
-  displayHouseFields: boolean;
-  @Input() scrollTop: number;
-  @Output() fieldClick = new EventEmitter<FieldClickParams>();
+  private fieldClickParams: FieldClickParams;
+
+  @Input() settingsModified: number;
+  @Input() set fieldClick(params: FieldClickParams) {
+    this.fieldClickParams = params;
+    this.fieldClickChange.emit(this.fieldClickParams);
+  }
+  @Output() fieldClickChange = new EventEmitter<FieldClickParams>();
+  get fieldClick() {
+    return this.fieldClickParams;
+  }
+  get fields(): FieldView[] {
+    return this.data.fieldViews;
+  }
 
   constructor(private data: FieldViewRepository, private gameService: GameService) {
     this.gameBoard = this.gameService.gameBoard;
    }
 
-
-  get fields(): FieldView[] {
-    return this.data.fieldViews;
-  }
-
   public getFieldData(fieldId: number): FieldData {
     return this.gameBoard.fields.find(f => f.id === fieldId);
-  }
-
-  public toggleShowHouseFields() {
-    this.displayHouseFields = !this.displayHouseFields;
-  }
-
-  onFieldClick(params: FieldClickParams) {
-    this.fieldClick.emit(params);
   }
 
   fieldStyle(field: FieldView) {

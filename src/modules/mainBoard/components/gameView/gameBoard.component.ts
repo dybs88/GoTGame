@@ -1,7 +1,4 @@
-import { LocalizationService } from 'src/modules/common/infrastructure/locale/localization.service';
-import { GotBaseComponent } from './../../../common/components/gotBase.component';
-import { GameBoardViewSettings } from './../../infrastructure/models/gameBoardView.settings';
-import { Component, Renderer2, ViewChild, OnInit } from "@angular/core";
+import { Component, ViewChild, OnInit, Input, Output, EventEmitter, SimpleChanges } from "@angular/core";
 
 import { GameService } from "./../../../common/infrastructure/services/game.service";
 import { Location } from "src/models/common/location.model";
@@ -16,40 +13,33 @@ import { PawnClickParams } from "../../infrastructure/models/pawnClickParams.mod
 import { PawnView } from "src/models/pawnView.model";
 import { FieldClickParams } from "./../../infrastructure/models/fieldClickParams.model";
 import { FieldType, PawnType } from "src/modules/common/infrastructure/consts/goTEnums";
-import { UserService } from 'src/modules/common/infrastructure/authorization/user.service';
+import { LocalizationService } from "src/modules/common/infrastructure/locale/localization.service";
+import { GotBaseComponent } from "./../../../common/components/gotBase.component";
+import { UserService } from "src/modules/common/infrastructure/authorization/user.service";
+import { GameBoardService } from "../../infrastructure/services/gameBoard.service";
 
 @Component({
   selector: "got-game",
   templateUrl: "gameBoard.component.html"
 })
 export class GameBoardComponent extends GotBaseComponent implements OnInit {
-
-  private clickedPawnParams: PawnClickParams;
   private init: boolean;
-  private settings: GameBoardViewSettings = new GameBoardViewSettings();
 
+  @Input() pawnClick: PawnClickParams;
+  @Output() pawnClickChange = new EventEmitter<PawnClickParams>();
+  @Input() settingsModified: number;
   @ViewChild(GenerateDirective) generator: GenerateDirective;
 
-  get gameBoard() {
-    return this.gameService.gameBoard;
-  }
-
-  get currentHouse() {
-    return this.gameService.currentHouse;
-  }
-
-  get fields(): FieldView[] {
-    return this.data.fieldViews;
-  }
-
-  private get scrollTop() {
-    return this.generator.viewContainerRef.element.nativeElement.parentElement.scrollTop;
-  }
+  get gameBoard() { return this.gameService.gameBoard; }
+  get currentHouse() { return this.gameService.currentHouse; }
+  get fields(): FieldView[] { return this.data.fieldViews; }
+  get scrollTop() { return this.generator.viewContainerRef.element.nativeElement.parentElement.scrollTop; }
+  get settings() { return this.gameBoardService.settings; }
 
   constructor(private gameService: GameService,
-    private renderer: Renderer2,
     private data: FieldViewRepository,
     private componentFactoryResolver: ComponentFactoryResolver,
+    private gameBoardService: GameBoardService,
     localizationService: LocalizationService,
     userService: UserService) {
       super(localizationService, userService);
@@ -60,13 +50,22 @@ export class GameBoardComponent extends GotBaseComponent implements OnInit {
       const house = this.gameBoard.houses[h];
       for (let a = 0; a < house.armies.length; a++) {
         house.armies[a].pawns.forEach(p => {
-          this.clickedPawnParams = new PawnClickParams(p.id, p.houseType, p.type, p.location);
+          this.pawnClick = new PawnClickParams(p.id, p.houseType, p.type, p.location);
           this.generatePawn();
         });
       }
     }
 
     this.init = false;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const change = changes["settingsModified"];
+    if (change !== undefined && !change.isFirstChange()) {
+      if (this.gameBoardService.settings.displayPowerTracks) {
+        this.generatePowerTracksWindow();
+      }
+    }
   }
 
   public getFieldData(fieldId: number): FieldData {
@@ -77,26 +76,32 @@ export class GameBoardComponent extends GotBaseComponent implements OnInit {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(PawnComponent);
     const viewContainerRef = this.generator.viewContainerRef;
     if (!this.init) {
-      this.clickedPawnParams.location.y = this.clickedPawnParams.location.y +  this.scrollTop;
+      this.pawnClick.location.y = this.pawnClick.location.y +  this.scrollTop;
     }
     const componentRef = viewContainerRef.createComponent(componentFactory);
-    (<GoTObject>componentRef.instance).goTObject = new PawnView(this.clickedPawnParams.id,
-      this.clickedPawnParams.house,
-      this.clickedPawnParams.type,
-      this.clickedPawnParams.location);
+    (<GoTObject>componentRef.instance).goTObject = new PawnView(this.pawnClick.id,
+      this.pawnClick.house,
+      this.pawnClick.type,
+      this.pawnClick.location);
+
+    this.pawnClick = undefined;
+  }
+
+  generatePowerTracksWindow() {
+
   }
 
   onFieldClick(params: FieldClickParams) {
     const self = this;
-    if (this.clickedPawnParams === undefined
+    if (this.pawnClick === undefined
       || params.fieldType === FieldType.River) {
-      this.clickedPawnParams = undefined;
+      this.pawnClick = undefined;
       return;
     }
 
-    if (this.clickedPawnParams.type !== PawnType.Ship
+    if (this.pawnClick.type !== PawnType.Ship
       && (params.fieldType === FieldType.Sea || params.fieldType === FieldType.Port)) {
-      this.clickedPawnParams = undefined;
+      this.pawnClick = undefined;
       this.settings.displayTooltip(this.getTranslation(this.localKeys.wrongPawnOnSeaFieldMsg),
         new Location(params.location.x, params.location.y + this.scrollTop));
 
@@ -104,9 +109,9 @@ export class GameBoardComponent extends GotBaseComponent implements OnInit {
       return;
     }
 
-    if (this.clickedPawnParams.type === PawnType.Ship
+    if (this.pawnClick.type === PawnType.Ship
       && (params.fieldType === FieldType.Land)) {
-        this.clickedPawnParams = undefined;
+        this.pawnClick = undefined;
         this.settings.displayTooltip(this.getTranslation(this.localKeys.wrongPawnOnLandFieldMsg),
           new Location(params.location.x, params.location.y + this.scrollTop));
 
@@ -114,12 +119,7 @@ export class GameBoardComponent extends GotBaseComponent implements OnInit {
         return;
       }
 
-    this.clickedPawnParams.location = params.location;
+    this.pawnClick.location = params.location;
     this.generatePawn();
-    this.clickedPawnParams = undefined;
-  }
-
-  onPawnClick(params: PawnClickParams) {
-    this.clickedPawnParams = params;
   }
 }

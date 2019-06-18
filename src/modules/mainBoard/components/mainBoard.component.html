@@ -2,9 +2,8 @@
   [ngStyle]="fieldStyle(field)"
   [field]="field"
   [fieldData]="getFieldData(field.id)"
-  [displayHouseFields]="displayHouseFields"
-  [scrollTop]="scrollTop"
-  (fieldClick)="onFieldClick($event)">
+  [(fieldClick)]="fieldClick"
+  [settingsModified]="settingsModified">
 </got-field>
 
 

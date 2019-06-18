@@ -1,10 +1,10 @@
-import { Component, Output, EventEmitter, Input, ElementRef, ViewRef } from "@angular/core";
+import { Component, Output, EventEmitter, Input } from "@angular/core";
 
 import { GameBoard } from "src/models/gameBoard.model";
 import { House } from "src/models/house.model";
 import { GameService } from "src/modules/common/infrastructure/services/game.service";
-import { PawnType, PawnMode } from "src/modules/common/infrastructure/consts/goTEnums";
 import { PawnClickParams } from "../../infrastructure/models/pawnClickParams.model";
+import { GameBoardService } from "../../infrastructure/services/gameBoard.service";
 
 @Component({
   selector: "got-gamePanel",
@@ -13,23 +13,69 @@ import { PawnClickParams } from "../../infrastructure/models/pawnClickParams.mod
 
 export class GamePanelComponent {
 
+  private pawnClickParams: PawnClickParams;
+  private gameBoardSettingsChange: number = 0;
+
   houseDescription: any;
+
+  get pawnClick() {
+    return this.pawnClickParams;
+  }
+
+  @Input() set pawnClick(params: PawnClickParams) {
+    this.pawnClickParams = params;
+    this.pawnClickChange.emit(this.pawnClickParams);
+  }
+  @Output() pawnClickChange = new EventEmitter<PawnClickParams>();
+
+  get settingsModified() {
+    return this.gameBoardSettingsChange;
+  }
+
+  @Input() set settingsModified(value: number) {
+    if (value === undefined) {
+      return;
+    }
+    this.gameBoardSettingsChange = value;
+    this.settingsModifiedChange.emit(this.gameBoardSettingsChange);
+  }
+  @Output() settingsModifiedChange = new EventEmitter<number>();
 
   @Input() gameBoard: GameBoard;
   @Input() currentHouse: House;
-  @Output() houseFieldsMode = new EventEmitter();
-  @Output() pawnClickEvent = new EventEmitter<PawnClickParams>();
 
-  constructor(private gameService: GameService) {
+  constructor(private gameService: GameService, private gameBoardService: GameBoardService) {
     this.houseDescription = this.gameService.houseDescription;
-   }
-
-  onHouseFieldsClick() {
-    this.houseFieldsMode.emit();
+    this.gameBoardSettingsChange = 0;
   }
 
-  onPawnClick(pawnType: PawnType) {
-    const pawnId = this.gameService.currentHouse.pawns.find(p => p.mode === PawnMode.OutGame && p.type === pawnType).id;
-    this.pawnClickEvent.emit(new PawnClickParams(pawnId, this.gameService.currentHouse.type, pawnType));
+  houseFieldsBtnStyle() {
+    if (this.gameBoardService.settings.displayHouseFields) {
+      return {
+        "background-image": "url(/assets/img/fieldOn.png)"
+      };
+    } else {
+      return {
+        "background-image": "url(/assets/img/fieldOff.png)"
+      };
+    }
+  }
+
+  onHouseFieldsClick() {
+    this.gameBoardService.settings.displayHouseFields = !this.gameBoardService.settings.displayHouseFields;
+    if (this.gameBoardSettingsChange === 1) {
+      this.settingsModified--;
+    } else {
+      this.settingsModified++;
+    }
+  }
+
+  onPowerTrackBtnClick() {
+    this.gameBoardService.settings.displayPowerTracks = !this.gameBoardService.settings.displayPowerTracks;
+    if (this.gameBoardSettingsChange === 1) {
+      this.settingsModified--;
+    } else {
+      this.settingsModified++;
+    }
   }
 }

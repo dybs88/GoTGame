@@ -38,3 +38,8 @@ svg:hoover {
 .pe-none {
   pointer-events: none;
 }
+
+.btn-lg-got {
+  width: 70px;
+  height: 70px;
+}

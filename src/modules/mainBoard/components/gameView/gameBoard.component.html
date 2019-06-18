@@ -1,10 +1,9 @@
 <div class="row">
   <div class="col-10-got">
     <ng-template got-generate></ng-template>
-    <got-mainboard
-      #mainboard style="height: -webkit-fill-available; display: inline-block; width:-webkit-fill-available;"
-      (fieldClick)="onFieldClick($event)"
-      [scrollTop]="scrollTop"></got-mainboard>
+    <got-mainboard style="height: -webkit-fill-available; display: inline-block; width:-webkit-fill-available;"
+      (fieldClickChange)="onFieldClick($event)"
+      [settingsModified]="settingsModified"></got-mainboard>
   </div>
   <div *ngIf="settings.showTooltip" class="card" [ngStyle]="settings.tooltipStyle">
     <div class="card-body p-1">
@@ -12,7 +11,7 @@
     </div>
   </div>
   <div class="col-2-got">
-      <got-gamePanel [gameBoard]="gameBoard" [currentHouse]="currentHouse" (houseFieldsMode)="mainboard.toggleShowHouseFields()" (pawnClickEvent)="onPawnClick($event)"></got-gamePanel>
+      <got-gamePanel [gameBoard]="gameBoard" [currentHouse]="currentHouse" [(settingsModified)]="settingsModified" [(pawnClick)]="pawnClick"></got-gamePanel>
     </div>
 </div>
 

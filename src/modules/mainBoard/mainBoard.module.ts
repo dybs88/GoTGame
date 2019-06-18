@@ -11,13 +11,16 @@ import { MainBoardComponent } from "./components/mainBoard.component";
 import { FieldViewRepository } from "./infrastructure/repositories/fieldView.repository";
 import { PawnComponent } from "./components/pawn/pawn.component";
 import { SelectPawnComponent } from "./components/selectPawn/selectPawn.component";
+import { GameBoardService } from "./infrastructure/services/gameBoard.service";
+import { TokensComponent } from "./components/tokens/tokens.component";
+import { PowerTracksComponent } from "./components/tracks/powerTracks.component";
 
 @NgModule({
   declarations: [MainBoardComponent, FieldComponent, GameBoardComponent, GameInfoComponent, GamePanelComponent, PawnComponent,
-    SelectPawnComponent],
+    SelectPawnComponent, TokensComponent, PowerTracksComponent],
   imports: [BrowserModule, HouseModule, CommonModule],
   exports: [MainBoardComponent],
-  providers: [FieldViewRepository],
+  providers: [FieldViewRepository, GameBoardService],
   entryComponents: [PawnComponent]
 })
 

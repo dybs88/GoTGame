@@ -1,33 +1,40 @@
-import { Observable } from "rxjs";
+import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges, OnChanges } from "@angular/core";
 
 import { FieldData } from "./../../../../models/fieldData.model";
 import { FieldView } from "../../../../models/fieldView.model";
-import { Component, Input, SimpleChanges, Output, EventEmitter } from "@angular/core";
-import { MainBoardSettings } from "../../infrastructure/models/mainboard.settings";
 import { BaratheonDescription, LannisterDescription, StarkDescription} from "./../../../house/infrastructure/consts/houseDescriptions";
 import { GreyjoyDescription, MartellDescription, TyrellDescription } from "./../../../house/infrastructure/consts/houseDescriptions";
 import { HouseType } from "src/modules/common/infrastructure/consts/goTEnums";
 import { Location } from "src/models/common/location.model";
 import { FieldClickParams } from "../../infrastructure/models/fieldClickParams.model";
+import { GameBoardViewSettings } from "../../infrastructure/models/gameBoardView.settings";
+import { GameBoardService } from "../../infrastructure/services/gameBoard.service";
 
 @Component({
   selector: "got-field",
   templateUrl: "field.component.html",
 })
 
-export class FieldComponent {
-  @Input() scrollTop: number;
-  @Input() displayHouseFields: boolean;
-  @Input() settings: Observable<MainBoardSettings>;
-  @Input() field: FieldView;
-  @Input() fieldData: FieldData;
-  @Output() fieldClick = new EventEmitter<FieldClickParams>();
-
+export class FieldComponent implements OnInit, OnChanges {
   fillOpacity: number = 0.0;
   fill: string = "#000000";
 
-  imageUrl(): string {
-    return `url(/assets/img/${this.field.image})`;
+  @Input() field: FieldView;
+  @Input() fieldData: FieldData;
+  @Input() settingsModified: number;
+  @Input() fieldClick: FieldClickParams;
+  @Output() fieldClickChange = new EventEmitter<FieldClickParams>();
+
+  constructor(private gameBoardService: GameBoardService) { }
+
+  manageFieldView() {
+    if (this.gameBoardService.settings.displayHouseFields !== undefined) {
+      if (this.gameBoardService.settings.displayHouseFields && this.fieldData.controlledHouse !== undefined) {
+        this.fillOpacity = 0.5;
+      } else {
+        this.fillOpacity = 0.0;
+      }
+    }
   }
 
   ngOnInit(): void {
@@ -48,31 +55,22 @@ export class FieldComponent {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const houseFieldsChange = changes["displayHouseFields"];
-    if (houseFieldsChange !== undefined && !houseFieldsChange.firstChange) {
-      if (houseFieldsChange.currentValue && this.fieldData.controlledHouse !== undefined) {
-        this.fillOpacity = 0.5;
-
-      } else {
-        this.fillOpacity = 0.0;
-      }
+  ngOnChanges(changes: SimpleChanges) {
+    const change = changes["settingsModified"];
+    if (change !== undefined && !change.isFirstChange()) {
+      this.manageFieldView();
     }
   }
 
-  onControlledHouseChange() {
-
-  }
-
   onClick(event) {
-    const params = new FieldClickParams(this.fieldData.id, this.fieldData.name, this.fieldData.type,
+    this.fieldClick = new FieldClickParams(this.fieldData.id, this.fieldData.name, this.fieldData.type,
       new Location(parseInt(event.clientX, 10) - 15, parseInt(event.clientY, 10) - 65));
-    this.fieldClick.emit(params);
+    this.fieldClickChange.emit(this.fieldClick);
   }
 
   style(): any {
     return {
-      "background-image": this.imageUrl()
+      "background-image": `url(/assets/img/${this.field.image})`
      };
   }
 

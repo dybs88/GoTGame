@@ -4,6 +4,8 @@ export class GameBoardViewSettings {
   public showTooltip: boolean;
   public tooltipStyle: any;
   public tooltipMessage: string;
+  public displayHouseFields: boolean;
+  public displayPowerTracks: boolean;
 
   constructor() { }
 
