@@ -1,6 +1,6 @@
 import { FieldData } from "./fieldData.model";
 import { House } from "./house.model";
-import { Tracks } from "./tracks.mode";
+import { Tracks } from "./tracks.model";
 
 export class GameBoard {
   constructor(public gameId?: number,

@@ -14,14 +14,15 @@ import { SelectPawnComponent } from "./components/selectPawn/selectPawn.componen
 import { GameBoardService } from "./infrastructure/services/gameBoard.service";
 import { TokensComponent } from "./components/tokens/tokens.component";
 import { PowerTracksComponent } from "./components/tracks/powerTracks.component";
+import { GameBoardViewSettingsService  } from "./infrastructure/services/gameBoardViewSettings.service";
 
 @NgModule({
   declarations: [MainBoardComponent, FieldComponent, GameBoardComponent, GameInfoComponent, GamePanelComponent, PawnComponent,
     SelectPawnComponent, TokensComponent, PowerTracksComponent],
   imports: [BrowserModule, HouseModule, CommonModule],
   exports: [MainBoardComponent],
-  providers: [FieldViewRepository, GameBoardService],
-  entryComponents: [PawnComponent]
+  providers: [FieldViewRepository, GameBoardService, GameBoardViewSettingsService],
+  entryComponents: [PawnComponent, PowerTracksComponent]
 })
 
 export class MainBoardModule {

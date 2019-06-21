@@ -1,6 +1,7 @@
+<ng-template got-windowGenerator></ng-template>
 <got-gameInfo class="mb-5" [gameBoard]="gameBoard"></got-gameInfo>
 <div class="inline btn-group mt-2 ml-4 mr-1" style="width: -webkit-fill-available">
-  <button class="btn btn-outline-dark btn-sm">Tor władzy</button>
+  <button class="btn btn-outline-dark btn-sm" (click)="onPowerTrackBtnClick()">Tor władzy</button>
   <button class="btn btn-outline-dark btn-sm">Tor zaopatrzenia</button>
 </div>
 <div class="inline d-flex mt-5" style="width: 100%">
@@ -10,6 +11,8 @@
   <got-selectPawn [imageSrc]="houseDescription.towerImageSrc" [pawnType]="'Tower'" [(pawnClick)]="pawnClick"></got-selectPawn>
 </div>
 <got-tokens></got-tokens>
-<div class="d-flex ml-4 mt-1">
-  <button class="btn btn-outline-success btn-lg-got" (click)="onHouseFieldsClick()" [ngStyle]="houseFieldsBtnStyle()"></button>
+<div style="position: absolute; bottom: 1%" class="d-flex ml-4 mt-1">
+  <button class="btn btn-outline-success btn-lg-got mr-1" (click)="onHouseFieldsClick()" [ngStyle]="houseFieldsBtnStyle()"></button>
+  <button class="btn btn-dark btn-lg-got mr-1"><span class="fa fa-comment fa-3x"></span></button>
+  <button class="btn btn-primary btn-lg-got mr-1"><span class="fa fa-arrow-circle-right fa-3x"></span></button>
 </div>

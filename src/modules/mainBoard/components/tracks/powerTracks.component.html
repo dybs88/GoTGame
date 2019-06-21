@@ -1,0 +1,31 @@
+<div style="position: absolute; left: 40%; right: 23.90%; top: 4.8%" class="card fixed-top">
+  <table class="table text-center m-0">
+    <tr>
+      <td></td>
+      <td><h3>1</h3></td>
+      <td><h3>2</h3></td>
+      <td><h3>3</h3></td>
+      <td><h3>4</h3></td>
+      <td><h3>5</h3></td>
+      <td><h3>6</h3></td>
+    </tr>
+    <tr>
+      <td><img class="ml-1" src="assets/img/ThroneToken.png" style="width: 77px"></td>
+      <td *ngFor="let houseType of tracks.throneTrack" style="vertical-align: inherit">
+          <img class="ml-1" [src]="tokenSrc(houseType)" style="width:70px">
+      </td>
+    </tr>
+    <tr>
+        <td><img class="ml-1" src="assets/img/SwordToken.png" style="height: 118px;"></td>
+        <td *ngFor="let houseType of tracks.vassalsTrack" style="vertical-align: inherit">
+            <img class="ml-1" [src]="tokenSrc(houseType)" style="width:70px">
+        </td>
+    </tr>
+    <tr>
+      <td><img class="ml-1" src="assets/img/RavenToken.png" style="width: 77px"></td>
+      <td *ngFor="let houseType of tracks.courtTrack" style="vertical-align: inherit">
+          <img class="ml-1" [src]="tokenSrc(houseType)" style="width:70px">
+      </td>
+    </tr>
+  </table>
+</div>

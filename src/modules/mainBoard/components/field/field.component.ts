@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges, OnChanges } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 
 import { FieldData } from "./../../../../models/fieldData.model";
 import { FieldView } from "../../../../models/fieldView.model";
@@ -7,33 +7,32 @@ import { GreyjoyDescription, MartellDescription, TyrellDescription } from "./../
 import { HouseType } from "src/modules/common/infrastructure/consts/goTEnums";
 import { Location } from "src/models/common/location.model";
 import { FieldClickParams } from "../../infrastructure/models/fieldClickParams.model";
-import { GameBoardViewSettings } from "../../infrastructure/models/gameBoardView.settings";
-import { GameBoardService } from "../../infrastructure/services/gameBoard.service";
+import { GameBoardViewSettingsService, settingsName } from "./../../infrastructure/services/gameBoardViewSettings.service";
+import { SettingComponent } from "../abstract/setting.component";
 
 @Component({
   selector: "got-field",
   templateUrl: "field.component.html",
 })
 
-export class FieldComponent implements OnInit, OnChanges {
+export class FieldComponent implements OnInit, SettingComponent {
   fillOpacity: number = 0.0;
   fill: string = "#000000";
 
   @Input() field: FieldView;
   @Input() fieldData: FieldData;
-  @Input() settingsModified: number;
   @Input() fieldClick: FieldClickParams;
   @Output() fieldClickChange = new EventEmitter<FieldClickParams>();
 
-  constructor(private gameBoardService: GameBoardService) { }
+  constructor(public settings: GameBoardViewSettingsService) {
+    this.refreshSettings();
+  }
 
   manageFieldView() {
-    if (this.gameBoardService.settings.displayHouseFields !== undefined) {
-      if (this.gameBoardService.settings.displayHouseFields && this.fieldData.controlledHouse !== undefined) {
-        this.fillOpacity = 0.5;
-      } else {
-        this.fillOpacity = 0.0;
-      }
+    if (this.settings.displayHouseFields && this.fieldData.controlledHouse !== undefined) {
+      this.fillOpacity = 0.5;
+    } else {
+      this.fillOpacity = 0.0;
     }
   }
 
@@ -55,17 +54,18 @@ export class FieldComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    const change = changes["settingsModified"];
-    if (change !== undefined && !change.isFirstChange()) {
-      this.manageFieldView();
-    }
-  }
-
   onClick(event) {
     this.fieldClick = new FieldClickParams(this.fieldData.id, this.fieldData.name, this.fieldData.type,
       new Location(parseInt(event.clientX, 10) - 15, parseInt(event.clientY, 10) - 65));
     this.fieldClickChange.emit(this.fieldClick);
+  }
+
+  refreshSettings() {
+    this.settings.settingsChange.subscribe(propertyChange => {
+      if (propertyChange === settingsName.displayHouseFields) {
+        this.manageFieldView();
+      }
+    });
   }
 
   style(): any {

@@ -1,10 +1,12 @@
-import { Component, Output, EventEmitter, Input } from "@angular/core";
+import { Component, Output, EventEmitter, Input, ComponentFactoryResolver, ViewChild } from "@angular/core";
 
 import { GameBoard } from "src/models/gameBoard.model";
 import { House } from "src/models/house.model";
 import { GameService } from "src/modules/common/infrastructure/services/game.service";
 import { PawnClickParams } from "../../infrastructure/models/pawnClickParams.model";
-import { GameBoardService } from "../../infrastructure/services/gameBoard.service";
+import { GameBoardViewSettingsService } from "./../../infrastructure/services/gameBoardViewSettings.service";
+import { GenerateWindowDirective } from "src/modules/common/infrastructure/directives/generate.directive";
+import { PowerTracksComponent } from "../tracks/powerTracks.component";
 
 @Component({
   selector: "got-gamePanel",
@@ -14,43 +16,29 @@ import { GameBoardService } from "../../infrastructure/services/gameBoard.servic
 export class GamePanelComponent {
 
   private pawnClickParams: PawnClickParams;
-  private gameBoardSettingsChange: number = 0;
-
   houseDescription: any;
 
-  get pawnClick() {
-    return this.pawnClickParams;
-  }
-
+  @ViewChild(GenerateWindowDirective) windowGenerator: GenerateWindowDirective;
   @Input() set pawnClick(params: PawnClickParams) {
     this.pawnClickParams = params;
     this.pawnClickChange.emit(this.pawnClickParams);
   }
   @Output() pawnClickChange = new EventEmitter<PawnClickParams>();
-
-  get settingsModified() {
-    return this.gameBoardSettingsChange;
-  }
-
-  @Input() set settingsModified(value: number) {
-    if (value === undefined) {
-      return;
-    }
-    this.gameBoardSettingsChange = value;
-    this.settingsModifiedChange.emit(this.gameBoardSettingsChange);
-  }
-  @Output() settingsModifiedChange = new EventEmitter<number>();
-
   @Input() gameBoard: GameBoard;
   @Input() currentHouse: House;
 
-  constructor(private gameService: GameService, private gameBoardService: GameBoardService) {
+  get pawnClick() {
+    return this.pawnClickParams;
+  }
+
+  constructor(private gameService: GameService,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private settings: GameBoardViewSettingsService) {
     this.houseDescription = this.gameService.houseDescription;
-    this.gameBoardSettingsChange = 0;
   }
 
   houseFieldsBtnStyle() {
-    if (this.gameBoardService.settings.displayHouseFields) {
+    if (this.settings.displayHouseFields) {
       return {
         "background-image": "url(/assets/img/fieldOn.png)"
       };
@@ -61,21 +49,22 @@ export class GamePanelComponent {
     }
   }
 
-  onHouseFieldsClick() {
-    this.gameBoardService.settings.displayHouseFields = !this.gameBoardService.settings.displayHouseFields;
-    if (this.gameBoardSettingsChange === 1) {
-      this.settingsModified--;
+  generatePowerTracksWindow() {
+    if (this.settings.displayPowerTracks) {
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(PowerTracksComponent);
+      const viewContainerRef = this.windowGenerator.viewContainerRef;
+      const componentRef = viewContainerRef.createComponent(componentFactory);
     } else {
-      this.settingsModified++;
+      this.windowGenerator.viewContainerRef.clear();
     }
   }
 
+  onHouseFieldsClick() {
+    this.settings.displayHouseFields = !this.settings.displayHouseFields;
+  }
+
   onPowerTrackBtnClick() {
-    this.gameBoardService.settings.displayPowerTracks = !this.gameBoardService.settings.displayPowerTracks;
-    if (this.gameBoardSettingsChange === 1) {
-      this.settingsModified--;
-    } else {
-      this.settingsModified++;
-    }
+    this.settings.displayPowerTracks = !this.settings.displayPowerTracks;
+    this.generatePowerTracksWindow();
   }
 }

@@ -22,14 +22,15 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { DisableDirective } from "./infrastructure/directives/disable.directive";
 import { MinValueDirective } from "./infrastructure/validators/minValue.directive";
 import { MaxValueDirective } from "./infrastructure/validators/maxValue.directive";
-import { GenerateDirective } from "./infrastructure/directives/generate.directive";
+import { GeneratePawnDirective, GenerateWindowDirective } from "./infrastructure/directives/generate.directive";
 
 @NgModule({
   imports: [BrowserModule, FormsModule],
   exports: [GotBaseComponent, NavbarComponent, FooterComponent, DisableDirective, MinValueDirective, MaxValueDirective, ChatComponent,
-    MessageBoxComponent, GenerateDirective],
+    MessageBoxComponent, GeneratePawnDirective, GenerateWindowDirective],
   declarations: [GotBaseComponent, LocaleComponent, NavbarComponent, FooterComponent, AuthComponent, ChangePlayerComponent,
-    DisableDirective, MinValueDirective, MaxValueDirective, ChatComponent, MessageBoxComponent, GenerateDirective],
+    DisableDirective, MinValueDirective, MaxValueDirective, ChatComponent, MessageBoxComponent, GeneratePawnDirective,
+    GenerateWindowDirective],
   providers: [LocalizationService, LocalizationData, PlayerService, UserService, GameRulesService, ChatService, GameListService,
     CurrentService, GameService]
 })

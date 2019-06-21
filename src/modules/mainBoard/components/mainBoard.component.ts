@@ -16,7 +16,6 @@ export class MainBoardComponent {
   private gameBoard: GameBoard;
   private fieldClickParams: FieldClickParams;
 
-  @Input() settingsModified: number;
   @Input() set fieldClick(params: FieldClickParams) {
     this.fieldClickParams = params;
     this.fieldClickChange.emit(this.fieldClickParams);
@@ -31,7 +30,7 @@ export class MainBoardComponent {
 
   constructor(private data: FieldViewRepository, private gameService: GameService) {
     this.gameBoard = this.gameService.gameBoard;
-   }
+  }
 
   public getFieldData(fieldId: number): FieldData {
     return this.gameBoard.fields.find(f => f.id === fieldId);
