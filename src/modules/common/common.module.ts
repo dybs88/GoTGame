@@ -23,6 +23,7 @@ import { DisableDirective } from "./infrastructure/directives/disable.directive"
 import { MinValueDirective } from "./infrastructure/validators/minValue.directive";
 import { MaxValueDirective } from "./infrastructure/validators/maxValue.directive";
 import { GeneratePawnDirective, GenerateWindowDirective } from "./infrastructure/directives/generate.directive";
+import { MapHelper } from "./infrastructure/helpers/map.helper";
 
 @NgModule({
   imports: [BrowserModule, FormsModule],
@@ -32,7 +33,7 @@ import { GeneratePawnDirective, GenerateWindowDirective } from "./infrastructure
     DisableDirective, MinValueDirective, MaxValueDirective, ChatComponent, MessageBoxComponent, GeneratePawnDirective,
     GenerateWindowDirective],
   providers: [LocalizationService, LocalizationData, PlayerService, UserService, GameRulesService, ChatService, GameListService,
-    CurrentService, GameService]
+    CurrentService, GameService, MapHelper]
 })
 export class CommonModule {
 

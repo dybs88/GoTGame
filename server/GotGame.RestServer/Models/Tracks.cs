@@ -11,6 +11,7 @@ namespace GotGame.RestServer.Models
   {
     private List<House> houses;
 
+    public Dictionary<int, List<HouseType>> SupplyTrack { get; set; }
     public List<HouseType?> CourtTrack { get; set; }
     public List<HouseType?> VassalsTrack { get; set; }
     public List<HouseType?> ThroneTrack { get; set; }
@@ -20,7 +21,13 @@ namespace GotGame.RestServer.Models
     {
       this.houses = houses;
 
-      CourtTrack = new List<HouseType?> {null, null, null, null, null, null};
+      SupplyTrack = new Dictionary<int, List<HouseType>>();
+      for (int i = 0; i <= 6; i++)
+      {
+        SupplyTrack.Add(i, new List<HouseType>());
+      }
+
+      CourtTrack = new List<HouseType?> {null, null, null, null, null, null };
       VassalsTrack = new List<HouseType?> { null, null, null, null, null, null };
       ThroneTrack = new List<HouseType?> { null, null, null, null, null, null };
 
@@ -29,36 +36,42 @@ namespace GotGame.RestServer.Models
         ThroneTrack[0] = HouseType.Baratheon;
         VassalsTrack[4] = HouseType.Baratheon;
         CourtTrack[3] = HouseType.Baratheon;
+        SupplyTrack[2].Add(HouseType.Baratheon);
       }
       if (houses.Any(h => h.Type == HouseType.Lannister))
       {
         ThroneTrack[1] = HouseType.Lannister;
         VassalsTrack[5] = HouseType.Lannister;
         CourtTrack[0] = HouseType.Lannister;
+        SupplyTrack[2].Add(HouseType.Lannister);
       }
       if (houses.Any(h => h.Type == HouseType.Stark))
       {
         ThroneTrack[2] = HouseType.Stark;
         VassalsTrack[3] = HouseType.Stark;
         CourtTrack[1] = HouseType.Stark;
+        SupplyTrack[1].Add(HouseType.Stark);
       }
       if (houses.Any(h => h.Type == HouseType.Greyjoy))
       {
         ThroneTrack[4] = HouseType.Greyjoy;
         VassalsTrack[0] = HouseType.Greyjoy;
         CourtTrack[5] = HouseType.Greyjoy;
+        SupplyTrack[2].Add(HouseType.Greyjoy);
       }
       if (houses.Any(h => h.Type == HouseType.Tyrell))
       {
         ThroneTrack[5] = HouseType.Tyrell;
         VassalsTrack[1] = HouseType.Tyrell;
         CourtTrack[4] = HouseType.Tyrell;
+        SupplyTrack[2].Add(HouseType.Tyrell);
       }
       if (houses.Any(h => h.Type == HouseType.Martell))
       {
         ThroneTrack[3] = HouseType.Martell;
         VassalsTrack[2] = HouseType.Martell;
         CourtTrack[2] = HouseType.Martell;
+        SupplyTrack[2].Add(HouseType.Martell);
       }
 
       for (int t = 0; t <= 5; t++)

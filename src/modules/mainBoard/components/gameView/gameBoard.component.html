@@ -5,14 +5,9 @@
     <got-mainboard style="height: -webkit-fill-available; display: inline-block; width:-webkit-fill-available;"
       (fieldClickChange)="onFieldClick($event)"></got-mainboard>
   </div>
-  <div *ngIf="settings.showTooltip" class="card" [ngStyle]="settings.tooltipStyle">
-    <div class="card-body p-1">
-      {{settings.tooltipMessage}}
-    </div>
+  <div class="col-2-got" [ngStyle]="gotPanelStyle()">
+    <got-gamePanel [gameBoard]="gameBoard" [currentHouse]="currentHouse" [(pawnClick)]="pawnClick"></got-gamePanel>
   </div>
-  <div class="col-2-got">
-      <got-gamePanel [gameBoard]="gameBoard" [currentHouse]="currentHouse" [(pawnClick)]="pawnClick"></got-gamePanel>
-    </div>
 </div>
 
 

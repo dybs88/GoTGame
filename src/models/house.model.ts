@@ -2,7 +2,7 @@ import { BaratheonDescription, LannisterDescription, StarkDescription } from "./
 import { GreyjoyDescription, TyrellDescription, MartellDescription } from "./../modules/house/infrastructure/consts/houseDescriptions";
 import { PawnData } from "./pawnData.model";
 import { HouseType } from "src/modules/common/infrastructure/consts/goTEnums";
-import { Army } from "./army.mode";
+import { Army } from "./army.model";
 
 export class House {
   public description: any;

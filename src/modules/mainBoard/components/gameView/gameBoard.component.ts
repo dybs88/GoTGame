@@ -108,4 +108,11 @@ export class GameBoardComponent extends GotBaseComponent implements OnInit, Sett
 
     });
   }
+
+  gotPanelStyle() {
+    return {
+      "height": "920px",
+      "background-image": `url(${this.currentHouse.description.backgroundBanner})`
+    };
+  }
 }

@@ -1,0 +1,44 @@
+<div style="position: absolute; left: 40%; right: 23.90%; top: 4.8%" class="card fixed-top">
+  <table class="table table-bordered p-0 m-0 text-center font-weight-bold">
+    <tr>
+      <td colspan="3" class="p-0" style="width:11.8%">
+        <img src="assets/img/Barrel.png">
+      </td>
+      <td class="p-0" style="vertical-align: inherit; width: 12.6%;" *ngFor="let supplyItem of supplyTrack"><h2>{{supplyItem.position}}</h2></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="p-0"></td>
+      <td class="p-0" *ngFor="let supplyItem of supplyTrack">
+        <div style="width: inherit" [class.mt-4]="supplyItem.houseTypes.length < 3">
+            <img *ngFor="let houseType of supplyItem.houseTypes" [src]="tokenSrc(houseType)" style="width: 30%">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3" class="p-0"></td>
+      <td class="p-0" *ngFor="let ruleItem of supplyRules.supplyRulesItems; let i = index">
+        <div>
+          <div class="row text-center m-0" style="border-bottom: 3px solid #dee2e6;" 
+          [class.bg-color-ygreen]="currentHouseSupplyPosition === i && (suppliedArmiesCount() < ruleItem.armyCount)"
+          [class.bg-color-red]="currentHouseSupplyPosition === i && (suppliedArmiesCount() >= ruleItem.armyCount)"
+          [class.text-white]="currentHouseSupplyPosition === i && (suppliedArmiesCount() >= ruleItem.armyCount)">
+            <div *ngIf="currentHouseSupplyPosition === i" class="col-6" style="border-right: 3px solid #dee2e6;">
+              {{suppliedArmiesCount()}}
+            </div>
+            <div [class.col-6]="currentHouseSupplyPosition === i" [class.col-12]="currentHouseSupplyPosition !== i">
+              {{ruleItem.armyCount}}
+            </div>
+          </div>
+          <div class="row m-0" *ngFor="let armySize of ruleItem.armySizes">
+            <div class="col-12"
+            [class.bg-color-ygreen]="currentHouseSupplyPosition === i && !armySize.armyExist"
+            [class.bg-color-red]="currentHouseSupplyPosition === i && armySize.armyExist"
+            [class.text-white]="currentHouseSupplyPosition === i && armySize.armyExist">
+              {{armySize.armySize}}
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

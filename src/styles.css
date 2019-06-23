@@ -43,3 +43,11 @@ svg:hoover {
   width: 70px;
   height: 70px;
 }
+
+.bg-color-red {
+  background-color: red
+}
+
+.bg-color-ygreen {
+  background-color: yellowgreen
+}

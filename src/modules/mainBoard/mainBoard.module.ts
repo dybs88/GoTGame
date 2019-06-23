@@ -15,14 +15,15 @@ import { GameBoardService } from "./infrastructure/services/gameBoard.service";
 import { TokensComponent } from "./components/tokens/tokens.component";
 import { PowerTracksComponent } from "./components/tracks/powerTracks.component";
 import { GameBoardViewSettingsService  } from "./infrastructure/services/gameBoardViewSettings.service";
+import { SupplyTrackComponent } from "./components/tracks/supplyTrack.component";
 
 @NgModule({
   declarations: [MainBoardComponent, FieldComponent, GameBoardComponent, GameInfoComponent, GamePanelComponent, PawnComponent,
-    SelectPawnComponent, TokensComponent, PowerTracksComponent],
+    SelectPawnComponent, TokensComponent, PowerTracksComponent, SupplyTrackComponent],
   imports: [BrowserModule, HouseModule, CommonModule],
   exports: [MainBoardComponent],
   providers: [FieldViewRepository, GameBoardService, GameBoardViewSettingsService],
-  entryComponents: [PawnComponent, PowerTracksComponent]
+  entryComponents: [PawnComponent, PowerTracksComponent, SupplyTrackComponent]
 })
 
 export class MainBoardModule {

@@ -1,8 +1,8 @@
 <ng-template got-windowGenerator></ng-template>
 <got-gameInfo class="mb-5" [gameBoard]="gameBoard"></got-gameInfo>
 <div class="inline btn-group mt-2 ml-4 mr-1" style="width: -webkit-fill-available">
-  <button class="btn btn-outline-dark btn-sm" (click)="onPowerTrackBtnClick()">Tor władzy</button>
-  <button class="btn btn-outline-dark btn-sm">Tor zaopatrzenia</button>
+  <button class="btn btn-outline-dark btn-sm" [ngClass]="panelClass()" (click)="onPowerTrackBtnClick()">Tor władzy</button>
+  <button class="btn btn-outline-dark btn-sm" (click)="onSupplyTrackBtnClick()">Tor zaopatrzenia</button>
 </div>
 <div class="inline d-flex mt-5" style="width: 100%">
   <got-selectPawn [imageSrc]="houseDescription.footmanImageSrc" [pawnType]="'Footman'" [pawnClick]="pawnClick" (pawnClickChange)="pawnClick = $event"></got-selectPawn>

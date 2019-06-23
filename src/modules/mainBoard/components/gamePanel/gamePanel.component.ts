@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, ComponentFactoryResolver, ViewChild } from "@angular/core";
+import { Component, Output, EventEmitter, Input, ComponentFactoryResolver, ViewChild, ViewContainerRef } from "@angular/core";
 
 import { GameBoard } from "src/models/gameBoard.model";
 import { House } from "src/models/house.model";
@@ -7,6 +7,7 @@ import { PawnClickParams } from "../../infrastructure/models/pawnClickParams.mod
 import { GameBoardViewSettingsService } from "./../../infrastructure/services/gameBoardViewSettings.service";
 import { GenerateWindowDirective } from "src/modules/common/infrastructure/directives/generate.directive";
 import { PowerTracksComponent } from "../tracks/powerTracks.component";
+import { SupplyTrackComponent } from "../tracks/supplyTrack.component";
 
 @Component({
   selector: "got-gamePanel",
@@ -49,11 +50,21 @@ export class GamePanelComponent {
     }
   }
 
-  generatePowerTracksWindow() {
+  managePowerTracksWindow() {
     if (this.settings.displayPowerTracks) {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(PowerTracksComponent);
       const viewContainerRef = this.windowGenerator.viewContainerRef;
-      const componentRef = viewContainerRef.createComponent(componentFactory);
+      const containerRef = viewContainerRef.createComponent(componentFactory);
+    } else {
+      this.windowGenerator.viewContainerRef.clear();
+    }
+  }
+
+  manageSupplyTrackWindow() {
+    if (this.settings.displaySupplyTrack) {
+      const componentFactor = this.componentFactoryResolver.resolveComponentFactory(SupplyTrackComponent);
+      const viewContainerRef = this.windowGenerator.viewContainerRef;
+      const containerRef = viewContainerRef.createComponent(componentFactor);
     } else {
       this.windowGenerator.viewContainerRef.clear();
     }
@@ -64,7 +75,24 @@ export class GamePanelComponent {
   }
 
   onPowerTrackBtnClick() {
+    if (this.settings.displaySupplyTrack) {
+      this.settings.displaySupplyTrack = false;
+      this.manageSupplyTrackWindow();
+    }
     this.settings.displayPowerTracks = !this.settings.displayPowerTracks;
-    this.generatePowerTracksWindow();
+    this.managePowerTracksWindow();
+  }
+
+  onSupplyTrackBtnClick() {
+    if (this.settings.displayPowerTracks) {
+      this.settings.displayPowerTracks = false;
+      this.managePowerTracksWindow();
+    }
+    this.settings.displaySupplyTrack = !this.settings.displaySupplyTrack;
+    this.manageSupplyTrackWindow();
+  }
+
+  panelClass() {
+    return "btn-lannister";
   }
 }

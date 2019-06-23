@@ -5,6 +5,9 @@ import { GameService } from "./../../common/infrastructure/services/game.service
 import { GotBaseComponent } from "./../../common/components/gotBase.component";
 import { LocalizationService } from "src/modules/common/infrastructure/locale/localization.service";
 import { UserService } from "src/modules/common/infrastructure/authorization/user.service";
+import { FieldData } from "src/models/fieldData.model";
+import { MapHelper } from "src/modules/common/infrastructure/helpers/map.helper";
+import { GameBoard } from "src/models/gameBoard.model";
 
 @Component({
   selector: "got-mainmenu",
@@ -15,6 +18,7 @@ export class MainMenuComponent extends GotBaseComponent {
 
   constructor(private gameService: GameService,
     private router: Router,
+    private mapHelper: MapHelper,
     userService: UserService,
     localizationService: LocalizationService) {
     super(localizationService, userService);
@@ -22,7 +26,7 @@ export class MainMenuComponent extends GotBaseComponent {
 
   quickStart() {
     this.gameService.quickStart().subscribe(response => {
-      this.gameService.setGameBoard(response.gameBoard);
+      this.gameService.setGameBoard(this.mapHelper.mapOnGameBoard(response.gameBoard));
       this.router.navigate(["/gameboard", response.game.id]);
     });
   }
