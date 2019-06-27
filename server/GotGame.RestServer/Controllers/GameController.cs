@@ -19,12 +19,17 @@ namespace GotGame.RestServer.Controllers
     private IGameService gameService;
     private IGameListRepository gameListRepository;
     private IGoTStorage goTStorage;
+    private IChatRepository chatRepository;
 
-    public GameController(IGameService gameService, IGameListRepository gameListRepo, IGoTStorage storage)
+    public GameController(IGameService gameService,
+      IGameListRepository gameListRepo,
+      IGoTStorage storage,
+      IChatRepository chatRepo)
     {
       this.gameService = gameService;
       gameListRepository = gameListRepo;
       goTStorage = storage;
+      chatRepository = chatRepo;
     }
 
     [HttpPost("start")]
@@ -38,20 +43,9 @@ namespace GotGame.RestServer.Controllers
     }
 
     [HttpPost("quickstart")]
-    public IActionResult QuickStart(dynamic requestData)
+    public async Task<IActionResult> QuickStart(dynamic requestData)
     {
-      GameRules gameRules = new GameRules { Id = 99990, GameId = 99999, AllHouses = true, MaxPlayers = 6, CanLookPlayerCard = true, WinCondition = Infrastructure.Consts.WinCondition.Castles, WinCastlesCount = 7, RoundsCount = 10 };
-      List<Player> players = new List<Player>
-      {
-        new Player { Id = 99991, GameId = 99999, IsGameCreator = true, Name = "Robert", House = Infrastructure.Consts.HouseType.Baratheon, Status = Infrastructure.Consts.PlayerStatus.Ready  },
-        new Player { Id = 99992, GameId = 99999, Name = "Eddard", House = Infrastructure.Consts.HouseType.Stark, Status = Infrastructure.Consts.PlayerStatus.Ready  },
-        new Player { Id = 99993, GameId = 99999, Name = "Tywin", House = Infrastructure.Consts.HouseType.Lannister, Status = Infrastructure.Consts.PlayerStatus.Ready  },
-        new Player { Id = 99994, GameId = 99999, Name = "Euron", House = Infrastructure.Consts.HouseType.Greyjoy, Status = Infrastructure.Consts.PlayerStatus.Ready  },
-        new Player { Id = 99995, GameId = 99999, Name = "Oberyn", House = Infrastructure.Consts.HouseType.Martell, Status = Infrastructure.Consts.PlayerStatus.Ready  },
-        new Player { Id = 99996, GameId = 99999, Name = "Loras", House = Infrastructure.Consts.HouseType.Tyrell, Status = Infrastructure.Consts.PlayerStatus.Ready  },
-      };
-      Game game = new Game { Id = 99999, Name = "Quick game", GameRules = gameRules, Players = players };
-      goTStorage.CreateGameStorage(game);
+      Game game = await gameListRepository.GetGameAsync(5002);
       GameBoard gameBoard = gameService.StartGame(game);
       return new OkObjectResult(new { game, gameBoard });
     }

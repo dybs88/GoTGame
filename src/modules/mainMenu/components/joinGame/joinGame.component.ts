@@ -35,7 +35,7 @@ export class JoinGameComponent extends GotBaseComponent {
     this.route.params.subscribe(params => {
         this.gameRepository.getGame(parseInt(params["id"], 10)).subscribe(serverData => {
           this.game = serverData;
-          this.gameRulesService.setGameRules(this.game.gameRules);
+          this.gameRulesService.rules = this.game.gameRules;
           this.avaibleHouses = gameRulesService.calculateAvaibleHouses(this.game.players.map(p => p.house));
         });
       });

@@ -13,11 +13,11 @@ export class GameRulesServer extends RestServer {
   }
 
   public getGameRules(gameRulesId: number): Observable<GameRules> {
-    return this.http.get(`${this.baseUrl}/gamerules/${gameRulesId}`, super.getOptions());
+    return this.http.get<GameRules>(`${this.baseUrl}/gamerules/${gameRulesId}`, super.getOptions());
   }
 
   public getGameRulesByGameId(gameId: number): Observable<GameRules> {
-    return this.http.get(`${this.baseUrl}/gamerules/${gameId}`, super.getOptions());
+    return this.http.get<GameRules>(`${this.baseUrl}/gamerules/${gameId}`, super.getOptions());
   }
 
   public updateGameRules(gameRules: GameRules): Observable<any> {

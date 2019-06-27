@@ -11,6 +11,7 @@ import { Player } from "src/models/player.model";
 import { UserService } from "src/modules/common/infrastructure/authorization/user.service";
 import { GameRules } from "src/models/gameRules.model";
 import { GameRulesService } from "src/modules/common/infrastructure/services/gameRules.service";
+import { GameService } from "src/modules/common/infrastructure/services/game.service";
 
 @Component({
   templateUrl: "gameList.component.html"
@@ -27,20 +28,22 @@ export class GameListComponent extends GotBaseComponent {
   showPasswordVerification: boolean;
   actionBtnDisabled: boolean = false;
 
-  constructor(private gameService: GameListService,
+  constructor(private gameListService: GameListService,
+    private gameService: GameService,
     private router: Router,
     private playerService: PlayerService,
     private gameRulesService: GameRulesService,
     userService: UserService,
     localizationService: LocalizationService) {
     super(localizationService, userService);
-    this.gameService.getGames().subscribe(serverData => {
+    this.gameListService.getGames().subscribe(serverData => {
       this.games = serverData;
     });
    }
 
   createGame() {
-    this.gameRulesService.setGameRules(new GameRules());
+    this.gameRulesService.rules = new GameRules();
+    this.gameRulesService.rules.initStandardRules();
     this.router.navigate(["/newgame"]);
   }
 
@@ -74,7 +77,7 @@ export class GameListComponent extends GotBaseComponent {
           return;
         }
       }
-      this.gameService.joinGame(gameId).subscribe(serverData => {
+      this.gameListService.joinGame(gameId).subscribe(serverData => {
         if (serverData.playerAdded) {
           this.player = serverData.newPlayer;
           this.playerService.joinGame(this.getGame(gameId), this.player);
@@ -93,7 +96,7 @@ export class GameListComponent extends GotBaseComponent {
   }
 
   refreshGames() {
-    this.gameService.refreshGames().subscribe(serverData => {
+    this.gameListService.refreshGames().subscribe(serverData => {
       this.games = serverData;
     });
   }
@@ -109,7 +112,7 @@ export class GameListComponent extends GotBaseComponent {
 
   verifyPassword(form: NgForm) {
     if (form.valid) {
-      this.gameService.verifyPassword(this.rejoiningGameId, this.password).subscribe(response => {
+      this.gameListService.verifyPassword(this.rejoiningGameId, this.password).subscribe(response => {
         this.passwordVerified = response;
         this.joinGame(this.rejoiningGameId, true);
       });

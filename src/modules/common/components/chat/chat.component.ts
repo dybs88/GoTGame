@@ -1,21 +1,22 @@
-import { Component, Input, SimpleChanges } from "@angular/core";
+import { Component, Input, SimpleChanges, OnChanges, OnDestroy } from "@angular/core";
 
 import { timer, Subscription } from "rxjs";
 
 import { ChatService } from "./../../infrastructure/services/chat.service";
 import { PlayerService } from "src/modules/common/infrastructure/services/player.service";
 import { GameChat, ChatData } from "./../../../../models/gameChat.model";
-import { GameListService } from "../../infrastructure/services/gameList.service";
 import { Player } from "src/models/player.model";
+import { GameService } from "../../infrastructure/services/game.service";
+import { MapHelper } from "../../infrastructure/helpers/map.helper";
 
 
 @Component({
   selector: "got-chat",
   templateUrl: "chat.component.html"
 })
-export class ChatComponent {
+export class ChatComponent implements OnChanges, OnDestroy {
   private gameChats: GameChat[] = new Array<GameChat>();
-  selectedChat: GameChat = new GameChat();
+  selectedChat: GameChat;
   text: string = "";
 
   @Input()
@@ -26,7 +27,8 @@ export class ChatComponent {
 
   constructor(private chatService: ChatService,
     private playerService: PlayerService,
-    private gameRepository: GameListService) {
+    private mapHelper: MapHelper,
+    private gameService: GameService) {
     this.chatService.getGameChats().subscribe(serverData => {
       const publicChat = serverData.find(gc => gc.isPrivate === false);
       publicChat.name = this.setPublicChatName();
@@ -37,7 +39,7 @@ export class ChatComponent {
           this.gameChats.push(serverData[i]);
         }
       }
-      this.selectedChat = publicChat;
+      this.selectedChat = this.mapHelper.mapOnGameChat(publicChat);
     });
     this.refreshChat();
   }
@@ -48,7 +50,7 @@ export class ChatComponent {
         .find(gc => gc.players.find(cp => cp.playerId === playerId) !== undefined);
       return;
     }
-    this.chatService.createPrivateChat(this.gameRepository.currentGame.id, this.playerService.currentPlayer.id,
+    this.chatService.createPrivateChat(this.gameService.currentGame.id, this.playerService.currentPlayer.id,
       new Array<number>(this.playerService.currentPlayer.id, playerId))
     .subscribe(response => {
       if (response.privateChatCreated) {
@@ -96,7 +98,7 @@ export class ChatComponent {
             if (playerChats[i].players.find(cp => cp.isNew && cp.playerId === this.playerService.currentPlayer.id)) {
               const privateGameChat = playerChats[i];
               privateGameChat.name = this.setPrivateChatName(privateGameChat);
-              if (this.gameChats.find(gc => gc.id === playerChats[i].id) === undefined) {
+              if (this.gameChats.find(gc => gc.id === privateGameChat.id) === undefined) {
                 this.gameChats.push(playerChats[i]);
               }
             }

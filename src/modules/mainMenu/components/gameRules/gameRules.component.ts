@@ -77,12 +77,13 @@ export class GameRulesComponent extends GotBaseComponent {
     if (form.valid) {
       if (this.standardRules) {
         this.gameRules = new GameRules();
+        this.gameRules.initStandardRules();
         this.gameRules.maxPlayers = this.maxPlayers;
       } else {
         this.mapGameRules();
       }
 
-      this.gameRulesService.setGameRules(this.gameRules);
+      this.gameRulesService.rules = this.gameRules;
       this.rulesConfirmed.emit("");
     }
   }

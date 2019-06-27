@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs">
+<ul class="nav navbar-expand-sm nav-tabs">
     <li *ngFor="let chat of gameChats" class="nav-item">
       <a class="nav-link" [class.active]="selectedChat.id === chat.id" (click)="selectChat(chat.id)">{{chat.name}}</a>
     </li>

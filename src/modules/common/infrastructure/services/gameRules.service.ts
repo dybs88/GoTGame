@@ -10,8 +10,10 @@ export class GameRulesService {
 
   constructor(private server: GameRulesServer) { }
 
-  get rules() {
-    return this.gameRules;
+  public get rules() { return this.gameRules; }
+
+  public set rules(value: GameRules) {
+    this.gameRules = value;
   }
 
   calculateAvaibleHouses(takenHouses?: string[]): string[] {
@@ -47,10 +49,6 @@ export class GameRulesService {
 
   getGameRulesByGameId(gameId: number): Observable<GameRules> {
     return this.server.getGameRulesByGameId(gameId);
-  }
-
-  setGameRules(gameRules: GameRules) {
-    this.gameRules = gameRules;
   }
 
   updateGameRules() {

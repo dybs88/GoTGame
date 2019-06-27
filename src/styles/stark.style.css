@@ -1,0 +1,15 @@
+.btn-stark {
+  color: white;
+  border-color: white;
+}
+
+.btn-stark:hover {
+  color: #000;
+  background-color:white;
+  border-color: white;
+}
+
+.label-stark {
+  color: white;
+  border-color: white;
+}

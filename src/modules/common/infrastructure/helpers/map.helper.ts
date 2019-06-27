@@ -1,3 +1,4 @@
+import { GameRules } from "src/models/gameRules.model";
 import { Injectable } from "@angular/core";
 import { FieldData } from "src/models/fieldData.model";
 import { House } from "src/models/house.model";
@@ -8,6 +9,9 @@ import { Tracks } from "src/models/tracks.model";
 import { SupplyTrackItem } from "src/models/supplyTrackItem.model";
 import { GameBoard } from "src/models/gameBoard.model";
 import { HouseType } from "../consts/goTEnums";
+import { Game } from "src/models/game.model";
+import { Player } from "src/models/player.model";
+import { GameChat, ChatData, ChatPlayer } from "src/models/gameChat.model";
 
 @Injectable()
 export class MapHelper {
@@ -58,5 +62,51 @@ export class MapHelper {
       this.mapOnHouseArray(object.houses),
       this.mapOnFieldDataArray(object.fields),
       this.mapOnTracks(object.tracks));
+  }
+
+  public mapOnGame(object: any): Game {
+    return new Game(object.id,
+      object.name,
+      object.playerCount,
+      this.mapOnGameRules(object.gameRules),
+      object.isPrivate,
+      this.mapOnPlayerArray(object.players));
+  }
+
+  public mapOnGameRules(object: any): GameRules {
+    return new GameRules(object.id, object.gameId, object.maxPlayers, object.allHouses, object.randomHouses, object.roundsCount,
+      object.winCondition, object.winCastleCount, object.winPointsCount, object.canLookPlayerCard, object.largeCastleDefence,
+      object.smallCastleDefence, object.mercaneryAvaible);
+  }
+
+  public mapOnPlayer(object: any): Player {
+    return new Player(object.id, object.name, object.gameId, object.ipAddress, object.house, object.status, object.isGameCreator);
+  }
+
+  public mapOnPlayerArray(array: any): Player[] {
+    return array.map(p => {
+      return this.mapOnPlayer(p);
+    });
+  }
+
+  public mapOnGameChat(object: any): GameChat {
+    return new GameChat(object.id,
+      object.name,
+      object.gameId,
+      object.isPrivate,
+      this.mapOnChatDataArray(object.chatDatas),
+      this.mapOnChatPlayerArray(object.players));
+  }
+
+  public mapOnChatDataArray(array: any): ChatData[] {
+    return array.map(c => {
+      return new ChatData(c.playerName, c.text);
+    });
+  }
+
+  public mapOnChatPlayerArray(array: any): ChatPlayer[] {
+    return array.map(c => {
+      return new ChatPlayer(c.playerId, c.name, c.isNew);
+    });
   }
 }

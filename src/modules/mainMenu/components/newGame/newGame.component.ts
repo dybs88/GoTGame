@@ -11,6 +11,7 @@ import { GameListService } from "../../../common/infrastructure/services/gameLis
 import { PlayerService } from "src/modules/common/infrastructure/services/player.service";
 import { GameRules } from "src/models/gameRules.model";
 import { GameRulesService } from "./../../../common/infrastructure/services/gameRules.service";
+import { GameService } from "src/modules/common/infrastructure/services/game.service";
 
 
 
@@ -32,7 +33,8 @@ export class NewGameComponent extends GotBaseComponent {
   gameRules: GameRules;
 
   constructor(private router: Router,
-    private gameRepository: GameListService,
+    private gameListService: GameListService,
+    private gameService: GameService,
     private playerService: PlayerService,
     private gameRulesService: GameRulesService,
     localService: LocalizationService,
@@ -53,9 +55,10 @@ export class NewGameComponent extends GotBaseComponent {
       const player = new Player(0, this.playerName, 0, "", this.selectedHouse, "Joined", true);
       game.players.push(player);
 
-      this.gameRepository.createGame(game, this.password).subscribe(serverData => {
+      this.gameListService.createGame(game, this.password).subscribe(serverData => {
+        this.gameService.currentGame = serverData.game;
         this.playerService.setPlayer(serverData.player);
-        this.gameRulesService.setGameRules(serverData.gameRules);
+        this.gameRulesService.rules = serverData.gameRules;
         this.router.navigate(["/readyforgame", serverData.game.id.toString()]);
       });
     }

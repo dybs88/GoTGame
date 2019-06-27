@@ -26,7 +26,8 @@ export class MainMenuComponent extends GotBaseComponent {
 
   quickStart() {
     this.gameService.quickStart().subscribe(response => {
-      this.gameService.setGameBoard(this.mapHelper.mapOnGameBoard(response.gameBoard));
+      this.gameService.currentGame = this.mapHelper.mapOnGame(response.game);
+      this.gameService.gameBoard = this.mapHelper.mapOnGameBoard(response.gameBoard);
       this.router.navigate(["/gameboard", response.game.id]);
     });
   }

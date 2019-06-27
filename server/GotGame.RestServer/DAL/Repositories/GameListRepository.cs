@@ -56,7 +56,10 @@ namespace GotGame.RestServer.DAL.Repositories
     {
       if (game.Id == 0)
       {
-        game.PasswordHash = passwordHasher.HashPassword(game, password);
+        if(game.IsPrivate)
+        {
+          game.PasswordHash = passwordHasher.HashPassword(game, password);
+        }
         await context.Games.AddAsync(game);
       }
       else

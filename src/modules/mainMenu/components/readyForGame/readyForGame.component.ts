@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { Subscription, timer } from "rxjs";
@@ -12,13 +12,14 @@ import { Player } from "src/models/player.model";
 import { PlayerService } from "src/modules/common/infrastructure/services/player.service";
 import { UserService } from "src/modules/common/infrastructure/authorization/user.service";
 import { GameRulesService } from "src/modules/common/infrastructure/services/gameRules.service";
+import { MapHelper } from "src/modules/common/infrastructure/helpers/map.helper";
 
 @Component({
   selector: "got-readyforgame",
   templateUrl: "ReadyForGame.component.html"
 })
 
-export class ReadyForGameComponent extends GotBaseComponent {
+export class ReadyForGameComponent extends GotBaseComponent implements OnDestroy {
   game: Game;
   players: Player[];
   joined: boolean = false;
@@ -37,10 +38,11 @@ export class ReadyForGameComponent extends GotBaseComponent {
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private gameRepository: GameListService,
+    private gameListService: GameListService,
     private playerService: PlayerService,
     private gameRulesService: GameRulesService,
     private gameService: GameService,
+    private mapHelper: MapHelper,
     userService: UserService,
     localizationService: LocalizationService) {
       super(localizationService, userService);
@@ -87,7 +89,7 @@ export class ReadyForGameComponent extends GotBaseComponent {
 
   public startGame() {
     this.gameService.startGame(this.game.id).subscribe(response => {
-      this.gameService.setGameBoard(response.gameBoard);
+      this.gameService.gameBoard = this.mapHelper.mapOnGameBoard(response.gameBoard);
       this.router.navigate(["/gameboard", response.game.id]);
     });
   }
@@ -107,16 +109,16 @@ export class ReadyForGameComponent extends GotBaseComponent {
       this.playerService.clearPlayer();
       this.router.navigateByUrl("/gamelist");
     }
-    this.gameRepository.currentGame = serverData.game;
-    this.game = serverData.game;
-    this.players = serverData.game.players;
-    this.gameRulesService.setGameRules(serverData.game.gameRules);
+    this.game = this.mapHelper.mapOnGame(serverData.game);
+    this.gameService.currentGame = this.game;
+    this.players = this.game.players;
+    this.gameRulesService.rules = this.game.gameRules;
     this.start = !(this.players !== undefined && this.players.length >= 3 && this.players.every(p => p.status === "Ready"));
     this.refreshCounter++;
   }
 
   private refreshGameSubscription(gameId: number) {
-    this.gameSubscription = this.gameRepository.refreshGame(gameId, this.currentPlayer.id).subscribe(serverData => {
+    this.gameSubscription = this.gameListService.refreshGame(gameId, this.currentPlayer.id).subscribe(serverData => {
       this.onRefreshGame(serverData);
       this.subscribeToData(gameId);
     });

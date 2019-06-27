@@ -5,7 +5,7 @@ import { GameListServer } from "../../../dal/infrastructure/gameList.server";
 import { Player } from "src/models/player.model";
 @Injectable()
 export class GameListService {
-  currentGame: Game;
+
   constructor(private server: GameListServer) { }
   public confirmJoinGame(gameId: number, player: Player): Observable<any> {
     return this.server.confirmJoinGame(gameId, player);

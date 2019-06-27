@@ -9,6 +9,7 @@ import { Location } from "src/models/common/location.model";
 import { FieldClickParams } from "../../infrastructure/models/fieldClickParams.model";
 import { GameBoardViewSettingsService, settingsName } from "./../../infrastructure/services/gameBoardViewSettings.service";
 import { SettingComponent } from "../abstract/setting.component";
+import { GameService } from "src/modules/common/infrastructure/services/game.service";
 
 @Component({
   selector: "got-field",
@@ -18,14 +19,16 @@ import { SettingComponent } from "../abstract/setting.component";
 export class FieldComponent implements OnInit, SettingComponent {
   fillOpacity: number = 0.0;
   fill: string = "#000000";
+  houseDescription: any;
 
   @Input() field: FieldView;
   @Input() fieldData: FieldData;
   @Input() fieldClick: FieldClickParams;
   @Output() fieldClickChange = new EventEmitter<FieldClickParams>();
 
-  constructor(public settings: GameBoardViewSettingsService) {
+  constructor(private gameService: GameService, public settings: GameBoardViewSettingsService) {
     this.refreshSettings();
+    this.houseDescription = gameService.currentHouse.description;
   }
 
   manageFieldView() {
@@ -39,17 +42,17 @@ export class FieldComponent implements OnInit, SettingComponent {
   ngOnInit(): void {
     if (this.fieldData.controlledHouse !== undefined) {
       if (this.fieldData.controlledHouse === HouseType.Baratheon) {
-        this.fill = BaratheonDescription.backgroundColor;
+        this.fill = BaratheonDescription.styles.firstColor;
       } else if (this.fieldData.controlledHouse === HouseType.Lannister) {
-        this.fill = LannisterDescription.backgroundColor;
+        this.fill = LannisterDescription.styles.firstColor;
       } else if (this.fieldData.controlledHouse === HouseType.Stark) {
-        this.fill = StarkDescription.backgroundColor;
+        this.fill = StarkDescription.styles.firstColor;
       } else if (this.fieldData.controlledHouse === HouseType.Greyjoy) {
-        this.fill = GreyjoyDescription.backgroundColor;
+        this.fill = GreyjoyDescription.styles.firstColor;
       } else if (this.fieldData.controlledHouse === HouseType.Martell) {
-        this.fill = MartellDescription.backgroundColor;
+        this.fill = MartellDescription.styles.firstColor;
       } else if (this.fieldData.controlledHouse === HouseType.Tyrell) {
-        this.fill = TyrellDescription.backgroundColor;
+        this.fill = TyrellDescription.styles.firstColor;
       }
     }
   }

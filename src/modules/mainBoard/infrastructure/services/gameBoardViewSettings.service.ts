@@ -6,6 +6,7 @@ export class GameBoardViewSettingsService {
   private _displayHouseFields: boolean;
   private _displayPowerTracks: boolean;
   private _displaySupplyTrack: boolean;
+  private _displayChat; boolean;
 
   public settingsChange = new EventEmitter<string>();
 
@@ -34,6 +35,14 @@ export class GameBoardViewSettingsService {
   public set displaySupplyTrack(value: boolean) {
     this._displaySupplyTrack = value;
     this.settingsChange.emit(settingsName.displaySupplyTrack);
+  }
+
+  public get displayChat() {
+    return this._displayChat;
+  }
+
+  public set displayChat(value: boolean) {
+    this._displayChat = value;
   }
 
   constructor() { }

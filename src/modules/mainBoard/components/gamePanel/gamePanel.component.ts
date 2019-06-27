@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, ComponentFactoryResolver, ViewChild, ViewContainerRef } from "@angular/core";
+import { Component, Output, EventEmitter, Input, ComponentFactoryResolver, ViewChild } from "@angular/core";
 
 import { GameBoard } from "src/models/gameBoard.model";
 import { House } from "src/models/house.model";
@@ -8,14 +8,16 @@ import { GameBoardViewSettingsService } from "./../../infrastructure/services/ga
 import { GenerateWindowDirective } from "src/modules/common/infrastructure/directives/generate.directive";
 import { PowerTracksComponent } from "../tracks/powerTracks.component";
 import { SupplyTrackComponent } from "../tracks/supplyTrack.component";
+import { GotBaseComponent } from "./../../../common/components/gotBase.component";
+import { UserService } from "src/modules/common/infrastructure/authorization/user.service";
+import { LocalizationService } from "./../../../common/infrastructure/locale/localization.service";
 
 @Component({
   selector: "got-gamePanel",
   templateUrl: "gamePanel.component.html"
 })
 
-export class GamePanelComponent {
-
+export class GamePanelComponent extends GotBaseComponent {
   private pawnClickParams: PawnClickParams;
   houseDescription: any;
 
@@ -34,8 +36,10 @@ export class GamePanelComponent {
 
   constructor(private gameService: GameService,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private settings: GameBoardViewSettingsService) {
-    this.houseDescription = this.gameService.houseDescription;
+    private settings: GameBoardViewSettingsService,
+    localizationService: LocalizationService, userService: UserService) {
+      super(localizationService, userService);
+      this.houseDescription = this.gameService.currentHouse.description;
   }
 
   houseFieldsBtnStyle() {
@@ -92,7 +96,7 @@ export class GamePanelComponent {
     this.manageSupplyTrackWindow();
   }
 
-  panelClass() {
-    return "btn-lannister";
+  onChatBtnClick() {
+    this.settings.displayChat = !this.settings.displayChat;
   }
 }

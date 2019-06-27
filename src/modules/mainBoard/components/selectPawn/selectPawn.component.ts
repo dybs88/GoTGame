@@ -9,13 +9,16 @@ import { PawnType, PawnMode } from "src/modules/common/infrastructure/consts/goT
 })
 export class SelectPawnComponent implements OnChanges {
   private isClicked: boolean = false;
+  houseDescritpion: any;
 
   @Input() imageSrc: string;
   @Input() pawnType: PawnType;
   @Input() pawnClick: PawnClickParams;
   @Output() pawnClickChange = new EventEmitter<PawnClickParams>();
 
-  constructor(private gameService: GameService) { }
+  constructor(private gameService: GameService) {
+    this.houseDescritpion = gameService.currentHouse.description;
+   }
 
   ngOnChanges(changes: SimpleChanges) {
     const change = changes["pawnClick"];
@@ -53,8 +56,8 @@ export class SelectPawnComponent implements OnChanges {
     };
 
     if (this.isClicked) {
-      style["background-color"] = "greenyellow";
-      style["border-color"] = "greenyellow";
+      style["background-color"] = this.houseDescritpion.styles.secondColor;
+      style["border-color"] = this.houseDescritpion.styles.secondColor;
     }
 
     return style;

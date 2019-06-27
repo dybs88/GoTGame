@@ -41,6 +41,8 @@ export const localizationKeys = {
   transferBtn: "TransferBtn",
   startBtn: "StartBtn",
   quickStartBtn: "QuickStartBtn",
+  powerTracksBtn: "PowerTracksBtn",
+  supplyTrackBtn: "SupplyTrackBtn",
 
   idColName: "IdColName",
   gameNameColName: "GameNameColName",
@@ -245,6 +247,14 @@ export class LocalizationData {
     "QuickStartBtn": {
       "pl-PL": "Szybki start",
       "en-EN": "Quick start"
+    },
+    "PowerTracksBtn": {
+      "pl-PL": "Tor władzy",
+      "en-EN": "Power track"
+    },
+    "SupplyTrackBtn": {
+      "pl-PL": "Tor zaopatrzenia",
+      "en-EN": "Supply track"
     },
     "IdColName": {
       "pl-PL": "Id",

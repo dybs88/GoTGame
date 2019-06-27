@@ -1,0 +1,15 @@
+.btn-baratheon {
+  color: black;
+  border-color: black;
+}
+
+.btn-baratheon:hover {
+  color: #fecf03;
+  background-color:black;
+  border-color: black;
+}
+
+.label-baratheon {
+  color: black;
+  border-color: black;
+}

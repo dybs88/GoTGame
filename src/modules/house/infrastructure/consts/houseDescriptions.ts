@@ -9,7 +9,12 @@ export const LannisterDescription = {
   knightImageSrc: "/assets/img/LannisterKnight.png",
   shipImageSrc: "/assets/img/LannisterShip.png",
   towerImageSrc: "/assets/img/LannisterTower.png",
-  backgroundColor: "#87090a",
+  styles: {
+    button: "btn-lannister",
+    label: "label-lannister",
+    firstColor: "#87090a",
+    secondColor: "gold"
+  },
   text: {
     "Sentence" : {
       "pl-PL": "Słuchajcie Mojego Ryku",
@@ -38,7 +43,12 @@ export const BaratheonDescription = {
   knightImageSrc: "/assets/img/BaratheonKnight.png",
   shipImageSrc: "/assets/img/BaratheonShip.png",
   towerImageSrc: "/assets/img/BaratheonTower.png",
-  backgroundColor: "#fecf03",
+  styles: {
+    button: "btn-baratheon",
+    label: "label-baratheon",
+    firstColor: "#fecf03",
+    secondColor: "black"
+  },
   text: {
     "Sentence": {
       "pl-PL": "Nasza Jest Furia",
@@ -67,7 +77,12 @@ export const StarkDescription = {
   knightImageSrc: "/assets/img/StarkKnight.png",
   shipImageSrc: "/assets/img/StarkShip.png",
   towerImageSrc: "/assets/img/StarkTower.png",
-  backgroundColor: "#d4cdb1",
+  styles: {
+    button: "btn-stark",
+    label: "label-stark",
+    firstColor: "#d4cdb1",
+    secondColor: "#fff"
+  },
   text: {
     "Sentence": {
       "pl-PL": "Nadchodzi Zima",
@@ -96,7 +111,12 @@ export const TyrellDescription = {
   knightImageSrc: "/assets/img/TyrellKnight.png",
   shipImageSrc: "/assets/img/TyrellShip.png",
   towerImageSrc: "/assets/img/TyrellTower.png",
-  backgroundColor: "#8da080",
+  styles: {
+    button: "btn-tyrell",
+    label: "label-tyrell",
+    firstColor: "#8da080",
+    secondColor: "gold"
+  },
   text: {
     "Sentence": {
       "pl-PL": "Zbieramy Siły",
@@ -125,7 +145,12 @@ export const GreyjoyDescription = {
   knightImageSrc: "/assets/img/GreyjoyKnight.png",
   shipImageSrc: "/assets/img/GreyjoyShip.png",
   towerImageSrc: "/assets/img/GreyjoyTower.png",
-  backgroundColor: "#1a1a1a",
+  styles: {
+    button: "btn-greyjoy",
+    label: "label-greyjoy",
+    firstColor: "#1a1a1a",
+    secondColor: "gold"
+  },
   text: {
     "Sentence": {
       "pl-PL": "My Nie Siejemy",
@@ -154,7 +179,12 @@ export const MartellDescription = {
   knightImageSrc: "/assets/img/MartellKnight.png",
   shipImageSrc: "/assets/img/MartellShip.png",
   towerImageSrc: "/assets/img/MartellTower.png",
-  backgroundColor: "#f0863a",
+  styles: {
+    button: "btn-martell",
+    label: "label-martell",
+    firstColor: "#f0863a",
+    secondColor: "gold"
+  },
   text: {
     "Sentence": {
       "pl-PL": "Niezachwiani, Nieugięci, Niezłomni",

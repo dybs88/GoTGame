@@ -25,8 +25,13 @@
             "styles": [
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/font-awesome/scss/font-awesome.scss",
-              "src/styles/lannister.style.css"
+              "node_modules/font-awesome/css/font-awesome.css",
+              "src/styles/lannister.style.css",
+              "src/styles/baratheon.style.css",
+              "src/styles/greyjoy.style.css",
+              "src/styles/stark.style.css",
+              "src/styles/tyrell.style.css",
+              "src/styles/martell.style.css"
             ],
             "scripts": [
               "node_modules/popper.js/dist/popper.min.js",
