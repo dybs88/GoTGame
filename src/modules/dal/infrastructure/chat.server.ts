@@ -28,7 +28,11 @@ export class ChatServer extends RestServer {
     return this.http.get<GameChat[]>(`${this.baseUrl}/chat/${gameId}`, super.getOptions());
   }
 
-  public updateChatData(chatId: number, data: ChatData): Observable<GameChat> {
-    return this.http.post<GameChat>(`${this.baseUrl}/chat`, {chatId, data}, super.getOptions());
+  public updateChatData(playerId: number, chatId: number, data: ChatData): Observable<GameChat> {
+    return this.http.post<GameChat>(`${this.baseUrl}/chat`, {playerId, chatId, data}, super.getOptions());
+  }
+
+  public markChatAsReaded(playerId: number, chatId: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/chat/mark`, { playerId, chatId }, super.getOptions());
   }
 }

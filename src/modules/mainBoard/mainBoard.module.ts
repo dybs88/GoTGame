@@ -1,6 +1,9 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
+
 import { CommonModule } from "./../common/common.module";
 import { HouseModule } from "./../house/house.module";
 import { GameBoardComponent } from "./components/gameView/gameBoard.component";
@@ -20,7 +23,7 @@ import { SupplyTrackComponent } from "./components/tracks/supplyTrack.component"
 @NgModule({
   declarations: [MainBoardComponent, FieldComponent, GameBoardComponent, GameInfoComponent, GamePanelComponent, PawnComponent,
     SelectPawnComponent, TokensComponent, PowerTracksComponent, SupplyTrackComponent],
-  imports: [BrowserModule, HouseModule, CommonModule],
+  imports: [BrowserModule, HouseModule, CommonModule, BsDropdownModule.forRoot(), TooltipModule.forRoot()],
   exports: [MainBoardComponent],
   providers: [FieldViewRepository, GameBoardService, GameBoardViewSettingsService],
   entryComponents: [PawnComponent, PowerTracksComponent, SupplyTrackComponent]

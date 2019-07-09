@@ -19,8 +19,9 @@ export class ChatComponent implements OnChanges, OnDestroy {
   selectedChat: GameChat;
   text: string = "";
 
-  @Input()
-  players: Player[];
+  get houses() { return this.gameService.gameBoard.houses; }
+
+  @Input() showPlayerList: boolean;
 
   timerSubscription: Subscription;
   chatSubscription: Subscription;
@@ -73,9 +74,17 @@ export class ChatComponent implements OnChanges, OnDestroy {
     }
   }
 
+  houseTableRowStyle(description: any) {
+    return {
+      "font-size": "small",
+      "background-color": description.styles.firstColor,
+      "color": description.styles.secondColor
+    };
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     const change = changes["players"];
-    if (!change.isFirstChange() && change.currentValue.length < change.previousValue.length) {
+    if (change !== undefined && !change.isFirstChange() && change.currentValue.length < change.previousValue.length) {
       for (let x = 0; x < change.previousValue.length; x++) {
         if (change.currentValue.find(p => p.id === change.previousValue[x].id) === undefined) {
           this.deletePlayerChats(change.previousValue[x].id);
@@ -92,14 +101,19 @@ export class ChatComponent implements OnChanges, OnDestroy {
     if (this.selectedChat !== undefined) {
       this.chatSubscription = this.chatService.getChatDatas(this.selectedChat.id).subscribe(response => {
         if (response.gameChats !== undefined) {
-          const playerChats: GameChat[] = response.gameChats
-            .map(gc => new GameChat(gc.id, gc.name, gc.gameId, gc.isPrivate, gc.chatDatas, gc.players));
+          const playerChats: GameChat[] = this.mapHelper.mapOnGameChatArray(response.gameChats);
           for (let i = 0; i < playerChats.length; i++) {
-            if (playerChats[i].players.find(cp => cp.isNew && cp.playerId === this.playerService.currentPlayer.id)) {
+            if (playerChats[i].players.find(cp => cp.playerId === this.playerService.currentPlayer.id)) {
               const privateGameChat = playerChats[i];
               privateGameChat.name = this.setPrivateChatName(privateGameChat);
-              if (this.gameChats.find(gc => gc.id === privateGameChat.id) === undefined) {
+              const gameChat = this.gameChats.find(gc => gc.id === privateGameChat.id);
+              if (gameChat === undefined) {
                 this.gameChats.push(playerChats[i]);
+              } else {
+                if (privateGameChat.players.find(cp => cp.playerId === this.playerService.currentPlayer.id).isNew) {
+                  gameChat.players.find(cp => cp.playerId === this.playerService.currentPlayer.id).isNew = true;
+                  this.chatService.newMessages = true;
+                }
               }
             }
           }
@@ -111,8 +125,20 @@ export class ChatComponent implements OnChanges, OnDestroy {
     this.subscribeNextRefresh();
   }
 
+  markNewMessage(chatId: number): boolean {
+    const gameChat = this.gameChats.find(gc => gc.id === chatId);
+    return gameChat.players.some(pc => pc.playerId === this.playerService.currentPlayer.id && pc.isNew);
+  }
+
   selectChat(chatId: number) {
     this.selectedChat = this.gameChats.find(gc => gc.id === chatId);
+    if (this.selectedChat.isPrivate) {
+      this.selectedChat.players.find(pc => pc.playerId === this.playerService.currentPlayer.id).isNew = false;
+      if (this.gameChats.some(gc => gc.players.every(pc => !pc.isNew))) {
+        this.chatService.newMessages = false;
+      }
+      this.chatService.markChatAsReaded(chatId).subscribe();
+    }
   }
 
   sendMessage() {

@@ -1,6 +1,6 @@
 <ng-template got-windowGenerator></ng-template>
 <got-gameInfo class="mb-5" [gameBoard]="gameBoard"></got-gameInfo>
-<div class="inline btn-group mt-2 ml-4 mr-1" style="width: -webkit-fill-available">
+<div class="inline btn-group mt-2 ml-4 mr-1" style="width: 93.5%">
   <button class="btn btn-outline-dark btn-sm" [ngClass]="houseDescription.styles.button" (click)="onPowerTrackBtnClick()">{{getTranslation(localKeys.powerTracksBtn)}}</button>
   <button class="btn btn-outline-dark btn-sm" [ngClass]="houseDescription.styles.button" (click)="onSupplyTrackBtnClick()">{{getTranslation(localKeys.supplyTrackBtn)}}</button>
 </div>
@@ -11,9 +11,9 @@
   <got-selectPawn [imageSrc]="houseDescription.towerImageSrc" [pawnType]="'Tower'" [(pawnClick)]="pawnClick"></got-selectPawn>
 </div>
 <got-tokens></got-tokens>
-<got-chat *ngIf="settings.displayChat" style="position: absolute; top: 66.5%; left: 47.2%; background-color: rgba(255, 255, 255, 0.8)"></got-chat>
+<got-chat [showPlayerList]="true" [ngStyle]="displayChat()" style="position: absolute; top: 67.4%; left: 47.2%; width: 34.7rem; background-color: rgba(255, 255, 255, 0.8)"></got-chat>
 <div style="position: absolute; bottom: 1%" class="d-flex ml-4 mt-1">
   <button class="btn btn-outline-success btn-lg-got mr-1" (click)="onHouseFieldsClick()" [ngStyle]="houseFieldsBtnStyle()"></button>
-  <button class="btn btn-dark btn-lg-got mr-1"><span class="fa fa-comment fa-3x" (click)="onChatBtnClick()"></span></button>
+  <button class="btn btn-lg-got mr-1" [class.btn-dark]="!newMessages" [class.btn-warning]="newMessages" (click)="onChatBtnClick()"><span class="fa fa-comment fa-3x" ></span></button>
   <button class="btn btn-primary btn-lg-got mr-1"><span class="fa fa-arrow-circle-right fa-3x"></span></button>
 </div>

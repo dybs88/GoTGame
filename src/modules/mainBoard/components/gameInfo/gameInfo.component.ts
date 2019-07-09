@@ -15,11 +15,37 @@ export class GameInfoComponent extends GotBaseComponent {
   gameBoard: GameBoard;
 
   houseDescription: any;
+  get houses() { return this.gameService.gameBoard.houses; }
+  get currentHouse() { return this.gameService.currentHouse; }
 
   constructor(private gameService: GameService,
     userService: UserService,
     localizationService: LocalizationService) {
     super(localizationService, userService);
     this.houseDescription = this.gameService.currentHouse.description;
+  }
+
+  castleTranslation(castlesCount: number) {
+    if (castlesCount === 1) {
+      return this.getTranslation(this.localKeys.castleLbl);
+    } else if (castlesCount > 1 && castlesCount <= 4) {
+      return this.getTranslation(this.localKeys.castles1Lbl);
+    } else {
+      return this.getTranslation(this.localKeys.castles2Lbl);
+    }
+  }
+
+  winningMenuItemStyle(description: any) {
+    const result = {
+      "background-color": description.styles.firstColor,
+      "color": description.styles.secondColor,
+      "font-size": "small"
+    };
+
+    if (description.type === this.houseDescription.type) {
+      result["font-weight"] = "700";
+    }
+
+    return result;
   }
 }

@@ -16,7 +16,8 @@ namespace GotGame.RestServer.DAL.Repositories
     IList<GameChat> GetChatsByGameId(int gameId);
     IList<GameChat> GetPrivateChatsByPlayerId(int playerId);
     GameChat GetChatById(int chatId);
-    GameChat UpdateGameChat(int chatId, ChatData chatData);
+    void MarkAsReaded(int playerId, int chatId);
+    GameChat UpdateGameChat(int playerId, int chatId, ChatData chatData);
   }
 
   public class ChatRepository: IChatRepository
@@ -114,9 +115,17 @@ namespace GotGame.RestServer.DAL.Repositories
       return gameChats.FirstOrDefault(gc => gc.Id == chatId);
     }
 
-    public GameChat UpdateGameChat(int chatId, ChatData chatData)
+    public void MarkAsReaded(int playerId, int chatId)
+    {
+      GameChat gameChat = gameChats.FirstOrDefault(gc => gc.Id == chatId);
+      gameChat.Players.FirstOrDefault(pc => pc.PlayerId == playerId).MarkOld();
+    }
+
+    public GameChat UpdateGameChat(int playerId, int chatId, ChatData chatData)
     {
       GameChat gameChat = GetChatById(chatId);
+      if(gameChat.IsPrivate)
+        gameChat.Players.FirstOrDefault(cp => cp.PlayerId != playerId).MarkNew();
 
       if (gameChat != null)
       {

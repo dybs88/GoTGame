@@ -25,7 +25,7 @@ export class MapHelper {
   public mapOnHouseArray(array: Array<any>): House[] {
     return array.map(h => {
       return new House(h.playerId, h.playerName, h.type, this.mapOnArmyArray(h.armies), this.mapOnPawnDataArray(h.pawns),
-        h.controlledFields);
+        h.controlledFields, h.castlesCount);
     });
   }
 
@@ -96,6 +96,10 @@ export class MapHelper {
       object.isPrivate,
       this.mapOnChatDataArray(object.chatDatas),
       this.mapOnChatPlayerArray(object.players));
+  }
+
+  public mapOnGameChatArray(array: any): GameChat[] {
+    return array.map(a => this.mapOnGameChat(a));
   }
 
   public mapOnChatDataArray(array: any): ChatData[] {

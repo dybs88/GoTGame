@@ -23,6 +23,11 @@ namespace GotGame.RestServer.Models.Chat
       IsNew = false;
     }
 
+    public void MarkNew()
+    {
+      IsNew = true;
+    }
+
     public object Clone()
     {
       return new ChatPlayer(this.PlayerId, this.Name, this.IsNew);

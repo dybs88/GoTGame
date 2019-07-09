@@ -6,7 +6,16 @@ export const environment = {
   production: false,
   restServerPort: 50001,
   autoAuthorize: true,
-  environmentName: "Development"
+  environmentName: "Development",
+  browser: function() {
+    const ua = window.navigator.userAgent;
+
+    if (ua.indexOf("Firefox") > -1) {
+      return "Firefox";
+    } else if (ua.indexOf("Chrome") > -1) {
+      return "Chrome";
+    }
+  }
 };
 
 /*

@@ -87,6 +87,10 @@ export const localizationKeys = {
   repeatPasswordLbl: "RepeatPasswordLbl",
   roundNumberLbl: "RoundNumberLbl",
   phaseLbl: "PhaseLbl",
+  castleLbl: "CastleLbl",
+  castles1Lbl: "Castles1Lbl",
+  castles2Lbl: "Castles2Lbl",
+  progressLbl: "ProgressLbl",
 
   polishLang: "PolishLang",
   englishLang: "EnglishLang",
@@ -141,8 +145,8 @@ export class LocalizationData {
       "en-EN": "Martells"
     },
     "JoinGameNameValidator": {
-      "pl-PL": "Wprowadź nazwę - od 6 do 20 znaków",
-      "en-EN": "Type your nickname - from 6 to 20 signs, only small and big letters allowed"
+      "pl-PL": "Wprowadź nazwę - od 3 do 8 znaków",
+      "en-EN": "Type your nickname - from 3 to 8 signs, only small and big letters allowed"
     },
     "CreateGameNameValidator": {
       "pl-PL": "Wprowadź nazwę - od 6 do 50 znaków",
@@ -423,6 +427,22 @@ export class LocalizationData {
     "PhaseLbl": {
       "pl-PL": "Faza",
       "en-EN": "Phase"
+    },
+    "CastleLbl": {
+      "pl-PL": "zamek",
+      "en-EN": "castle"
+    },
+    "Castles1Lbl": {
+      "pl-PL": "zamki",
+      "en-EN": "castles"
+    },
+    "Castles2Lbl": {
+      "pl-PL": "zamków",
+      "en-EN": "castles"
+    },
+    "ProgressLbl": {
+      "pl-PL": "Postęp",
+      "en-EN": "Progress"
     },
     "PolishLang": {
       "pl-PL": "polski",

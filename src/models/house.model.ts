@@ -12,7 +12,8 @@ export class House {
     public type?: HouseType,
     public armies?: Army[],
     public pawns?: PawnData[],
-    public controlledFields?: number[]) {
+    public controlledFields?: number[],
+    public castlesCount?: number) {
       if (type === HouseType.Baratheon) {
         this.description = BaratheonDescription;
       } else if (type === HouseType.Lannister) {

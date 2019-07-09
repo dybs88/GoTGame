@@ -44,7 +44,7 @@
           <div class="btn-group text-right float-right mb-1">
             <button *ngIf="currentPlayer.isGameCreator" [disabled]="start" class="btn btn-success btn-sm" (click)="startGame()">{{getTranslation(localKeys.startBtn)}}</button>
           </div>
-          <got-chat [players]="players" #chat></got-chat>
+          <got-chat #chat></got-chat>
         </div>
   </div>
   <div class="col-3">

@@ -55,10 +55,6 @@ namespace GotGame.RestServer.Controllers
         foreach(GameChat playerChat in playerChats)
         {
           response.gameChats.Add((GameChat)playerChat.Clone());
-          foreach(ChatPlayer chatPlayer in playerChat.Players.Where(cp => cp.PlayerId == playerId))
-          {
-            chatPlayer.MarkOld();
-          }
         }
       }
 
@@ -71,10 +67,22 @@ namespace GotGame.RestServer.Controllers
       return new OkObjectResult(chatRepository.GetChatsByGameId(gameId));
     }
 
-    [HttpPost]
-    public IActionResult UpdateChat([FromBody]FrontChatData frontChat)
+    [HttpPost("mark")]
+    public IActionResult MarkAsReaded([FromBody]dynamic requestData)
     {
-      return new OkObjectResult(chatRepository.UpdateGameChat(frontChat.ChatId, frontChat.Data));
+      int playerId = requestData["playerId"];
+      int chatId = requestData["chatId"];
+      chatRepository.MarkAsReaded(playerId, chatId);
+      return new OkObjectResult(true);
+    }
+
+    [HttpPost]
+    public IActionResult UpdateChat([FromBody]dynamic requestData)
+    {
+      int playerId = requestData["playerId"];
+      int chatId = requestData["chatId"];
+      ChatData data = requestData["data"].ToObject<ChatData>();
+      return new OkObjectResult(chatRepository.UpdateGameChat(playerId, chatId, data));
     }
   }
 }

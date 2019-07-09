@@ -51,3 +51,15 @@ svg:hoover {
 .bg-color-ygreen {
   background-color: yellowgreen
 }
+
+.got-chat-message {
+  background-color: #ffc107;
+}
+
+.nav-item :hover {
+  cursor: pointer;
+}
+
+.got-link :hover {
+  cursor: pointer;
+}

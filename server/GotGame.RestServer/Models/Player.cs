@@ -12,8 +12,8 @@ namespace GotGame.RestServer.Models
   public class Player
   {
     public int Id { get; set; }
-    [MinLength(6)]
-    [MaxLength(20)]
+    [MinLength(3)]
+    [MaxLength(8)]
     public string Name { get; set; }
     public int GameId { get; set; }
     [JsonConverter(typeof(StringEnumConverter))]

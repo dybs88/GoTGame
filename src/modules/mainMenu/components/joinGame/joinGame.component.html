@@ -4,7 +4,7 @@
     <form *ngIf="game !== undefined" #form="ngForm" novalidate (ngSubmit)="confirmJoinGame(form)">
       <div class="form-group">
         <label>{{getTranslation(localKeys.playerNameLbl)}}</label>
-          <input class="form-control" type="text" #name="ngModel" name="newPlayer.name" [(ngModel)]="newPlayer.name" required pattern="^[a-zA-Z]{6,20}"/>
+          <input class="form-control" type="text" #name="ngModel" name="newPlayer.name" [(ngModel)]="newPlayer.name" required pattern="^[a-zA-Z]{3,8}"/>
           <span class="text-danger" style="font-size: small" *ngIf="name.dirty && name.invalid">{{getTranslation(localKeys.joinGameNameValidator)}}</span>
       </div>
       <div *ngIf="!game.gameRules.randomHouses" class="form-group">

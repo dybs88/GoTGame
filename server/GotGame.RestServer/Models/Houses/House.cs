@@ -15,6 +15,7 @@ namespace GotGame.RestServer.Models.Houses
     public List<Army> Armies { get; set; }
     public List<Pawn> Pawns { get; set; }
     public List<int> ControlledFields { get; set; }
+    public int CastlesCount { get; set; }
   
     public House(Player player)
     {
@@ -51,6 +52,7 @@ namespace GotGame.RestServer.Models.Houses
       };
 
       ControlledFields = Armies.Select(a => a.FieldId).ToList();
+      CastlesCount = 1;
     }
   }
 
@@ -67,6 +69,7 @@ namespace GotGame.RestServer.Models.Houses
       };
 
       ControlledFields = Armies.Select(a => a.FieldId).ToList();
+      CastlesCount = 1;
     }
   }
 
@@ -83,6 +86,7 @@ namespace GotGame.RestServer.Models.Houses
       };
 
       ControlledFields = Armies.Select(a => a.FieldId).ToList();
+      CastlesCount = 2;
     }
   }
 
@@ -100,6 +104,7 @@ namespace GotGame.RestServer.Models.Houses
       };
 
       ControlledFields = Armies.Select(a => a.FieldId).ToList();
+      CastlesCount = 1;
     }
   }
 
@@ -116,6 +121,7 @@ namespace GotGame.RestServer.Models.Houses
       };
 
       ControlledFields = Armies.Select(a => a.FieldId).ToList();
+      CastlesCount = 1;
     }
   }
 
@@ -132,6 +138,7 @@ namespace GotGame.RestServer.Models.Houses
       };
 
       ControlledFields = Armies.Select(a => a.FieldId).ToList();
+      CastlesCount = 1;
     }
   }
 }

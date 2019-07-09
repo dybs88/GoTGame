@@ -9,9 +9,9 @@ import { PlayerService } from "./player.service";
 
 @Injectable()
 export class ChatService {
-  constructor(private server: ChatServer, private gameService: GameService, private playerService: PlayerService) {
+  newMessages: boolean;
 
-   }
+  constructor(private server: ChatServer, private gameService: GameService, private playerService: PlayerService) { }
 
   deletePlayerChats(playerId: number): Observable<boolean> {
     return this.server.deletePlayerChats(playerId);
@@ -29,7 +29,11 @@ export class ChatService {
     return this.server.getGameChats(this.gameService.currentGame.id);
   }
 
+  markChatAsReaded(chatId: number): Observable<any> {
+    return this.server.markChatAsReaded(this.playerService.currentPlayer.id, chatId);
+  }
+
   updateChat(chatId: number, chatData: ChatData): Observable<GameChat> {
-    return this.server.updateChatData(chatId, chatData);
+    return this.server.updateChatData(this.playerService.currentPlayer.id, chatId, chatData);
   }
 }

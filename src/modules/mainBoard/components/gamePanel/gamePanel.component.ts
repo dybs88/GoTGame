@@ -11,6 +11,7 @@ import { SupplyTrackComponent } from "../tracks/supplyTrack.component";
 import { GotBaseComponent } from "./../../../common/components/gotBase.component";
 import { UserService } from "src/modules/common/infrastructure/authorization/user.service";
 import { LocalizationService } from "./../../../common/infrastructure/locale/localization.service";
+import { ChatService } from "src/modules/common/infrastructure/services/chat.service";
 
 @Component({
   selector: "got-gamePanel",
@@ -30,16 +31,28 @@ export class GamePanelComponent extends GotBaseComponent {
   @Input() gameBoard: GameBoard;
   @Input() currentHouse: House;
 
-  get pawnClick() {
-    return this.pawnClickParams;
-  }
+  get newMessages() { return this.chatService.newMessages; }
+  get pawnClick() { return this.pawnClickParams; }
 
   constructor(private gameService: GameService,
+    private chatService: ChatService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private settings: GameBoardViewSettingsService,
     localizationService: LocalizationService, userService: UserService) {
       super(localizationService, userService);
       this.houseDescription = this.gameService.currentHouse.description;
+  }
+
+  displayChat() {
+    if (this.settings.displayChat) {
+      return {
+        "display": "block"
+      };
+    } else {
+      return {
+        "display": "none"
+      };
+    }
   }
 
   houseFieldsBtnStyle() {
