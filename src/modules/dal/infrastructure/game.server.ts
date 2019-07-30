@@ -14,8 +14,8 @@ export class GameServer extends RestServer {
     return this.http.post<any>(`${this.baseUrl}/game/start`, { gameId: gameId }, super.getOptions());
   }
 
-  public quickStart(): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/game/quickstart`, {}, super.getOptions());
+  public quickStart(name: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/game/quickstart`, {name: name}, super.getOptions());
   }
 }
 

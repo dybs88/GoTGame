@@ -153,9 +153,9 @@ export class ChatComponent implements OnChanges, OnDestroy {
   }
 
   private setPublicChatName(): string {
-    if (localStorage.getItem("locale_id") === "pl-PL") {
+    if (this.playerService.currentPlayer.locale === "pl-PL") {
       return "Publiczny";
-    } else if (localStorage.getItem("locale_id") === "en-EN") {
+    } else {
       return "Public";
     }
   }

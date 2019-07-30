@@ -40,10 +40,16 @@ namespace GotGame.RestServer.Controllers
       return new OkObjectResult(new { playerDeleted = true });
     }
 
-    [HttpGet("{playerId}")]
+    [HttpGet("id{playerId}")]
     public async Task<IActionResult> GetPlayer(int playerId)
     {
       return new OkObjectResult(await playerRepository.GetPlayerAsync(playerId));
+    }
+
+    [HttpGet("ip{ipAddress}")]
+    public async Task<IActionResult> GetPlayerByIpAsync(string ipAddress)
+    {
+      return new OkObjectResult(await playerRepository.GetPlayerByIpAsync(ipAddress));
     }
 
     [HttpPost]
@@ -51,9 +57,12 @@ namespace GotGame.RestServer.Controllers
     {
       await playerRepository.SavePlayerAsync(player);
 
-      Game game = await gamesRepository.GetGameAsync(player.GameId);
+      if(player.GameId != 0)
+      {
+        Game game = await gamesRepository.GetGameAsync(player.GameId);
+        goTStorage.UpdateGame(game);
+      }
 
-      goTStorage.UpdateGame(game);
       return new OkObjectResult(player);
     }
   }

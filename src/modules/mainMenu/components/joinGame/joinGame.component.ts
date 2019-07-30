@@ -53,14 +53,18 @@ export class JoinGameComponent extends GotBaseComponent {
         this.selectedHouse = this.avaibleHouses[r];
       }
       this.newPlayer.house = this.selectedHouse;
-      this.gameRepository.confirmJoinGame(this.game.id, this.newPlayer).subscribe(serverData => {
-        if (serverData.playerJoined) {
-          this.playerService.setPlayer(serverData.player);
-          this.router.navigate(["/readyforgame", this.game.id]);
-        } else {
-          this.showMessageBox(this.getTranslation(this.localKeys.housePlayerExistMsg), "OK");
-          window.location.reload();
-        }
+      this.playerService.getClientIp().subscribe(response => {
+        this.newPlayer.ipAddress = response.ip;
+
+        this.gameRepository.confirmJoinGame(this.game.id, this.newPlayer).subscribe(serverData => {
+          if (serverData.playerJoined) {
+            this.playerService.setPlayer(serverData.player);
+            this.router.navigate(["/readyforgame", this.game.id]);
+          } else {
+            this.showMessageBox(this.getTranslation(this.localKeys.housePlayerExistMsg), "OK");
+            window.location.reload();
+          }
+        });
       });
     }
   }

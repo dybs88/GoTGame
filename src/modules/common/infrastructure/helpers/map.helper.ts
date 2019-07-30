@@ -80,7 +80,8 @@ export class MapHelper {
   }
 
   public mapOnPlayer(object: any): Player {
-    return new Player(object.id, object.name, object.gameId, object.ipAddress, object.house, object.status, object.isGameCreator);
+    return new Player(object.id, object.name, object.gameId, object.ipAddress, object.house, object.status, object.isGameCreator,
+      object.locale);
   }
 
   public mapOnPlayerArray(array: any): Player[] {

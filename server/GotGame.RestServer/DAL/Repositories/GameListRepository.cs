@@ -11,9 +11,9 @@ namespace GotGame.RestServer.DAL.Repositories
   {
     Task<int> DeleteGameAsync(int gameId);
     Task<Game> GetGameAsync(int id);
+    Task<Game> GetGameAsync(string name);
     Task<IEnumerable<Game>> GetGamesAsync();
     Task<Game> SaveGameAsync(Game game, string password = "");
-
     Task<bool> VerifyPassword(int gameId, string password);
   }
 
@@ -43,6 +43,14 @@ namespace GotGame.RestServer.DAL.Repositories
         .Include(g => g.Players)
         .Include(g => g.GameRules)
         .FirstOrDefaultAsync(g => g.Id == id);
+    }
+
+    public async Task<Game> GetGameAsync(string name)
+    {
+      return await context.Games
+        .Include(g => g.Players)
+        .Include(g => g.GameRules)
+        .FirstOrDefaultAsync(g => g.Name == name);
     }
 
     public async Task<IEnumerable<Game>> GetGamesAsync()

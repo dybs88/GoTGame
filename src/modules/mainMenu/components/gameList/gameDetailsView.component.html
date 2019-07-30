@@ -8,18 +8,22 @@
     <tr>
       <th>{{getTranslation(localKeys.indexColName)}}</th>
       <th *ngIf="isAuthorized">{{getTranslation(localKeys.idColName)}}</th>
+      <th *ngIf="isAuthorized">{{getTranslation(localKeys.ipAddressColName)}}</th>
       <th>{{getTranslation(localKeys.isCreatorColName)}}</th>
       <th>{{getTranslation(localKeys.playerColName)}}</th>
       <th>{{getTranslation(localKeys.houseColName)}}</th>
       <th>{{getTranslation(localKeys.playerStatusColName)}}</th>
+      <th>Locale</th>
     </tr>
    <tr *ngFor="let player of game.players; let i = index">
       <td>{{i + 1}}</td>
       <td *ngIf="isAuthorized">{{player.id}}</td>
+      <td *ngIf="isAuthorized">{{player.ipAddress}}</td>
       <td>{{getTranslation(player.isGameCreator)}}</td>
       <td>{{player.name}}</td>
       <td>{{getTranslation(player.house)}}</td>
       <td>{{getTranslation(player.status)}}</td>
+      <td *ngIf="isAuthorized">{{player.locale}}</td>
     </table>
     <got-gameRulesV [gameRules]="game.gameRules"></got-gameRulesV>
 </div>

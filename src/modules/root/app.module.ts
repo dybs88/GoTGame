@@ -24,7 +24,7 @@ import { CommonModule } from "./../common/common.module";
       { path: "**", component: MainMenuComponent }
     ])
   ],
-  providers: [{ provide: LOCALE_ID, useValue: localStorage.getItem("locale_id")}, CookieService],
+  providers: [{ provide: LOCALE_ID, useValue: navigator.language }, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

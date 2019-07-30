@@ -54,6 +54,7 @@ export const localizationKeys = {
   playerStatusColName: "PlayerStatusColName",
   actionColName: "ActionColName",
   isCreatorColName: "IsCreatorColName",
+  ipAddressColName: "IpAddressColName",
 
   environmentLbl: "EnvironmentLbl",
   languageLbl: "LanguageLbl",
@@ -299,6 +300,10 @@ export class LocalizationData {
     "IsCreatorColName": {
       "pl-PL": "Stworzył grę",
       "en-EN": "Create game"
+    },
+    "IpAddressColName": {
+      "pl-PL": "Adres IP",
+      "en-EN": "IP Address"
     },
     "EnvironmentLbl": {
       "pl-PL": "Środowisko",

@@ -6,7 +6,8 @@ import { Game } from "src/models/game.model";
 import { Player } from "src/models/player.model";
 import { PlayerServer } from "src/modules/dal/infrastructure/player.server";
 import { PlayerStatus } from "../consts/goTEnums";
-import { GameService } from "./game.service";
+import { environment } from "src/environments/environment";
+import { LocalizationService } from "../locale/localization.service";
 
 @Injectable()
 export class PlayerService {
@@ -14,12 +15,23 @@ export class PlayerService {
   public currentPlayer: Player;
 
   constructor(private server: PlayerServer) {
-    if (localStorage.getItem("player_id") !== null && localStorage.getItem("player_id") !== "") {
-      this.server.getPlayer(parseInt(localStorage.getItem("player_id"), 10)).subscribe(serverData => {
-        this.currentPlayer = serverData;
+    if (environment.environmentName === "Production") {
+      this.getClientIp().subscribe(client => {
+        this.getPlayerByIp(client.ip).subscribe(getPlayerResponse => {
+          if (getPlayerResponse === null) {
+            const newPlayer = new Player();
+            newPlayer.ipAddress = client.ip;
+            newPlayer.locale = navigator.language === "pl-PL" ? "pl-PL" : "en-EN";
+            this.updatePlayer(newPlayer).subscribe(updatePlayerResponse => {
+              this.currentPlayer = updatePlayerResponse;
+            });
+          } else {
+            this.currentPlayer = getPlayerResponse;
+          }
+        });
       });
     }
-   }
+  }
 
   get token() {
     return this.playerToken;
@@ -34,8 +46,7 @@ export class PlayerService {
 
   public clearPlayer() {
     this.playerToken = "";
-    this.currentPlayer = null;
-    localStorage.setItem("player_id", undefined);
+    this.currentPlayer = undefined;
   }
 
   public deletePlayer(playerId?: number): Observable<any> {
@@ -50,14 +61,23 @@ export class PlayerService {
     return this.server.getPlayer(playerId);
   }
 
+  public getPlayerByIp(ipAddress: string): Observable<Player> {
+    return this.server.getPlayerByIp(ipAddress);
+  }
+
+  public getClientIp(): Observable<any> {
+    return this.server.getClientIp();
+  }
+
   public joinGame(game: Game, newPlayer: Player) {
     this.playerToken = `${game.id}-${game.name}`;
     this.setPlayer(newPlayer);
   }
 
   public setPlayer(player: Player) {
-    this.currentPlayer = player;
-    localStorage.setItem("player_id", this.currentPlayer.id.toString());
+    if (player !== null) {
+      this.currentPlayer = player;
+    }
   }
 
   public setPlayerById(playerId: number) {

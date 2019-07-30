@@ -13,7 +13,7 @@ export const LannisterDescription = {
     button: "btn-lannister",
     label: "label-lannister",
     firstColor: "#87090a",
-    secondColor: "gold"
+    secondColor: "#c2ad78"
   },
   text: {
     "Sentence" : {
@@ -115,7 +115,7 @@ export const TyrellDescription = {
     button: "btn-tyrell",
     label: "label-tyrell",
     firstColor: "#8da080",
-    secondColor: "gold"
+    secondColor: "#d4a225"
   },
   text: {
     "Sentence": {
@@ -149,7 +149,7 @@ export const GreyjoyDescription = {
     button: "btn-greyjoy",
     label: "label-greyjoy",
     firstColor: "#1a1a1a",
-    secondColor: "gold"
+    secondColor: "#b49022"
   },
   text: {
     "Sentence": {
@@ -183,7 +183,7 @@ export const MartellDescription = {
     button: "btn-martell",
     label: "label-martell",
     firstColor: "#f0863a",
-    secondColor: "gold"
+    secondColor: "#80252a"
   },
   text: {
     "Sentence": {

@@ -1,13 +1,22 @@
 import { Injectable } from "@angular/core";
 import { LocalizationData } from "./localization.data";
+import { PlayerService } from "../services/player.service";
 
 @Injectable()
 export class LocalizationService {
   private data;
 
-  constructor(private localizationDatas: LocalizationData) {
-      this.data = this.localizationDatas.localizationData;
-   }
+  get locale_id() {
+    if (this.playerService.currentPlayer !== undefined) {
+      return this.playerService.currentPlayer.locale;
+    } else {
+      return navigator.language === "pl-PL" ? "pl-PL" : "en-EN";
+    }
+  }
+
+  constructor(private localizationDatas: LocalizationData, private playerService: PlayerService) {
+    this.data = this.localizationDatas.localizationData;
+  }
 
   public getTranslation(key: any): string {
     if (key === undefined || key === null || key === "") {
@@ -16,7 +25,6 @@ export class LocalizationService {
     if (key instanceof Boolean) {
       key = String(key);
     }
-    const locale_id = localStorage.getItem("locale_id");
-    return this.data[key][locale_id];
+    return this.data[key][this.locale_id];
   }
 }

@@ -21,6 +21,7 @@ namespace GotGame.RestServer.Models
     public string IpAddress { get; set; }
     public PlayerStatus Status { get; set; }
     public bool IsGameCreator { get; set; }
+    public string Locale { get; set; }
 
   }
 }

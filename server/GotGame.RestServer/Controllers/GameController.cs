@@ -45,7 +45,8 @@ namespace GotGame.RestServer.Controllers
     [HttpPost("quickstart")]
     public async Task<IActionResult> QuickStart(dynamic requestData)
     {
-      Game game = await gameListRepository.GetGameAsync(5002);
+      string name = requestData["name"];
+      Game game = await gameListRepository.GetGameAsync(name);
       GameBoard gameBoard = gameService.StartGame(game);
       return new OkObjectResult(new { game, gameBoard });
     }

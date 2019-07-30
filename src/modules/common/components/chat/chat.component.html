@@ -24,7 +24,7 @@
   <div *ngIf="showPlayerList" class="col-2">
     <table class="table table-sm table-borderless">
       <tr class="got-link" *ngFor="let house of houses" [ngStyle]="houseTableRowStyle(house.description)">
-        <td (click)="createPrivateChat(player.id)">{{house.playerName}}</td>
+        <td class="font-weight-bold" (click)="createPrivateChat(player.id)">{{house.playerName}}</td>
       </tr>
     </table>
   </div>
