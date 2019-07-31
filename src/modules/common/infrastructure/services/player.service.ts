@@ -7,15 +7,15 @@ import { Player } from "src/models/player.model";
 import { PlayerServer } from "src/modules/dal/infrastructure/player.server";
 import { PlayerStatus } from "../consts/goTEnums";
 import { environment } from "src/environments/environment";
-import { LocalizationService } from "../locale/localization.service";
+import { UserService } from "../authorization/user.service";
 
 @Injectable()
 export class PlayerService {
   private playerToken: string;
   public currentPlayer: Player;
 
-  constructor(private server: PlayerServer) {
-    if (environment.environmentName === "Production") {
+  constructor(private server: PlayerServer, userService: UserService) {
+    if (environment.environmentName === "Production" && !userService.isAuthorized) {
       this.getClientIp().subscribe(client => {
         this.getPlayerByIp(client.ip).subscribe(getPlayerResponse => {
           if (getPlayerResponse === null) {

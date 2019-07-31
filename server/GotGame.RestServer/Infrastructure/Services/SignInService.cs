@@ -13,12 +13,10 @@ namespace GotGame.RestServer.Infrastructure.Services
 {
   public interface ISignInService
   {
-      Task<SignInResult> PasswordSignInAsync(string userName, string password, bool isPersistent,
-          bool lockoutOnFailure);
-
-      Task<SignInResult> PasswordSignInAsync(User user, string password, bool isPersistent, bool lockoutOnFailure);
-
-      Task SignOutAsync();
+    Task<SignInResult> PasswordSignInAsync(string userName, string password, bool isPersistent, bool lockoutOnFailure);
+    Task<SignInResult> PasswordSignInAsync(User user, string password, bool isPersistent, bool lockoutOnFailure);
+    Task<SignInResult> CheckPasswordSignInAsync(User user, string password, bool lockoutOnFailure);
+    Task SignOutAsync();
   }
 
   public class SignInService : SignInManager<User>, ISignInService
