@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { LocalizationData } from "./localization.data";
 import { PlayerService } from "../services/player.service";
+import { HouseType } from "../consts/goTEnums";
 
 @Injectable()
 export class LocalizationService {
@@ -25,6 +26,18 @@ export class LocalizationService {
     if (key instanceof Boolean) {
       key = String(key);
     }
-    return this.data[key][this.locale_id];
+
+    const dataKey = this.data[key];
+    if (dataKey === undefined) {
+      return "undefined";
+    } else {
+      return this.data[key][this.locale_id];
+    }
+  }
+
+  public getHouseTranslation(houseType: string, key: any): string {
+    const fullKey = `${houseType}${key}`;
+
+    return this.getTranslation(fullKey);
   }
 }

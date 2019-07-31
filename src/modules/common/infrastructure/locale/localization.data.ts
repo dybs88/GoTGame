@@ -1,3 +1,5 @@
+
+// tslint:disable: max-line-length
 import { Injectable } from "@angular/core";
 
 export const localizationLanguages = {
@@ -6,12 +8,38 @@ export const localizationLanguages = {
 };
 
 export const localizationKeys = {
-  houseStark: "Stark",
-  houseBaratheon: "Baratheon",
-  houseLannister: "Lannister",
-  houseGreyjoy: "Greyjoy",
-  houseTyrell: "Tyrell",
-  houseMartell: "Martell",
+  sentence: "Sentence",
+  description: "Description",
+  fullName: "FullName",
+  name: "Name",
+
+  starkName: "StarkName",
+  baratheonName: "BaratheonName",
+  lannisterName: "LannisterName",
+  greyjoyName: "GreyjoyName",
+  tyrellName: "TyrellName",
+  martellName: "MartellName",
+
+  starkFullName: "StarkFullName",
+  baratheonFullName: "BaratheonFullName",
+  lannisterFullName: "LannisterFullName",
+  greyjoyFullName: "GreyjoyFullName",
+  tyrellFullName: "TyrellFullName",
+  martellFullName: "MartellFullName",
+
+  starkSentence: "StarkSentence",
+  baratheonSentence: "BaratheonSentence",
+  lanniserSentence: "LannisterSentence",
+  greyjoySentence: "GreyjoySentence",
+  tyrellSentence: "TyrellSentence",
+  martellSentence: "MartellSentence",
+
+  starkDescription: "StarkDescription",
+  baratheonDescription: "BaratheonDescription",
+  lannisterDescription: "LannisterDescription",
+  greyjoyDescription: "GreyjoyDescription",
+  tyrellDescription: "TyrellDescription",
+  martellDescription: "MartellDescription",
 
   joinGameNameValidator: "JoinGameNameValidator",
   createGameNameValidator: "CreateGameNameValidator",
@@ -125,25 +153,129 @@ export class LocalizationData {
       "pl-PL": "Starkowie",
       "en-EN": "Starks"
     },
+    "StarkName": {
+      "pl-PL": "Starkowie",
+      "en-EN": "Starks"
+    },
+    "StarkSentence": {
+      "pl-PL": "Nadchodzi Zima",
+      "en-EN": "Winter Is Coming"
+    },
+    "StarkFullName": {
+      "pl-PL": "Ród Starków",
+      "en-EN": "House Stark"
+    },
+    "StarkDescription": {
+      "pl-PL": "Starkowie wywodzą się od Brandona Budowniczego i starożytnych królów zimy. Przez tysiąclecia władali Winterfell jako królowie północy,"
+      + " a później jako namiestnicy. Ich herbem, jest szary wilkor na białym jak lód polu.",
+      "en-EN": ""
+    },
     "Baratheon": {
       "pl-PL": "Baratheonowie",
       "en-EN": "Baratheons"
+    },
+    "BaratheonName": {
+      "pl-PL": "Baratheonowie",
+      "en-EN": "Baratheons"
+    },
+    "BaratheonSentence": {
+      "pl-PL": "Nasza Jest Furia",
+      "en-EN": "Ours Is the Fury"
+    },
+    "BaratheonFullName": {
+      "pl-PL": "Ród Baratheonów",
+      "en-EN": "House Baratheon"
+    },
+    "BaratheonDescription": {
+      "pl-PL": "Najmłodszy z Wielkich Rodów, zrodzony podczas Podboju. Jego założyciel, Orys Baratheon, był jakoby bękarcim bratem Aegona Smoka. "
+      + "Orys szybko awansował i stał się jednym  najbardziej wojowniczych dowódców Aegona. Herbem Baratheonów jest jeleń w koronie czarny na złotym tle.",
+      "en-EN": ""
     },
     "Lannister": {
       "pl-PL": "Lannisterowie",
       "en-EN": "Lannisters"
     },
+    "LannisterName": {
+      "pl-PL": "Lannisterowie",
+      "en-EN": "Lannisters"
+    },
+    "LannisterSentence" : {
+      "pl-PL": "Słuchajcie Mojego Ryku",
+      "en-EN": "Hear My Roar"
+    },
+    "LannisterFullName": {
+      "pl-PL": "Ród Lannisterów",
+      "en-EN": "House Lannister"
+    },
+    "LannisterDescription": {
+      "pl-PL": "Lannisterowie z Casterly Rock pozostają najważniejszą siłą wspierającą pretensje króla Joffreya Baratheona do Żelaznego Tronu."
+      + "Chęłpią się pochodzeniem od Lanna Sprytnego, legendarnego spryciarza z Ery Herosów."
+      + "Złoto Casterly Rock i Złotego Zęba uczyniło z nich najbogatszych z wielkich rodów. Ich herbem jest złoty lew na karmazynowym polu.",
+      "en-EN": "Translation later"
+    },
     "Greyjoy": {
       "pl-PL": "Greyjoyowie",
       "en-EN": "Greyjoys"
+    },
+    "GreyjoyName": {
+      "pl-PL": "Greyjoyowie",
+      "en-EN": "Greyjoys"
+    },
+    "GreyjoySentence": {
+      "pl-PL": "My Nie Siejemy",
+      "en-EN": "We Do Not Sow"
+    },
+    "GreyjoyFullName": {
+      "pl-PL": "Ród Greyjoyów",
+      "en-EN": "House Greyjoy"
+    },
+    "GreyjoyDescription": {
+      "pl-PL": "Greyjoyowie z Pyke utrzymują, że wywodzą się od Szarego Króla z Ery Herosów. Legendy podają, "
+      + "że Szary Król władał nie tylko zachodnimi ziemiami ale i samym morzem i wziął sobie za żonę syrenę. Herbem Greyjoyów jest złoty kraken na czarnym polu.",
+      "en-EN": ""
     },
     "Tyrell": {
       "pl-PL": "Tyrellowie",
       "en-EN": "Tyrells"
     },
+    "TyrellName": {
+      "pl-PL": "Tyrellowie",
+      "en-EN": "Tyrells"
+    },
+    "TyrellSentence": {
+      "pl-PL": "Zbieramy Siły",
+      "en-EN": "Growing Strong"
+    },
+    "TyrellFullName": {
+      "pl-PL": "Ród Tyrellów",
+      "en-EN": "House Tyrell"
+    },
+    "TyrellDescription": {
+      "pl-PL": "Tyrellowie zdobli znaczenie jako namiestnicy królów Reach,"
+      + "którzy władali żyznymi równinami położonymi na południowy zachód od Dornijskiego Pogranicza i Czarnego Nurtu, aż po brzegi morza zachodzącego słońca. "
+      + "Herbem Tyrellów jest złota róża na trawiastozielonym polu.",
+      "en-EN": "Translation later"
+    },
     "Martell": {
       "pl-PL": "Martellowie",
       "en-EN": "Martells"
+    },
+    "MartellName": {
+      "pl-PL": "Martellowie",
+      "en-EN": "Martells"
+    },
+    "MartellSentence": {
+      "pl-PL": "Niezachwiani, Nieugięci, Niezłomni",
+      "en-EN": "Unbowed, Unbent, Unbroken"
+    },
+    "MartellFullName": {
+      "pl-PL": "Ród Martellów",
+      "en-EN": "House Martell"
+    },
+    "MartellDescription": {
+      "pl-PL": "Dorne jako ostatnie z Siedmiu Królestw poprzysięgło wierność Żelaznemu Tronowi. Krew, obyczaje i historia różnią je od pozostałych królestw."
+      + "Gdy wybuchła wojna pięciu królów, Dorne nie przyłączyło się do niej. Na sztandarze Martellów widnieje czerwone słońce przebite złotą włócznią.",
+      "en-EN": "Translation later"
     },
     "JoinGameNameValidator": {
       "pl-PL": "Wprowadź nazwę - od 3 do 8 znaków",
