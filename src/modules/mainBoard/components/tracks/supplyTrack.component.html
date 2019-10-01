@@ -1,4 +1,4 @@
-<div style="position: absolute; left: 40%; right: 23.90%; top: 4.8%" class="card fixed-top">
+<div style="position: absolute; left: 40%; right: 23.90%; top: 4.8%; background-color: rgba(255,255,255,0.8)" class="card fixed-top">
   <table class="table table-bordered p-0 m-0 text-center font-weight-bold">
     <tr>
       <td colspan="3" class="p-0" style="width:11.8%">
@@ -18,7 +18,7 @@
       <td colspan="3" class="p-0"></td>
       <td class="p-0" *ngFor="let ruleItem of supplyRules.supplyRulesItems; let i = index">
         <div>
-          <div class="row text-center m-0" style="border-bottom: 3px solid #dee2e6;" 
+          <div class="row text-center m-0" style="border-bottom: 3px solid #dee2e6;"
           [class.bg-color-ygreen]="currentHouseSupplyPosition === i && (suppliedArmiesCount() < ruleItem.armyCount)"
           [class.bg-color-red]="currentHouseSupplyPosition === i && (suppliedArmiesCount() >= ruleItem.armyCount)"
           [class.text-white]="currentHouseSupplyPosition === i && (suppliedArmiesCount() >= ruleItem.armyCount)">

@@ -6,6 +6,8 @@ import localeEN from "@angular/common/locales/en";
 import { GotBaseComponent } from "./../gotBase.component";
 import { LocalizationService } from "../../infrastructure/locale/localization.service";
 import { UserService } from "../../infrastructure/authorization/user.service";
+import { PlayerService } from "../../infrastructure/services/player.service";
+import { MapHelper } from "../../infrastructure/helpers/map.helper";
 
 @Component({
   selector: "got-locale",
@@ -13,22 +15,22 @@ import { UserService } from "../../infrastructure/authorization/user.service";
 })
 
 export class LocaleComponent extends GotBaseComponent {
-  selectedLocale: string = localStorage.getItem("locale_id");
+  get selectedLocale() {
+    return this.localeService.locale_id;
+  }
 
-  constructor(localeService: LocalizationService, userService: UserService) {
+  constructor(private playerService: PlayerService,
+    private mapHelper: MapHelper,
+    private localeService: LocalizationService, userService: UserService) {
     super(localeService, userService);
-    if (localStorage.getItem("locale_id") === null) {
-      localStorage.setItem("locale_id", "pl-PL");
-    }
     registerLocaleData(this.locale);
   }
 
   get locale(): any {
-    switch (localStorage.getItem("locale_id")) {
-      case "pl-PL":
-        return localePL;
-      case "en-EN":
-        return localeEN;
+    if (this.selectedLocale === "pl-PL") {
+      return localePL;
+    } else {
+      return localeEN;
     }
   }
 
@@ -36,18 +38,17 @@ export class LocaleComponent extends GotBaseComponent {
     switch (locale) {
       case "pl-PL":
         registerLocaleData(localePL);
-        localStorage.setItem("locale_id", "pl-PL");
         break;
       case "en-EN":
         registerLocaleData(localeEN);
-        localStorage.setItem("locale_id", "en-EN");
         break;
     }
 
-    window.location.reload();
-  }
-
-  get localeSetting(): string {
-    return localStorage.getItem("locale_id");
+    if (this.playerService.currentPlayer !== undefined) {
+      this.playerService.currentPlayer.locale = locale;
+      this.playerService.updatePlayer(this.playerService.currentPlayer).subscribe(response => {
+        this.playerService.setPlayer(this.mapHelper.mapOnPlayer(response));
+      });
+    }
   }
 }

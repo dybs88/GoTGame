@@ -26,18 +26,13 @@ export class GameService {
     this.board = value;
 
     const currentPlayer = this.playerService.currentPlayer;
-    if (currentPlayer !== undefined && currentPlayer !== null) {
-      this.house = this.board.houses.find(h => h.playerId === currentPlayer.id);
-    } else {
-      const playerId = parseInt(localStorage.getItem("player_id"), 10);
-      this.house = this.board.houses.find(h => h.playerId === playerId);
-    }
+    this.house = this.board.houses.find(h => h.playerId === currentPlayer.id);
   }
 
   constructor(private server: GameServer, private playerService: PlayerService) { }
 
-  public quickStart(): Observable<any> {
-    return this.server.quickStart();
+  public quickStart(name: string): Observable<any> {
+    return this.server.quickStart(name);
   }
 
   public startGame(gameId: number): Observable<any> {

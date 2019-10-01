@@ -17,7 +17,15 @@ export class PlayerServer extends RestServer {
   }
 
   public getPlayer(playerId: number): Observable<Player> {
-    return this.http.get<Player>(`${this.baseUrl}/players/${playerId}`, super.getOptions());
+    return this.http.get<Player>(`${this.baseUrl}/players/id${playerId}`, super.getOptions());
+  }
+
+  public getPlayerByIp(ipAddress: string): Observable<Player> {
+    return this.http.get<Player>(`${this.baseUrl}/players/ip${ipAddress}`, super.getOptions());
+  }
+
+  public getClientIp(): Observable<any> {
+    return this.http.get("https://jsonip.com");
   }
 
   public updatePlayer(player: Player): Observable<Player> {

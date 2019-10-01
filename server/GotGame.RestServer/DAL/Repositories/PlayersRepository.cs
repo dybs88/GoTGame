@@ -15,9 +15,9 @@ namespace GotGame.RestServer.DAL.Repositories
   {
     Task<int> DeletePlayerAsync(int playerId);
     Task<Player> GetPlayerAsync(int playerId);
+    Task<Player> GetPlayerByIpAsync(string ipAddress);
     Task<IList<Player>> GetGamePlayersAsync(int gameId);
     Task<Player> SavePlayerAsync(Player player);
-    Task<IEnumerable<Player>> SavePlayersAsync(IEnumerable<Player> players);
   }
 
   public class PlayersRepository : BaseRepository, IPlayersRepository
@@ -56,6 +56,11 @@ namespace GotGame.RestServer.DAL.Repositories
       return await context.Players.FirstOrDefaultAsync(p => p.Id == playerId);
     }
 
+    public async Task<Player> GetPlayerByIpAsync(string ipAddress)
+    {
+      return await context.Players.FirstOrDefaultAsync(p => p.IpAddress == ipAddress);
+    }
+
     public async Task<IList<Player>> GetGamePlayersAsync(int gameId)
     {
       return await context.Players.Where(p => p.GameId == gameId).ToListAsync();
@@ -63,7 +68,7 @@ namespace GotGame.RestServer.DAL.Repositories
 
     public async Task<Player> SavePlayerAsync(Player player)
     {
-      if (player.Id == 0)
+      if (player.Id == 0 && !CheckIfPlayerWithIpAddressExist(player.IpAddress))
       {
         await context.Players.AddAsync(player);
       }
@@ -79,30 +84,11 @@ namespace GotGame.RestServer.DAL.Repositories
         dbEntry.Name = player.Name;
         dbEntry.Status = player.Status;
         dbEntry.IsGameCreator = player.IsGameCreator;
+        dbEntry.Locale = player.Locale;
       }
 
       await context.SaveChangesAsync(true);
       return player;
-    }
-
-    public async Task<IEnumerable<Player>> SavePlayersAsync(IEnumerable<Player> players)
-    {
-      if (players != null && players.Any())
-      {
-        context.Players.AddRange(players.Where(p => p.Id == 0));
-        foreach (var player in players.Where(p => p.Id != 0))
-        {
-          Player dbEntry = await GetPlayerAsync(player.Id);
-          dbEntry.GameId = player.GameId;
-          dbEntry.House = player.House;
-          dbEntry.IpAddress = player.IpAddress;
-          dbEntry.Name = player.Name;
-        }
-
-        await context.SaveChangesAsync(true);
-      }
-
-      return players;
     }
 
     private async Task<int> ChangeGameCreatorAsync(int gameId)
@@ -124,6 +110,11 @@ namespace GotGame.RestServer.DAL.Repositories
 
       storage.SetItem(gameId, SessionKeys.NewGameCreator, bool.FalseString);
       return 0;
+    }
+
+    private bool CheckIfPlayerWithIpAddressExist(string ipAddress)
+    {
+      return context.Players.Any(p => p.IpAddress == ipAddress);
     }
   }
 }

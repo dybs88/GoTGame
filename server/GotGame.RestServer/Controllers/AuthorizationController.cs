@@ -8,6 +8,7 @@ using GotGame.RestServer.FrontModels;
 using GotGame.RestServer.Infrastructure.Consts;
 using GotGame.RestServer.Infrastructure.Models;
 using GotGame.RestServer.Infrastructure.Services;
+using GotGame.RestServer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -21,11 +22,13 @@ namespace GotGame.RestServer.Controllers
   {
     private IUserRepository userRepository;
     private ISignInService signInService;
+    private IPlayersRepository playersRepository;
     private AppSettings appSettings;
 
-    public AuthorizationController(IUserRepository userRepo, ISignInService service, IOptions<AppSettings> settings)
+    public AuthorizationController(IUserRepository userRepo, IPlayersRepository playersRepo, ISignInService service, IOptions<AppSettings> settings)
     {
       userRepository = userRepo;
+      playersRepository = playersRepo;
       signInService = service;
       appSettings = settings.Value;
     }
@@ -42,9 +45,9 @@ namespace GotGame.RestServer.Controllers
         var tokenDescriptor = new SecurityTokenDescriptor
         {
           Subject = new ClaimsIdentity(new[]
-            {
+          {
                     new Claim(ClaimTypes.Name, user.Id)
-                }),
+          }),
           Expires = DateTime.UtcNow.AddHours(1),
           SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
@@ -52,7 +55,7 @@ namespace GotGame.RestServer.Controllers
         var token = tokenHandler.CreateToken(tokenDescriptor);
         var tokenString = tokenHandler.WriteToken(token);
 
-        return new OkObjectResult(new { isAuthorized = true, token = tokenString });
+        return new OkObjectResult(new { isAuthorized = true, token = tokenString, defaultPlayerId = user.DefaultPlayerId });
       }
 
       return new OkObjectResult(new { isAuthorized = false });
@@ -89,6 +92,30 @@ namespace GotGame.RestServer.Controllers
       }
 
       return new OkObjectResult(new { isAuthorized = false });
+    }
+
+    [HttpPost("changeplayerid")]
+    public async Task<IActionResult> ChangeDefaultPlayerIdAsync([FromBody]dynamic requestData)
+    {
+      int defaultPlayerId = requestData["defaultPlayerId"];
+      Player player = await playersRepository.GetPlayerAsync(defaultPlayerId);
+
+      if(player == null)
+        return new OkObjectResult(false);
+      
+      await userRepository.UpdateUserAsync(defaultPlayerId);
+      return new OkObjectResult(true);
+    }
+
+    [HttpPost("changepassword")]
+    public async Task<IActionResult> ChangeUserPasswordAsync([FromBody]dynamic requestData)
+    {
+      string currentPassword = requestData["currentPassword"];
+      string newPassword = requestData["newPassword"];
+
+      var result = await userRepository.ChangePasswordAsync(await userRepository.FindByNameAsync("admin"), currentPassword, newPassword);
+
+      return new OkObjectResult(result);
     }
   }
 }

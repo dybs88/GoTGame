@@ -31,6 +31,10 @@ export class GotBaseComponent {
     return this.localizationService.getTranslation(key);
   }
 
+  protected getHouseTranslation(houseType: string, key: string): string {
+    return this.localizationService.getHouseTranslation(houseType, key);
+  }
+
   protected hideMessageBox() {
     this.okMessageCallback = undefined;
     this.yesMessageCallback = undefined;

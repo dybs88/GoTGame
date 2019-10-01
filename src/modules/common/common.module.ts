@@ -3,7 +3,6 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 
 import { ChatService } from "./infrastructure/services/chat.service";
-import { CurrentService } from "./infrastructure/services/current.service";
 import { GameService } from "./infrastructure/services/game.service";
 import { GameListService } from "./infrastructure/services/gameList.service";
 import { GameRulesService } from "./infrastructure/services/gameRules.service";
@@ -33,7 +32,7 @@ import { MapHelper } from "./infrastructure/helpers/map.helper";
     DisableDirective, MinValueDirective, MaxValueDirective, ChatComponent, MessageBoxComponent, GeneratePawnDirective,
     GenerateWindowDirective],
   providers: [LocalizationService, LocalizationData, PlayerService, UserService, GameRulesService, ChatService, GameListService,
-    CurrentService, GameService, MapHelper]
+     GameService, MapHelper]
 })
 export class CommonModule {
 

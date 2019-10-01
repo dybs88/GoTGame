@@ -48,8 +48,6 @@ export class SelectPawnComponent implements OnChanges {
 
   style() {
     const style = {
-      "border": "2px",
-      "border-style": "inset",
       "width": "70px",
       "height": "70px",
       "background-image": `url(${this.imageSrc})`
